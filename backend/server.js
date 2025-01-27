@@ -94,7 +94,8 @@ passport.use(
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: '/auth/google/callback',
+    callbackURL: 'http://localhost:8080/auth/google/callback',
+    scope: ["profile", "email"],
 }, googleCallback));
 passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_APP_ID,
@@ -117,6 +118,11 @@ passport.deserializeUser(async (id, done) => {
     } catch (err) {
         done(err, null);
     }
+});
+
+app.use((req, res, next) => {
+    res.locals.currUser = req.user;
+    next();
 });
 
 // app.use('/', homeRouter);

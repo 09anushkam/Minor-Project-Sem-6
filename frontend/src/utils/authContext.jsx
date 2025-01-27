@@ -13,12 +13,13 @@ export function AuthProvider({ children }) {
         }
     }, []);
 
-    const login = (userData) => {
+    const login = async (userData) => {
         setUser(userData);
         localStorage.setItem('user', JSON.stringify(userData));
+        console.log('Logged in user:', userData);
     };
 
-    const logout = () => {
+    const logout = async () => {
         setUser(null);
         localStorage.removeItem('user');
     };

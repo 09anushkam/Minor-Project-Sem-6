@@ -1,6 +1,26 @@
 const User = require('../models/user');
-const bcrypt = require('bcrypt');
 const passport = require('passport');
+
+module.exports.loginSuccess = async (req, res) => {
+    if (req.user) {
+        return res.status(200).json({
+            success: true,
+            user: req.user,
+        });
+    } else {
+        return res.status(401).json({
+            success: false,
+            message: 'Unauthorized',
+        });
+    }
+}
+
+module.exports.loginFailure = async (req, res) => {
+    res.status(401).json({
+        error: true,
+        message: "Log in failure",
+    });
+}
 
 // Register User
 module.exports.registerUser = async (req, res) => {
@@ -29,7 +49,14 @@ module.exports.loginUser = (req, res, next) => {
 
         req.logIn(user, (err) => {
             if (err) return next(err);
-            res.status(200).json({ message: 'Login successful', user });
+            return res.status(200).json({
+                message: 'Login successful',
+                user: {
+                    id: user._id,
+                    email: user.email,
+                    role: user.role,
+                },
+            });
         });
     })(req, res, next);
 };
@@ -38,7 +65,7 @@ module.exports.loginUser = (req, res, next) => {
 module.exports.logoutUser = (req, res) => {
     req.logout((err) => {
         if (err) return res.status(500).json({ message: 'Error logging out' });
-        res.status(200).json({ message: 'Logged out successfully' });
+        res.redirect('http://localhost:5173');
     });
 };
 
@@ -47,11 +74,13 @@ module.exports.googleCallback = async (accessToken, refreshToken, profile, done)
     try {
         let user = await User.findOne({ providerId: profile.id });
         if (!user) {
+            const isAdmin = profile.emails[0].value === 'vivekmasuna999@gmail.com';
             user = new User({
                 name: profile.displayName,
                 email: profile.emails[0].value,
                 provider: 'google',
                 providerId: profile.id,
+                role: isAdmin ? 'admin' : 'user',
             });
             await user.save();
         }
