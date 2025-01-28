@@ -62,13 +62,13 @@ function Signup() {
 						/>
 						<button type="submit" className={styles.btn}>Signup</button>
 					</form>
-					<p className={styles.text}>or</p>
+					<p className={styles.text}>Or Continue With</p>
 					<button className={styles.google_btn} onClick={googleAuth}>
 						<img src="/google.png" alt="google icon" />
-						<span>Sing up with Google</span>
+						<span>Google</span>
 					</button>
 					<p className={styles.text}>
-						Already Have Account ? <Link to="/login">Log In</Link>
+						Already have an account ? <Link to="/login">Log In</Link>
 					</p>
 				</div>
 			</div>

@@ -31,44 +31,46 @@ function Login() {
         );
     };
     return (
-        <div className={styles.container}>
-            <h1 className={styles.heading}>Welcome back</h1>
-            <div className={styles.form_container}>
-                <div className={styles.left}>
-                    <img className={styles.img} src="/login.jpg" alt="login" />
-                </div>
-                <div className={styles.right}>
-                    <form onSubmit={handleLogin}>
-                        <h2 className={styles.from_heading}>Login to your account</h2>
-                        <input
-                            type="email"
-                            className={styles.input}
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                        <input
-                            type="password"
-                            className={styles.input}
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                        <button type='submit' className={styles.btn}>Login</button>
-                    </form>
-                    <p className={styles.text}>Or continue with</p>
-                    <button className={styles.google_btn} onClick={googleAuth}>
-                        <img src="/google.png" alt="google icon" />
-                        <span>Google</span>
-                    </button>
-                    <p className={styles.text}>
-                        Don&apos;t have an account?{" "} <Link to="/signup">Sign Up</Link>
-                    </p>
+        <>
+            <div className={styles.container}>
+                <h1 className={styles.heading}>Welcome back</h1>
+                <div className={styles.form_container}>
+                    <div className={styles.left}>
+                        <img className={styles.img} src="/login.jpg" alt="login" />
+                    </div>
+                    <div className={styles.right}>
+                        <form onSubmit={handleLogin}>
+                            <h2 className={styles.from_heading}>Login to your account</h2>
+                            <input
+                                type="email"
+                                className={styles.input}
+                                placeholder="Email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                            <input
+                                type="password"
+                                className={styles.input}
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                            <button type='submit' className={styles.btn}>Login</button>
+                        </form>
+                        <p className={styles.text}>Or continue with</p>
+                        <button className={styles.google_btn} onClick={googleAuth}>
+                            <img src="/google.png" alt="google icon" />
+                            <span>Google</span>
+                        </button>
+                        <p className={styles.text}>
+                            Don&apos;t have an account?{" "} <Link to="/signup">Sign Up</Link>
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 
