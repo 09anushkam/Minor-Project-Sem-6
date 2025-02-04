@@ -7,38 +7,44 @@ import Signup from "./pages/Signup/Signup";
 import Dashboard from './pages/Dashboard/Dashboard';
 import AdminPanel from './pages/AdminPanel/AdminPanel';
 import { AuthProvider } from './utils/authContext';
+import Navbar from './components/Navbar';
 import './App.css';
 
 function App() {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(() => {
+        const storedUser = localStorage.getItem("user");
+        return storedUser ? JSON.parse(storedUser) : null;
+    });
 
     const getUser = async () => {
         try {
             const url = `http://localhost:8080/auth/login/success`;
             const { data } = await axios.get(url, { withCredentials: true });
-            console.log(data);
             if (data && data.user) {
                 setUser(data.user);
+                localStorage.setItem("user", JSON.stringify(data.user));
+                window.location.reload();
             } else {
                 console.log("User data is not available.");
                 setUser(null);
+                localStorage.removeItem("user");
             }
         } catch (err) {
             console.error("Error fetching user data:", err.message || err);
             setUser(null);
+            localStorage.removeItem("user");
         }
     };
 
     useEffect(() => {
-        getUser();
-        console.log("User data in App:", user);
-    }, []);
-    useEffect(() => {
-        console.log("User data updated in App:", user);
+        if (!user) {
+            getUser();
+        }
     }, [user]);
 
     return (
         <AuthProvider>
+            <Navbar />
             <Routes>
                 <Route
                     exact

@@ -28,7 +28,7 @@ function Signup() {
 	};
 	return (
 		<div className={styles.container}>
-			<h1 className={styles.heading}>Signup</h1>
+			{/* <h1 className={styles.heading}>Signup</h1> */}
 			<div className={styles.form_container}>
 				<div className={styles.left}>
 					<img className={styles.img} src="/signup.jpg" alt="signup" />

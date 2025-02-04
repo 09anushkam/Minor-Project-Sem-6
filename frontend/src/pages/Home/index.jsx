@@ -3,9 +3,6 @@ import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 
 const Home = ({ user }) => {
-    const logout = () => {
-        window.open(`http://localhost:8080/auth/logout`, "_self");
-    };
     return (
         <>
             <h1 className={styles.heading}>Home Page</h1>
@@ -24,7 +21,6 @@ const Home = ({ user }) => {
             >
                 Go to Dashboard
             </Link>
-            <button className={styles.btn} onClick={logout}>Log Out</button>
         </>
     );
 }
