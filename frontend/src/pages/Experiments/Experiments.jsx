@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 const Dashboard = ({ user }) => {
     return (
         <>
-            <h2>Dashboard</h2>
+            <h2>Experiments</h2>
             <p>Welcome, {user?.name}!</p>
         </>
     );

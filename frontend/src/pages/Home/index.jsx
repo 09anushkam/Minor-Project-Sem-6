@@ -8,7 +8,7 @@ const Home = ({ user }) => {
             <h1 className={styles.heading}>Home Page</h1>
             <p>Welcome, {user?.name}!</p>
             <Link
-                to="/dashboard"
+                to="/exp"
                 style={{
                     display: "inline-block",
                     padding: "10px 20px",
@@ -19,7 +19,7 @@ const Home = ({ user }) => {
                     marginTop: "10px"
                 }}
             >
-                Go to Dashboard
+                Go to Experiments
             </Link>
         </>
     );
