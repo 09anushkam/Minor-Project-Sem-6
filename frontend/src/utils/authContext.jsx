@@ -16,7 +16,6 @@ export function AuthProvider({ children }) {
     const login = async (userData) => {
         setUser(userData);
         localStorage.setItem('user', JSON.stringify(userData));
-        console.log('Logged in user:', userData);
     };
 
     const logout = async () => {

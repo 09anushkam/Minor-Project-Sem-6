@@ -3,15 +3,12 @@ import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 
 const Home = ({ user }) => {
-    const logout = () => {
-        window.open(`http://localhost:8080/auth/logout`, "_self");
-    };
     return (
         <>
             <h1 className={styles.heading}>Home Page</h1>
             <p>Welcome, {user?.name}!</p>
             <Link
-                to="/dashboard"
+                to="/exp"
                 style={{
                     display: "inline-block",
                     padding: "10px 20px",
@@ -22,9 +19,8 @@ const Home = ({ user }) => {
                     marginTop: "10px"
                 }}
             >
-                Go to Dashboard
+                Go to Experiments
             </Link>
-            <button className={styles.btn} onClick={logout}>Log Out</button>
         </>
     );
 }
