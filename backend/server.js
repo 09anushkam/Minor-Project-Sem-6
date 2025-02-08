@@ -97,17 +97,17 @@ passport.use(new GoogleStrategy({
     callbackURL: 'http://localhost:8080/auth/google/callback',
     scope: ["profile", "email"],
 }, googleCallback));
-passport.use(new FacebookStrategy({
-    clientID: process.env.FACEBOOK_APP_ID,
-    clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: '/auth/facebook/callback',
-    profileFields: ['id', 'emails', 'name'], // Request email and name
-}, facebookCallback));
-passport.use(new TwitterStrategy({
-    consumerKey: process.env.TWITTER_CONSUMER_KEY,
-    consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-    callbackURL: '/auth/twitter/callback',
-}, twitterCallback));
+// passport.use(new FacebookStrategy({
+//     clientID: process.env.FACEBOOK_APP_ID,
+//     clientSecret: process.env.FACEBOOK_APP_SECRET,
+//     callbackURL: '/auth/facebook/callback',
+//     profileFields: ['id', 'emails', 'name'], // Request email and name
+// }, facebookCallback));
+// passport.use(new TwitterStrategy({
+//     consumerKey: process.env.TWITTER_CONSUMER_KEY,
+//     consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+//     callbackURL: '/auth/twitter/callback',
+// }, twitterCallback));
 passport.serializeUser((user, done) => {
     done(null, user.id);
 });
