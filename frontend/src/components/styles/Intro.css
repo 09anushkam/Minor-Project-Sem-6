@@ -5,8 +5,8 @@
 }
 
 .welcome {
-    z-index: 0;
-    opacity: 0.8;
+    z-index: -1;
+    opacity: 1;
     padding: 16px;
     width: 70%;
     height: 55%;

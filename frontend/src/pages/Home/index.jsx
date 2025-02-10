@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Navbar from "../../components/Navbar";
 import Intro from "../../components/Intro";
+import Footer from "../../components/Footer";
 
 const Home = ({ user }) => {
     return (
@@ -27,6 +28,7 @@ const Home = ({ user }) => {
                     Go to Experiments
                 </Link>
             </div>
+            <Footer />
         </>
     );
 }

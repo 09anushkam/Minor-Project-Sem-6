@@ -1,9 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Akaya+Kanadaka&family=Lora:ital,wght@0,400..700;1,400..700&family=Lugrasimo&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Sedan+SC&display=swap');
 
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     font-family: "Lora", serif;
     display: flex;
     flex-direction: column;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #9B2928;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #FFD5D4;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ffafade7;
+}
+
+html {
+    scroll-behavior: smooth;
 }
