@@ -1,3 +1,9 @@
+.container {
+    padding: 20px;
+    color: black;
+    z-index: 1;
+    background-color: #ffd5d4;
+}
 
 .heading {
     font-size: 40px;

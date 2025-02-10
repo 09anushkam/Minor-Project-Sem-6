@@ -7,7 +7,6 @@ import Signup from "./pages/Signup/Signup";
 import Experiments from './pages/Experiments/Experiments';
 import AdminPanel from './pages/AdminPanel/AdminPanel';
 import { AuthProvider } from './utils/authContext';
-import Navbar from './components/Navbar';
 import './App.css';
 
 function App() {
@@ -44,7 +43,6 @@ function App() {
 
     return (
         <AuthProvider>
-            <Navbar />
             <Routes>
                 <Route
                     exact

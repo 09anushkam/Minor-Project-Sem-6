@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from '../../utils/authContext';
 import styles from "./styles.module.css";
+import Navbar from '../../components/Navbar';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -32,6 +33,7 @@ function Login() {
     };
     return (
         <>
+            <Navbar />
             <div className={styles.container}>
                 {/* <h1 className={styles.heading}>Welcome back</h1> */}
                 <div className={styles.form_container}>
