@@ -28,7 +28,7 @@ export default function Footer() {
                 </div>
             </div>
             <div className="footer-title">
-                <h3>© 2025 Department of Computer Engineering.</h3>
+                <h3>© 2025 Department of Computer Engineering</h3>
             </div>
         </footer>
     );
