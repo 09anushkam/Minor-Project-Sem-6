@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Navbar from "../../components/Navbar";
 import Intro from "../../components/Intro";
 import Footer from "../../components/Footer";
+import Features from "../../components/Features";
 
 const Home = ({ user }) => {
     return (
@@ -23,6 +24,8 @@ const Home = ({ user }) => {
                     <img src="/intro-img.webp" alt="img" />
                 </div>
             </div>
+            <Features />
+            
             <Footer />
         </>
     );
