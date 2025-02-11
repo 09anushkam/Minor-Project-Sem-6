@@ -34,6 +34,13 @@
     padding: 12px 0;
 }
 
+.user {
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: #9B2928;
+    letter-spacing: 0.5px;
+}
+
 .welcome .vl {
     color: #9B2928;
     opacity: 1;
