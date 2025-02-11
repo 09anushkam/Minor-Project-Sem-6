@@ -108,13 +108,13 @@
     background-color: #e1e1e1;
 }
 
-.google_btn > img{
+.google_btn > img {
     width: 25px;
     height: 25px;
     object-fit: cover;
 }
 
-.google_btn > span{
+.google_btn > span {
     margin-left: 8px;
 }
 
