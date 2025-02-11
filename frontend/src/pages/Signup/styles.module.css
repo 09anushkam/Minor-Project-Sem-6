@@ -3,51 +3,33 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 20px;
+    margin: 6rem 0 0 0;
+    background-color: #FFD5D4;
 }
 
-.heading {
-    font-size: 40px;
-    font-weight: 600;
-    color: #2c444e;
-    position: relative;
+.form_container {
+    display: flex;
+    margin: 1rem 0;
+    width: 800px;
+    height: 60vh;
+    background-color: white;
+    box-shadow: 3px 4px 36px -6px #FFFCE5;
+    border-radius: 20px;
+}
+
+.left {
+    flex: 2;
+    overflow: hidden;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.heading::after {
-    content: "";
-    width: 450px;
-    height: 4px;
-    border-radius: 1px;
-    bottom: -20px;
-    background-color: #2c444e;
-    position: absolute;
-}
-
-.form_container {
-    display: flex;
-    margin-top: 45px;
-    width: 800px;
-    height: 450px;
-    background-color: white;
-    box-shadow: 3px 4px 36px -6px rgba(0,0,0,0.4);
-    border-radius: 50px;
-}
-
-.left {
-    flex: 1.5;
-    overflow: hidden;
-    position: relative;
-    border-top-left-radius: 50px;
-    border-bottom-left-radius: 50px;
-}
-
 .img {
-    width: 160%;
-    position: absolute;
-    left: -125px;
-    top: -50px;
+    width: 100%;
 }
 
 .right {
@@ -66,74 +48,88 @@
 }
 
 .from_heading {
-    font-size: 25px;
-    font-weight: 400;
-    color: #2c444e;
-    margin: 1rem 0;
+    font-size: 32px;
+    font-weight: 600;
+    color: #01438D;
+    margin: 0 0 1rem 0;
 }
 
 .input {
-    width: 320px;
-    height: 35px;
-    padding: 5px;
-    margin: 5px 0;
-    outline: none;
-    border: 1px solid #2c444e;
-    border-radius: 8px;
-    font-size: 13px;
+    width: 303.13px;
+    margin-bottom: 0.8rem !important;
 }
 
 .btn {
+    font-family: "Lora", serif;
     font-size: 18px;
-    font-weight: 500;
-    padding: 12px 25px;
-    color: white;
-    background-color: #ffc801;
-    border-radius: 12px;
-    margin: 10px 0;
+    font-weight: 600;
+    padding: 8px 16px;
     outline: none;
     border: none;
     cursor: pointer;
+    background-color: #01438D;
+    color: white !important;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: 2px;
+}
+
+.btn:hover {
+    background-color: #0061cf;
 }
 
 .text {
-    font-size: 14px;
-    color: #2c444e;
-    margin: 5px 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: black;
+    margin: 0 0 0.5rem 0;
     padding: 0;
 }
 
-.text > a{
-    font-size: 16px;
-    font-weight: 500;
-    color: #ffc801;
-}
-
 .google_btn {
-    width: 230px;
+    width: 303.13px;
     height: 40px;
     border-radius: 5px;
-    border: none;
-    outline: none;
+    border: 1px solid #ccc;
     background-color: white;
-    box-shadow: rgb(0 0 0 / 20%) 0px 3px 1px -2px, rgb(0 0 0 / 14%) 0px 2px 2px 0px, rgb(0 0 0 / 12%) 0px 1px 5px 0px;
+    transition: background-color 0.3s ease;
     font-size: 16px;
     font-weight: 500;
-    margin: 0.3rem 0;
-    color: #2c444e;
+    margin: 0 0 1rem 0;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
 }
 
-.google_btn > img{
-    width: 30px;
-    height: 30px;
+.google_btn:hover {
+    border: 1px solid black;
+    background-color: #e1e1e1;
+}
+
+.google_btn > img {
+    width: 25px;
+    height: 25px;
     object-fit: cover;
 }
 
-.google_btn > span{
-    margin-left: 10px;
+.google_btn > span {
+    margin-left: 8px;
+}
+
+.textend {
+    font-size: 16px;
+    font-weight: 500;
+    color: black;
+    margin: 0;
+    padding: 0;
+}
+
+.textend > a {
+    color: #9B2928;
+}
+
+.textend > a:hover {
+    color: #d8302e;
 }

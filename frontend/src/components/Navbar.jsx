@@ -25,18 +25,18 @@ const Navbar = () => {
     return (
         <header className="header">
             <div className="navbar">
-                <a href="/" className="logo"><img src="" alt="logo" /> SMA Virtual Lab</a>
+                <a href="/" className="logo"><img src="/kjsieit-logo.svg" alt="logo" /></a>
                 <div className="hamburger" onClick={() => setIsOpen(!isOpen)}>☰</div>
                 <nav className={isOpen ? "nav-menu open" : "nav-menu"}>
                     <div className="close-btn" onClick={() => setIsOpen(false)}>✖</div>
                     <ul>
                         <li><a href="/" onClick={() => setIsOpen(false)}>Home</a></li>
-                        <li><a href="/about" onClick={() => setIsOpen(false)}>About Us</a></li>
+                        <li><a href="/about" onClick={() => setIsOpen(false)}>About</a></li>
                         {user && <li><a href="/exp" onClick={() => setIsOpen(false)}>Experiments</a></li>}
                         {!user ? (
-                            <li><a href="/login" onClick={() => setIsOpen(false)}>Login</a></li>
+                            <li><a href="/login" className="btns" onClick={() => setIsOpen(false)}>Login</a></li>
                         ) : (
-                            <li><a href="/" onClick={handleLogout}>Logout</a></li>
+                            <li><a href="/" className="btns" onClick={handleLogout}>Logout</a></li>
                         )}
                     </ul>
                 </nav>

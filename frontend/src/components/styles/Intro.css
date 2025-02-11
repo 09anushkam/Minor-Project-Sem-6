@@ -1,0 +1,75 @@
+.container {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.welcome {
+    z-index: -1;
+    opacity: 1;
+    padding: 16px;
+    width: 70%;
+    height: 55%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffd5d4;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome p {
+    margin: 0;
+}
+
+.welcome .w {
+    color: black;
+    opacity: 1;
+    font-size: 1.7rem;
+    font-weight: 600;
+    padding: 12px 0;
+}
+
+.user {
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: #9B2928;
+    letter-spacing: 0.5px;
+}
+
+.welcome .vl {
+    color: #9B2928;
+    opacity: 1;
+    font-size: 2.5rem;
+    font-weight: 700;
+    padding: 12px 0;
+}
+
+.welcome .of {
+    color: black;
+    opacity: 1;
+    font-size: 1.7rem;
+    font-weight: 600;
+    padding: 10px 0;
+}
+
+.welcome .sma {
+    color: #9B2928;
+    opacity: 1;
+    font-size: 2.8rem;
+    font-weight: 800;
+    padding: 12px 0;
+}
+
+.particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
