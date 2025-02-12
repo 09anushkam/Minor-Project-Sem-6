@@ -5,6 +5,7 @@ import Navbar from "../../components/Navbar";
 import Intro from "../../components/Intro";
 import Footer from "../../components/Footer";
 import Features from "../../components/Features";
+import Team from "../../components/Team";
 
 const Home = ({ user }) => {
     return (
@@ -25,7 +26,7 @@ const Home = ({ user }) => {
                 </div>
             </div>
             <Features />
-            
+            <Team />
             <Footer />
         </>
     );

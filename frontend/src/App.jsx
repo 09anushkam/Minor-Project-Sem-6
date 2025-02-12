@@ -5,7 +5,7 @@ import Home from "./pages/Home/index";
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
 import Experiments from './pages/Experiments/Experiments';
-import AdminPanel from './pages/AdminPanel/AdminPanel';
+// import AdminPanel from './pages/AdminPanel/AdminPanel';
 import { AuthProvider } from './utils/authContext';
 import './App.css';
 
@@ -65,14 +65,14 @@ function App() {
                     path="/exp"
                     element={user ? <Experiments user={user}/> : <Navigate to="/login" />}
                 />
-                <Route
+                {/* <Route
                     exact
                     path="/admin"
                     element={user && user.role === 'admin'
                         ? <AdminPanel user={user} />
                         : <Navigate to="/login" />
                     }
-                />
+                /> */}
             </Routes>
         </AuthProvider>
     );
