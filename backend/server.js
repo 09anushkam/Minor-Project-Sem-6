@@ -108,9 +108,9 @@ passport.use(new GoogleStrategy({
 //     consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
 //     callbackURL: '/auth/twitter/callback',
 // }, twitterCallback));
-// passport.serializeUser((user, done) => {
-//     done(null, user.id);
-// });
+passport.serializeUser((user, done) => {
+    done(null, user.id);
+});
 passport.deserializeUser(async (id, done) => {
     try {
         const user = await User.findById(id);
