@@ -5,10 +5,10 @@
 }
 
 .welcome {
-    z-index: -1;
+    z-index: 0;
     opacity: 1;
     padding: 16px;
-    width: 70%;
+    width: 60%;
     height: 55%;
     position: absolute;
     top: 50%;
@@ -32,6 +32,13 @@
     font-size: 1.7rem;
     font-weight: 600;
     padding: 12px 0;
+}
+
+.user {
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: #9B2928;
+    letter-spacing: 0.5px;
 }
 
 .welcome .vl {
