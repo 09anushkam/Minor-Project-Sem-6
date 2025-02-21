@@ -1,0 +1,79 @@
+.about-container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 6rem;
+    background-color: white;
+}
+
+.about-kjsit p, .about-computer p {
+    font-size: 1.2rem;
+    text-align: justify;
+}
+
+.top-section {
+    display: flex;
+}
+
+.about-kjsit {
+    flex: 1;
+}
+
+.college-image {
+    flex: 1;
+}
+
+.college-image img {
+    width: 100%;
+    height: 100%;
+}
+
+.about-kjsit,
+.about-computer {
+    background: #f9f9f9;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.about-kjsit h2,
+.about-computer h2 {
+    font-size: 2rem;
+    color: #9B2928;
+}
+
+.bottom-section {
+    display: flex;
+}
+
+.lab-image {
+    flex: 1;
+}
+
+.lab-image img {
+    width: 100%;
+    height: 100%;
+}
+
+.about-computer {
+    flex: 1;
+}
+
+@media (max-width: 900px) {
+    .top-section {
+        flex-direction: column-reverse;
+    }
+
+    .bottom-section {
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 901px) {
+    .college-image img {
+        width: 50vw;
+    }
+
+    .lab-image img {
+        width: 50vw;
+    }
+}

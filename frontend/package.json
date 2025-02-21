@@ -16,7 +16,7 @@
     "@mui/material": "^6.4.3",
     "@tsparticles/react": "^3.0.0",
     "axios": "^1.7.9",
-    "framer-motion": "^12.4.2",
+    "framer-motion": "^12.4.3",
     "motion": "^12.4.2",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
