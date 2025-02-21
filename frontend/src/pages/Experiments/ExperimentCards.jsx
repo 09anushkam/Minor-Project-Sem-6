@@ -62,7 +62,7 @@ const FlipCard = ({ title, img, aim, link }) => {
                 </div>
 
                 <div className="flip-card-back">
-                    <p>{aim}</p>
+                    <p className="aim">{aim}</p>
                     <a href={link} className="flip-card-link">
                         🚀 Dive In
                     </a>

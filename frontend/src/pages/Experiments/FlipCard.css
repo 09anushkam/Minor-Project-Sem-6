@@ -73,6 +73,7 @@
 
 .flip-card-back p {
     padding: 0 10px;
+    font-size: 1rem;
 }
 
 .flip-card:hover {
