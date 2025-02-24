@@ -1,15 +1,21 @@
 import PropTypes from 'prop-types';
+import ExperimentCards from './ExperimentCards';
+import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
+import './Experiments.css'
 
-const Dashboard = ({ user }) => {
+const Experiments = () => {
     return (
         <>
-            <h2>Experiments</h2>
-            <p>Welcome, {user?.name}!</p>
+            <Navbar />
+            <h1 className="experiments-title">List of Experiments</h1>
+            <ExperimentCards />
+            <Footer />
         </>
     );
 }
 
-Dashboard.propTypes = {
+Experiments.propTypes = {
     user: PropTypes.shape({
         name: PropTypes.string.isRequired,
         email: PropTypes.string.isRequired,
@@ -17,4 +23,4 @@ Dashboard.propTypes = {
     }).isRequired,
 };
 
-export default Dashboard;
+export default Experiments;

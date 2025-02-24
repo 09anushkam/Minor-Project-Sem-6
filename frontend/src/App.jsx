@@ -5,6 +5,7 @@ import Home from "./pages/Home/index";
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
 import Experiments from './pages/Experiments/Experiments';
+import AboutPage from "./pages/AboutPage/AboutPage";
 // import AdminPanel from './pages/AdminPanel/AdminPanel';
 import { AuthProvider } from './utils/authContext';
 import './App.css';
@@ -64,6 +65,11 @@ function App() {
                     exact
                     path="/exp"
                     element={user ? <Experiments user={user}/> : <Navigate to="/login" />}
+                />
+                <Route
+                    exact
+                    path="/about"
+                    element={ <AboutPage /> }
                 />
                 {/* <Route
                     exact

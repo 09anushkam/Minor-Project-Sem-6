@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useState, useContext } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
@@ -20,12 +19,21 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = React.useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
+    const [emailError, setEmailError] = useState('');
+
+    const validateEmail = (value) => {
+        setEmail(value);
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        setEmailError(emailPattern.test(value) ? '' : 'Invalid email format');
+    };
+
     const handleLogin = async (e) => {
         e.preventDefault();
+        if (emailError || !email || !password) return;
         try {
             const response = await axios.post('http://localhost:8080/auth/login', { email, password }, { withCredentials: true });
             const userData = response.data.user;
@@ -39,21 +47,10 @@ function Login() {
     };
 
     const googleAuth = () => {
-        window.open(
-            `http://localhost:8080/auth/google/callback`,
-            "_self"
-        );
+        window.open(`http://localhost:8080/auth/google/callback`, "_self");
     };
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
-
-    const handleMouseUpPassword = (event) => {
-        event.preventDefault();
-    };
 
     return (
         <>
@@ -70,27 +67,26 @@ function Login() {
                                 size='small'
                                 className={styles.input}
                                 type="email"
-                                id="outlined-basic"
                                 label="Email"
                                 variant="outlined"
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) => validateEmail(e.target.value)}
+                                error={!!emailError}
+                                helperText={emailError}
                                 required
                             />
-                            <FormControl size='small' variant="outlined" type="password" className={styles.input} value={password} onChange={(e) => setPassword(e.target.value)} required>
+                            <FormControl size='small' variant="outlined" className={styles.input} required>
                                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                 <OutlinedInput
                                     id="outlined-adornment-password"
                                     type={showPassword ? 'text' : 'password'}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     endAdornment={
                                         <InputAdornment position="end">
                                             <IconButton
-                                                aria-label={
-                                                    showPassword ? 'hide the password' : 'display the password'
-                                                }
+                                                aria-label={showPassword ? 'hide password' : 'show password'}
                                                 onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                                onMouseUp={handleMouseUpPassword}
                                                 edge="end"
                                             >
                                                 {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -100,19 +96,26 @@ function Login() {
                                     label="Password"
                                 />
                             </FormControl>
+
                             <div className={styles.rf}>
                                 <FormControlLabel control={<Checkbox size='small' />} label="Remember me" />
                                 <a href="/forgot">Forgot Password?</a>
                             </div>
-                            <button type='submit' className={styles.btn}>Login</button>
+
+                            <button type='submit' className={styles.btn} disabled={!!emailError || !email || !password}>
+                                Login
+                            </button>
                         </form>
+
                         <p className={styles.text}>Or</p>
+
                         <button className={styles.google_btn} onClick={googleAuth}>
                             <img src="/google.webp" alt="google icon" />
                             <span>Sign In With Google</span>
                         </button>
+
                         <p className={styles.textend}>
-                            Don&apos;t have an account?{" "} <Link to="/signup">Sign Up</Link>
+                            Don&apos;t have an account? <Link to="/signup">Sign Up</Link>
                         </p>
                     </div>
                 </div>

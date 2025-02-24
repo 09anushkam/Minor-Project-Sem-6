@@ -1,4 +1,3 @@
-import * as React from 'react';
 import styles from "./styles.module.css";
 import { useState } from 'react';
 import axios from 'axios';
@@ -18,11 +17,34 @@ function Signup() {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [showPassword, setShowPassword] = React.useState(false);
+	const [showPassword, setShowPassword] = useState(false);
 	const navigate = useNavigate();
+
+	const [nameError, setNameError] = useState('');
+	const [emailError, setEmailError] = useState('');
+	const [passwordError, setPasswordError] = useState('');
+
+	const validateName = (value) => {
+		setName(value);
+		setNameError(value.length >= 3 ? '' : 'Name must be at least 3 characters');
+	};
+
+	const validateEmail = (value) => {
+		setEmail(value);
+		const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		setEmailError(emailPattern.test(value) ? '' : 'Invalid email format');
+	};
+
+	const validatePassword = (value) => {
+		setPassword(value);
+		const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+		setPasswordError(passwordPattern.test(value) ? '' : 'Password must be 8+ chars, 1 uppercase, 1 number, 1 special char');
+	};
 
 	const handleRegister = async (e) => {
 		e.preventDefault();
+		if (nameError || emailError || passwordError || !name || !email || !password) return;
+
 		try {
 			const response = await axios.post('http://localhost:8080/auth/signup', { name, email, password });
 			alert(response.data.message);
@@ -33,21 +55,10 @@ function Signup() {
 	};
 
 	const googleAuth = () => {
-		window.open(
-			`http://localhost:8080/auth/google/callback`,
-			"_self"
-		);
+		window.open(`http://localhost:8080/auth/google/callback`, "_self");
 	};
 
 	const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
-
-    const handleMouseUpPassword = (event) => {
-        event.preventDefault();
-    };
 
 	return (
 		<>
@@ -64,38 +75,39 @@ function Signup() {
 								size='small'
 								className={styles.input}
 								type="text"
-								id="outlined-basic"
 								label="Name"
 								variant="outlined"
 								value={name}
-								onChange={(e) => setName(e.target.value)}
+								onChange={(e) => validateName(e.target.value)}
+								error={!!nameError}
+								helperText={nameError}
 								required
 							/>
 							<TextField
 								size='small'
 								className={styles.input}
 								type="email"
-								id="outlined-basic"
 								label="Email"
 								variant="outlined"
 								value={email}
-								onChange={(e) => setEmail(e.target.value)}
+								onChange={(e) => validateEmail(e.target.value)}
+								error={!!emailError}
+								helperText={emailError}
 								required
 							/>
-							<FormControl size='small' variant="outlined" type="password" className={styles.input} value={password} onChange={(e) => setPassword(e.target.value)} required>
+							<FormControl size='small' variant="outlined" className={styles.input} required>
 								<InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
 								<OutlinedInput
 									id="outlined-adornment-password"
 									type={showPassword ? 'text' : 'password'}
+									value={password}
+									onChange={(e) => validatePassword(e.target.value)}
+									error={!!passwordError}
 									endAdornment={
 										<InputAdornment position="end">
 											<IconButton
-												aria-label={
-													showPassword ? 'hide the password' : 'display the password'
-												}
+												aria-label={showPassword ? 'hide password' : 'show password'}
 												onClick={handleClickShowPassword}
-												onMouseDown={handleMouseDownPassword}
-												onMouseUp={handleMouseUpPassword}
 												edge="end"
 											>
 												{showPassword ? <VisibilityOff /> : <Visibility />}
@@ -105,15 +117,20 @@ function Signup() {
 									label="Password"
 								/>
 							</FormControl>
-							<button type="submit" className={styles.btn}>Sign Up</button>
+							{passwordError && <p className={styles.error}>{passwordError}</p>}
+							<button type="submit" className={styles.btn} disabled={!!nameError || !!emailError || !!passwordError || !name || !email || !password}>
+								Sign Up
+							</button>
 						</form>
+
 						<p className={styles.text}>Or</p>
 						<button className={styles.google_btn} onClick={googleAuth}>
 							<img src="/google.webp" alt="google icon" />
 							<span>Sign In With Google</span>
 						</button>
+
 						<p className={styles.textend}>
-							Already have an account ? <Link to="/login">Log In</Link>
+							Already have an account? <Link to="/login">Log In</Link>
 						</p>
 					</div>
 				</div>
