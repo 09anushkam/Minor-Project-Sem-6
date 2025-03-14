@@ -9,6 +9,8 @@ import AboutPage from "./pages/AboutPage/AboutPage";
 // import AdminPanel from './pages/AdminPanel/AdminPanel';
 import { AuthProvider } from './utils/authContext';
 import './App.css';
+import Testing from "./Testing";
+import ExperimentPage from "./pages/ExperimentPage/ExperimentPage";
 
 function App() {
     const [user, setUser] = useState(() => {
@@ -49,7 +51,7 @@ function App() {
                     exact
                     path="/"
                     // element={user ? <Home user={user} /> : <Navigate to="/login" />}
-                    element={ <Home user={user} /> }
+                    element={<Home user={user} />}
                 />
                 <Route
                     exact
@@ -64,12 +66,16 @@ function App() {
                 <Route
                     exact
                     path="/exp"
-                    element={user ? <Experiments user={user}/> : <Navigate to="/login" />}
+                    element={user ? <Experiments user={user} /> : <Navigate to="/login" />}
                 />
                 <Route
                     exact
                     path="/about"
-                    element={ <AboutPage /> }
+                    element={<AboutPage />}
+                />
+                <Route
+                    path="/exp/:no"
+                    element={<ExperimentPage />}
                 />
                 {/* <Route
                     exact
@@ -79,6 +85,11 @@ function App() {
                         : <Navigate to="/login" />
                     }
                 /> */}
+                <Route
+                    exact
+                    path="/testing"
+                    element={<Testing />}
+                />
             </Routes>
         </AuthProvider>
     );
