@@ -20,7 +20,7 @@ const ExperimentPage = () => {
         return <div className="loading">Loading...</div>;
     }
 
-    // const SimulationComponent = lazy(() => import(`../../components/Simulation${no}`));
+    const SimulationComponent = lazy(() => import(`../../simulations/Simulation${no}.jsx`));
     // const QuizComponent = lazy(() => import(`../../components/Quiz${no}`));
 
     return (
@@ -44,8 +44,7 @@ const ExperimentPage = () => {
                 <div className="exp-content">
                     <Suspense fallback={<div>Loading...</div>}>
                         {selectedSection === "Simulation" ? (
-                            // <SimulationComponent />
-                            <></>
+                            <SimulationComponent />
                         ) : selectedSection === "Quiz" ? (
                             // <QuizComponent />
                             <></>
