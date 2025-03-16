@@ -23,6 +23,8 @@ const { twitterCallback } = require('./controllers/auth');
 
 // const homeRouter = require('./routes/home');
 const authRouter = require('./routes/auth');
+const scrapeRoutes = require("./routes/scrapeRoutes");
+const experimentRoutes = require("./routes/Experiment");
 
 const MONGO_URL = process.env.ATLAS_DB;
 
@@ -127,6 +129,8 @@ app.use((req, res, next) => {
 
 // app.use('/', homeRouter);
 app.use('/auth', authRouter);
+app.use("/api/scrape", scrapeRoutes);
+app.use("/api/experiments", experimentRoutes);
 
 app.listen(port, () => {
     console.log(`app is listening on port ${port}`);
