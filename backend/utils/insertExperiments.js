@@ -20,8 +20,8 @@ const Experiment = require('../models/Experiment');
 const experiments = [
     {
         no: 1,
-        title: "Newton's Laws of Motion",
-        aim: "Understand Newton's three laws of motion.",
+        title: "Data Acquisition",
+        aim: "To acquire social media data through various methods as mentioned below and analyse the results. 1. Beautiful Soup 2. Request 3. API 4. Scrapy Tool",
         theory: "Newton’s laws explain the motion of objects...",
         procedure: "Step 1: Set up the experiment...",
         simulation: "Interactive simulation link here...",
@@ -31,8 +31,8 @@ const experiments = [
     },
     {
         no: 2,
-        title: "Ohm's Law",
-        aim: "Verify Ohm's Law using a simple circuit.",
+        title: "Sentiment Analysis",
+        aim: "To implement sentiment analysis on social media platform data and kaggle dataset for any use case. Apply the evaluation metric. ",
         theory: "Ohm's Law states that V = IR...",
         procedure: "Step 1: Connect the resistor...",
         simulation: "Interactive Ohm's Law simulation...",
@@ -64,8 +64,8 @@ const experiments = [
     },
     {
         no: 5,
-        title: "Boyle's Law",
-        aim: "Understand the relationship between pressure and volume.",
+        title: "Graph Traversal",
+        aim: "To demonstrate graph traversal algorithms using a virtual lab.",
         theory: "Boyle’s Law states that PV = constant...",
         procedure: "Step 1: Reduce the volume of a gas...",
         simulation: "Gas law simulation...",
