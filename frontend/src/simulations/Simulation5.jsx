@@ -76,8 +76,10 @@ const Simulation5 = () => {
       nodes.push({ id: i, label: `${i}` });
       for (let j = 0; j < vertices; j++) {
         if (matrix[i][j] === 1) {
-          edges.push({ id: `${i}-${j}`
-            , from: i, to: j });
+          edges.push({
+            id: `${i}-${j}`
+            , from: i, to: j
+          });
         }
       }
     }
@@ -97,12 +99,12 @@ const Simulation5 = () => {
       },
     };
     let container = document.getElementById("graph");
-    if(container){
-       if (graph) {
-          graph.setData(data);
-       } else {
-          setGraph(new Network(container, data, options));
-       }
+    if (container) {
+      if (graph) {
+        graph.setData(data);
+      } else {
+        setGraph(new Network(container, data, options));
+      }
     }
   };
 
@@ -133,12 +135,12 @@ const Simulation5 = () => {
       },
     };
     let container = document.getElementById("graph");
-    if(container){
-       if (graph) {
-          graph.setData(data);
-       } else {
-          setGraph(new Network(container, data, options));
-       }
+    if (container) {
+      if (graph) {
+        graph.setData(data);
+      } else {
+        setGraph(new Network(container, data, options));
+      }
     }
   };
 
@@ -167,12 +169,12 @@ const Simulation5 = () => {
       },
     };
     let container = document.getElementById("graph");
-    if(container){
-       if (graph) {
-          graph.setData(data);
-       } else {
-          setGraph(new Network(container, data, options));
-       }
+    if (container) {
+      if (graph) {
+        graph.setData(data);
+      } else {
+        setGraph(new Network(container, data, options));
+      }
     }
   };
 
@@ -186,7 +188,7 @@ const Simulation5 = () => {
   const handleAdjacencyListChange = (node, neighbor) => {
     let newAdjList = { ...adjacencyList };
     if (newAdjList[node]) {
-      if(newAdjList[node].includes(neighbor)) {
+      if (newAdjList[node].includes(neighbor)) {
         newAdjList[node] = newAdjList[node].filter(n => n !== neighbor);
       } else {
         newAdjList[node].push(neighbor);
@@ -196,18 +198,18 @@ const Simulation5 = () => {
     generateGraphFromAdjacencyList(newAdjList);
   };
 
-    const handleEdgeListChange = (from, to) => {
-        let newEdgeList = [...edgeList];
-        const existingEdgeIndex = newEdgeList.findIndex(edge => edge.from === from && edge.to === to);
+  const handleEdgeListChange = (from, to) => {
+    let newEdgeList = [...edgeList];
+    const existingEdgeIndex = newEdgeList.findIndex(edge => edge.from === from && edge.to === to);
 
-        if (existingEdgeIndex !== -1) {
-            newEdgeList.splice(existingEdgeIndex, 1);
-        } else {
-            newEdgeList.push({ from, to });
-        }
-        setEdgeList(newEdgeList);
-        generateGraphFromEdgeList(newEdgeList);
-    };
+    if (existingEdgeIndex !== -1) {
+      newEdgeList.splice(existingEdgeIndex, 1);
+    } else {
+      newEdgeList.push({ from, to });
+    }
+    setEdgeList(newEdgeList);
+    generateGraphFromEdgeList(newEdgeList);
+  };
 
   const runDFS = () => {
     let visited = new Array(vertices).fill(false);
@@ -283,11 +285,11 @@ const Simulation5 = () => {
           } else if (graphType === "Edge List") {
             let neighbors = graphData.filter(edge => edge.from === current).map(edge => edge.to);
             for (let i = neighbors.length - 1; i >= 0; i--) {
-                let neighbor = neighbors[i];
-                if (!visited[neighbor]) {
-                    highlightEdge(current, neighbor, traversal.length * 2000);
-                    stack.push(neighbor);
-                }
+              let neighbor = neighbors[i];
+              if (!visited[neighbor]) {
+                highlightEdge(current, neighbor, traversal.length * 2000);
+                stack.push(neighbor);
+              }
             }
           }
         }
@@ -337,35 +339,35 @@ const Simulation5 = () => {
           </div>
         )}
         {graphType === "Adjacency List" && (
-            <div className="adj-list-container">
-                {Object.keys(adjacencyList).map((node) => (
-                    <div key={node} className="adj-list-row">
-                        <label>{node}: </label>
-                        {[...Array(vertices).keys()].map((neighbor) => (
-                            <button key={neighbor} onClick={() => handleAdjacencyListChange(parseInt(node), neighbor)}>
-                                {adjacencyList[node].includes(neighbor) ? "Remove " : "Add "} {neighbor}
-                            </button>
-                        ))}
-                    </div>
+          <div className="adj-list-container">
+            {Object.keys(adjacencyList).map((node) => (
+              <div key={node} className="adj-list-row">
+                <label>{node}: </label>
+                {[...Array(vertices).keys()].map((neighbor) => (
+                  <button key={neighbor} onClick={() => handleAdjacencyListChange(parseInt(node), neighbor)}>
+                    {adjacencyList[node].includes(neighbor) ? "Remove " : "Add "} {neighbor}
+                  </button>
                 ))}
-            </div>
+              </div>
+            ))}
+          </div>
         )}
         {graphType === "Edge List" && (
-            <div className="edge-list-container">
-                {[...Array(vertices).keys()].map((from) => (
-                    [...Array(vertices).keys()].map((to) => (
-                      [...Array(vertices).keys()].map((to) => (
-                        <button key={`${from}-${to}`} onClick={() => handleEdgeListChange(from, to)}>
-                          {edgeList.some((edge) => edge.from === from && edge.to === to)
-                            ? "Remove "
-                            : "Add "}{" "}
-                          {from} &rarr; {to} {/* Use HTML entity for right arrow */}
-                        </button>
-                      ))
-                      
-                    ))
-                ))}
-            </div>
+          <div className="edge-list-container">
+            {[...Array(vertices).keys()].map((from) => (
+              [...Array(vertices).keys()].map((to) => (
+                [...Array(vertices).keys()].map((to) => (
+                  <button key={`${from}-${to}`} onClick={() => handleEdgeListChange(from, to)}>
+                    {edgeList.some((edge) => edge.from === from && edge.to === to)
+                      ? "Remove "
+                      : "Add "}{" "}
+                    {from} &rarr; {to} {/* Use HTML entity for right arrow */}
+                  </button>
+                ))
+
+              ))
+            ))}
+          </div>
         )}
         {graphType === "Random Graph Generator" && (
           <button onClick={generateGraphRepresentation} className="center-button">Generate Graph</button>
