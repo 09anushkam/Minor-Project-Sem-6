@@ -20,7 +20,7 @@ import tweepy
 import json
 
 # Replace with your actual API credentials
-bearer_token = "AAAAAAAAAAAAAAAAAAAAACi5zwEAAAAA8Z5wsMRpcq6oO1ozI2fMyGSR8R0%3D06tAJJx01a2bJ7hum9To6cc8aM4JSlVF5KQgxVW25uv3mu2nOr"
+bearer_token = ""
 
 # Initialize Tweepy Client
 client = tweepy.Client(bearer_token=bearer_token)
@@ -36,14 +36,3 @@ data = [{"text": tweet.text, "id": tweet.id} for tweet in tweets.data] if tweets
 
 # Print JSON result
 print(json.dumps(data, indent=2))
-
-
-# API Key: nWCZ0OlkGFzb4SOAsgke9mN9e
-
-# API Key Secret: qnnQUzupPJi0cweYc8BQS9RMpz9hrUQ9KnLM6NetLaVqh8HDlS
-
-# Bearer Token: AAAAAAAAAAAAAAAAAAAAACi5zwEAAAAA8Z5wsMRpcq6oO1ozI2fMyGSR8R0%3D06tAJJx01a2bJ7hum9To6cc8aM4JSlVF5KQgxVW25uv3mu2nOr
-
-# Access Token: 1900496573009911808-UA10Ysj4IhH6euWuJmFbmuEnHpB7r2
-
-# Access Token Secret: cxWMQAyrozc3rFuEUPF0adSDni9eYKxTcpEmz17Uws7nY
