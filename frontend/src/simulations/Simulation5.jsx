@@ -3,25 +3,19 @@ import { Network } from "vis-network/standalone";
 import "vis-network/styles/vis-network.css";
 import "./Simulation.css";
 
-<<<<<<< HEAD
 const GraphVisualizer = () => {
   const [graphType, setGraphType] = useState(null);
   const [numVertices, setNumVertices] = useState(null);
   const [graphData, setGraphData] = useState({});
-=======
-const Simulation5 = () => {
   const [vertices, setVertices] = useState(5);
   const [matrix, setMatrix] = useState([]);
   const [adjacencyList, setAdjacencyList] = useState({});
   const [edgeList, setEdgeList] = useState([]);
   const [graph, setGraph] = useState(null);
   const [startNode, setStartNode] = useState(0);
->>>>>>> 23773d9c9664065990767b461d1bdfb6d1b91256
   const [dfsTraversal, setDfsTraversal] = useState([]);
   const [bfsTraversal, setBfsTraversal] = useState([]);
   const [visitedQueue, setVisitedQueue] = useState([]);
-  const [startNode, setStartNode] = useState(0);
-  const [graph, setGraph] = useState(null);
   const [showGraph, setShowGraph] = useState(false);
   const [randomGraphVertices, setRandomGraphVertices] = useState(null);
 
@@ -31,7 +25,6 @@ const Simulation5 = () => {
     }
   }, [showGraph, graphData]);
 
-<<<<<<< HEAD
   const handleGraphTypeChange = (type) => {
     setGraphType(type);
     setNumVertices(null);
@@ -168,15 +161,31 @@ const Simulation5 = () => {
       edges = Object.keys(graphData).flatMap((i) =>
         graphData[i].map((j) => ({ from: Number(i), to: Number(j) }))
       );
-=======
+    }
+
+    const data = { nodes, edges };
+    const options = {
+      edges: { arrows: "to" },
+      interaction: {
+        zoomView: false,
+      },
+    };
+
+    if (graph) {
+      graph.setData(data);
+    } else {
+      setGraph(new Network(container, data, options));
+    }
+  };
+
   const generateGraphRepresentation = () => {
-    if (graphType === "Adjacency Matrix") {
+    if (graphType === "AdjacencyMatrix") {
       generateMatrix();
-    } else if (graphType === "Random Graph Generator") {
+    } else if (graphType === "RandomGraph") {
       generateRandomGraph();
-    } else if (graphType === "Adjacency List") {
+    } else if (graphType === "AdjacencyList") {
       generateAdjacencyList();
-    } else if (graphType === "Edge List") {
+    } else if (graphType === "EdgeList") {
       generateEdgeList();
     }
   };
@@ -228,12 +237,12 @@ const Simulation5 = () => {
       for (let j = 0; j < vertices; j++) {
         if (matrix[i][j] === 1) {
           edges.push({
-            id: `${i}-${j}`
-            , from: i, to: j
+            id: `${i}-${j}`,
+            from: i,
+            to: j
           });
         }
       }
->>>>>>> 23773d9c9664065990767b461d1bdfb6d1b91256
     }
 
     const data = { nodes, edges };
@@ -243,38 +252,7 @@ const Simulation5 = () => {
         zoomView: false,
       },
     };
-<<<<<<< HEAD
-    if (graph) {
-      graph.setData(data);
-    } else {
-      setGraph(new Network(container, data, options));
-    }
-  };
-
-  const generateRandomGraph = (numVertices) => {
-    const newGraphData = {};
-    const maxEdges = Math.floor(numVertices * (numVertices - 1) / 2); // Maximum number of edges in a simple graph
-    const numEdges = Math.floor(Math.random() * maxEdges) + 1; // Random number of edges (at least 1)
-
-    for (let i = 0; i < numEdges; i++) {
-      const from = Math.floor(Math.random() * numVertices);
-      const to = Math.floor(Math.random() * numVertices);
-      if (from !== to) {
-        if (!newGraphData[from]) newGraphData[from] = {};
-        newGraphData[from][to] = 1; // Assuming weight of 1 for simplicity
-      }
-    }
-
-    setGraphData(newGraphData);
-    setShowGraph(true);
-  };
-
-  const handleRandomGraphGeneration = () => {
-    if (randomGraphVertices) {
-      generateRandomGraph(randomGraphVertices);
-    }
-=======
-    let container = document.getElementById("graph");
+    const container = document.getElementById("graph-container");
     if (container) {
       if (graph) {
         graph.setData(data);
@@ -291,7 +269,7 @@ const Simulation5 = () => {
       nodes.push({ id: i, label: `${i}` });
       if (adjList[i]) {
         adjList[i].forEach(neighbor => {
-          edges.push({ id: `<span class="math-inline">\{i\}\-</span>{neighbor}`, from: i, to: neighbor });
+          edges.push({ id: `${i}-${neighbor}`, from: i, to: neighbor });
         });
       }
     }
@@ -310,7 +288,7 @@ const Simulation5 = () => {
         stabilization: { iterations: 200 },
       },
     };
-    let container = document.getElementById("graph");
+    const container = document.getElementById("graph-container");
     if (container) {
       if (graph) {
         graph.setData(data);
@@ -327,7 +305,7 @@ const Simulation5 = () => {
       nodes.push({ id: i, label: `${i}` });
     }
     edgesList.forEach(edge => {
-      edges.push({ id: `<span class="math-inline">\{edge\.from\}\-</span>{edge.to}`, from: edge.from, to: edge.to });
+      edges.push({ id: `${edge.from}-${edge.to}`, from: edge.from, to: edge.to });
     });
     let data = { nodes, edges };
     let options = {
@@ -344,7 +322,7 @@ const Simulation5 = () => {
         stabilization: { iterations: 200 },
       },
     };
-    let container = document.getElementById("graph");
+    const container = document.getElementById("graph-container");
     if (container) {
       if (graph) {
         graph.setData(data);
@@ -352,40 +330,6 @@ const Simulation5 = () => {
         setGraph(new Network(container, data, options));
       }
     }
-  };
-
-  const handleMatrixChange = (i, j, value) => {
-    let newMatrix = [...matrix];
-    newMatrix[i][j] = value;
-    setMatrix(newMatrix);
-    generateGraphFromMatrix(newMatrix);
-  };
-
-  const handleAdjacencyListChange = (node, neighbor) => {
-    let newAdjList = { ...adjacencyList };
-    if (newAdjList[node]) {
-      if (newAdjList[node].includes(neighbor)) {
-        newAdjList[node] = newAdjList[node].filter(n => n !== neighbor);
-      } else {
-        newAdjList[node].push(neighbor);
-      }
-    }
-    setAdjacencyList(newAdjList);
-    generateGraphFromAdjacencyList(newAdjList);
-  };
-
-  const handleEdgeListChange = (from, to) => {
-    let newEdgeList = [...edgeList];
-    const existingEdgeIndex = newEdgeList.findIndex(edge => edge.from === from && edge.to === to);
-
-    if (existingEdgeIndex !== -1) {
-      newEdgeList.splice(existingEdgeIndex, 1);
-    } else {
-      newEdgeList.push({ from, to });
-    }
-    setEdgeList(newEdgeList);
-    generateGraphFromEdgeList(newEdgeList);
->>>>>>> 23773d9c9664065990767b461d1bdfb6d1b91256
   };
 
   const runDFS = () => {
@@ -440,17 +384,6 @@ const Simulation5 = () => {
 
     const dfs = (node) => {
       let stack = [node];
-<<<<<<< HEAD
-=======
-      let graphData;
-      if (graphType === "Adjacency Matrix") {
-        graphData = matrix;
-      } else if (graphType === "Adjacency List") {
-        graphData = adjacencyList;
-      } else if (graphType === "Edge List") {
-        graphData = edgeList;
-      }
->>>>>>> 23773d9c9664065990767b461d1bdfb6d1b91256
 
       while (stack.length > 0) {
         let current = stack.pop();
@@ -459,7 +392,6 @@ const Simulation5 = () => {
           traversal.push(current);
           tempVisitedQueue.push(current);
           setVisitedQueue([...tempVisitedQueue]);
-<<<<<<< HEAD
           animateNodeVisit(current, traversal.length * 1000);
 
           let neighbors = getNeighbors(current);
@@ -467,37 +399,8 @@ const Simulation5 = () => {
             highlightEdge(current, neighbor, traversal.length * 1000);
             stack.push(neighbor);
           });
-=======
-          animateNodeVisit(current, traversal.length * 2000);
 
-          if (graphType === "Adjacency Matrix") {
-            for (let i = vertices - 1; i >= 0; i--) {
-              if (graphData[current][i] === 1 && !visited[i]) {
-                highlightEdge(current, i, traversal.length * 2000);
-                stack.push(i);
-              }
-            }
-          } else if (graphType === "Adjacency List") {
-            if (graphData[current]) {
-              for (let i = graphData[current].length - 1; i >= 0; i--) {
-                let neighbor = graphData[current][i];
-                if (!visited[neighbor]) {
-                  highlightEdge(current, neighbor, traversal.length * 2000);
-                  stack.push(neighbor);
-                }
-              }
-            }
-          } else if (graphType === "Edge List") {
-            let neighbors = graphData.filter(edge => edge.from === current).map(edge => edge.to);
-            for (let i = neighbors.length - 1; i >= 0; i--) {
-              let neighbor = neighbors[i];
-              if (!visited[neighbor]) {
-                highlightEdge(current, neighbor, traversal.length * 2000);
-                stack.push(neighbor);
-              }
-            }
-          }
->>>>>>> 23773d9c9664065990767b461d1bdfb6d1b91256
+          animateNodeVisit(current, traversal.length * 2000);
         }
       }
     };
@@ -601,7 +504,6 @@ const Simulation5 = () => {
   };
 
   return (
-<<<<<<< HEAD
     <div style={{ textAlign: "center" }}>
       <h2>Graph Visualizer</h2>
       <div style={{ marginBottom: "20px", display: "flex", justifyContent: "center", gap: "10px" }}>
@@ -660,92 +562,16 @@ const Simulation5 = () => {
           />
           <button onClick={runDFS} className="graph-button">Run DFS</button>
           <button onClick={runBFS} className="graph-button">Run BFS</button>
-          <button className="graph-button">Run Dijkstra</button>
-=======
-    <div className="simulation-container">
-      <div className="simulation-content">
-        <div className="input-container">
-          <label>Select Algorithm: </label>
-          <select value={algorithm} onChange={(e) => setAlgorithm(e.target.value)}>
-            <option value="DFS">Depth-First Search (DFS)</option>
-            <option value="BFS">Breadth-First Search (BFS)</option>
-            <option value="Dijkstra">Dijkstra's Algorithm</option>
-          </select>
-        </div>
-        <div className="input-container">
-          <label>Select Graph Representation: </label>
-          <select value={graphType} onChange={(e) => setGraphType(e.target.value)}>
-            <option value="Adjacency Matrix">Adjacency Matrix</option>
-            <option value="Adjacency List">Adjacency List</option>
-            <option value="Edge List">Edge List</option>
-            <option value="Random Graph Generator">Random Graph Generator</option>
-          </select>
-        </div>
-        {graphType === "Adjacency Matrix" && (
-          <div className="matrix-container">
-            {matrix.map((row, i) => (
-              <div key={i} className="matrix-row">
-                {row.map((val, j) => (
-                  <input
-                    key={j}
-                    type="number"
-                    value={val}
-                    onChange={(e) => handleMatrixChange(i, j, Number(e.target.value))}
-                  />
-                ))}
-              </div>
-            ))}
+          <div>
+            {dfsTraversal.length > 0 && (
+              <p>DFS Traversal: {dfsTraversal.join(" -> ")}</p>
+            )}
+            {bfsTraversal.length > 0 && (
+              <p>BFS Traversal: {bfsTraversal.join(" -> ")}</p>
+            )}
           </div>
-        )}
-        {graphType === "Adjacency List" && (
-          <div className="adj-list-container">
-            {Object.keys(adjacencyList).map((node) => (
-              <div key={node} className="adj-list-row">
-                <label>{node}: </label>
-                {[...Array(vertices).keys()].map((neighbor) => (
-                  <button key={neighbor} onClick={() => handleAdjacencyListChange(parseInt(node), neighbor)}>
-                    {adjacencyList[node].includes(neighbor) ? "Remove " : "Add "} {neighbor}
-                  </button>
-                ))}
-              </div>
-            ))}
-          </div>
-        )}
-        {graphType === "Edge List" && (
-          <div className="edge-list-container">
-            {[...Array(vertices).keys()].map((from) => (
-              [...Array(vertices).keys()].map((to) => (
-                [...Array(vertices).keys()].map((to) => (
-                  <button key={`${from}-${to}`} onClick={() => handleEdgeListChange(from, to)}>
-                    {edgeList.some((edge) => edge.from === from && edge.to === to)
-                      ? "Remove "
-                      : "Add "}{" "}
-                    {from} &rarr; {to} {/* Use HTML entity for right arrow */}
-                  </button>
-                ))
-
-              ))
-            ))}
-          </div>
-        )}
-        {graphType === "Random Graph Generator" && (
-          <button onClick={generateGraphRepresentation} className="center-button">Generate Graph</button>
-        )}
-        <div className="input-container">
-          <label>Start Node: </label>
-          <input type="number" value={startNode} onChange={(e) => setStartNode(Number(e.target.value))} />
-          <button onClick={runDFS} style={{ marginLeft: "10px" }}>Run DFS</button>
->>>>>>> 23773d9c9664065990767b461d1bdfb6d1b91256
         </div>
       )}
-      <div>
-        {dfsTraversal.length > 0 && (
-          <p>DFS Traversal: {dfsTraversal.join(" -> ")}</p>
-        )}
-        {bfsTraversal.length > 0 && (
-          <p>BFS Traversal: {bfsTraversal.join(" -> ")}</p>
-        )}
-      </div>
     </div>
   );
 };
