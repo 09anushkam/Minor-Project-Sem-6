@@ -9,12 +9,13 @@
 
 .navbar {
   background-color: #ffffff;
-  color: white;
+  color: black;
   width: 100%;
-  /* padding: 10px 0; */
   text-align: center;
   font-size: 24px;
   font-weight: bold;
+  padding: 15px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .simulation-content {
@@ -31,26 +32,76 @@
   text-align: center;
 }
 
-input[type="number"] {
-  width: 50px;
-  text-align: center;
-  margin-left: 5px;
+/* Buttons */
+.graph-button {
+  padding: 30px 40px;
+  margin: 10px;
+  border: none;
+  border-radius: 9px;
+  background-color: #ff9494;
+  color: black;
+  font-size: 18px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s ease-in-out;
 }
 
-/* button {
-  padding: 8px 15px;
-  margin: 5px;
-  border: none;
-  background-color: #4CAF50;
-  color: white;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 5px;
-} */
+.graph-button:hover {
+  background-color: #e76060;
+  transform: scale(1.1);
+}
 
-/* button:hover {
-  background-color: #45a049;
-} */
+/* Graph Container */
+#graph-container {
+  width: 600px;
+  height: 400px;
+  border: 2px solid yellow;
+  border-radius: 10px;
+  margin-top: 20px;
+  background-color: #ffffff;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Vis.js Graph Customizations */
+.vis-network {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+/* Node Animation */
+.vis-node {
+  transition: transform 0.5s ease-in-out, background-color 0.5s ease-in-out;
+}
+
+.vis-node:hover {
+  transform: scale(1.2);
+  background-color: #ffcece !important;
+  box-shadow: 0px 0px 10px rgba(255, 99, 99, 0.8);
+}
+
+/* Edge Animation - Updated for Yellow */
+.vis-edge {
+  transition: stroke-width 0.5s ease-in-out, stroke 0.5s ease-in-out;
+}
+
+.vis-edge:hover {
+  stroke: yellow !important;
+  stroke-width: 3px !important;
+}
+
+/* Inputs */
+input[type="number"], input[type="text"] {
+  margin: 5px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+}
+
+input[type="number"] {
+  width: 60px;
+}
 
 .matrix-container {
   display: flex;
@@ -64,20 +115,13 @@ input[type="number"] {
 }
 
 .matrix-row input {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   text-align: center;
-  margin: 2px;
+  margin: 3px;
 }
 
 .center-button {
   display: block;
   margin: 20px auto;
-}
-
-.graph-container {
-  width: 600px;
-  height: 400px;
-  border: 1px solid black;
-  margin-top: 20px;
 }
