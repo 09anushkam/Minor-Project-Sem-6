@@ -31,7 +31,7 @@ const experiments = [
     },
     {
         no: 2,
-        title: "Ohm's Law",
+        title: "Social Media Data Extraction",
         aim: "Verify Ohm's Law using a simple circuit.",
         theory: "Ohm's Law states that V = IR...",
         procedure: "Step 1: Connect the resistor...",
