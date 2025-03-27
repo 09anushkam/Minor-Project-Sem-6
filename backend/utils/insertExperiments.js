@@ -31,8 +31,8 @@ const experiments = [
     },
     {
         no: 2,
-        title: "Sentiment Analysis",
-        aim: "To implement sentiment analysis on social media platform data and kaggle dataset for any use case. Apply the evaluation metric. ",
+        title: "Social Media Data Extraction",
+        aim: "Verify Ohm's Law using a simple circuit.",
         theory: "Ohm's Law states that V = IR...",
         procedure: "Step 1: Connect the resistor...",
         simulation: "Interactive Ohm's Law simulation...",
