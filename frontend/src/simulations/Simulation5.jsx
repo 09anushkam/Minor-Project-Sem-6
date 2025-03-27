@@ -15,6 +15,7 @@ const GraphVisualizer = () => {
   const [showGraph, setShowGraph] = useState(false);
   const [randomGraphVertices, setRandomGraphVertices] = useState(null);
   const [graph, setGraph] = useState(null);
+  const [dijkstraResult, setDijkstraResult] = useState(null);
 
   useEffect(() => {
     if (showGraph) {
@@ -136,25 +137,26 @@ const GraphVisualizer = () => {
   const drawGraph = () => {
     const container = document.getElementById("graph-container");
     if (!container) return;
-
+  
     const nodes = Array.from({ length: numVertices }, (_, i) => ({
       id: i,
       label: `${i}`,
       color: { background: "#C0C0C0" },
     }));
-
+  
     let edges = [];
-
+  
+    // Place the code block here:
     if (graphType === "AdjacencyMatrix") {
       edges = Object.keys(graphData).flatMap((i) =>
         Object.keys(graphData[i])
           .filter((j) => graphData[i][j] !== "0")
-          .map((j) => ({ from: Number(i), to: Number(j) }))
+          .map((j) => ({ from: Number(i), to: Number(j), label: graphData[i][j] }))
       );
     } else if (graphType === "EdgeList") {
       edges = Object.values(graphData)
         .filter(({ from, to }) => from !== "" && to !== "")
-        .map(({ from, to }) => ({ from: Number(from), to: Number(to) }));
+        .map(({ from, to, weight }) => ({ from: Number(from), to: Number(to), label: weight }));
     } else if (graphType === "AdjacencyList") {
       edges = Object.keys(graphData).flatMap((i) =>
         graphData[i].map((j) => ({ from: Number(i), to: Number(j) }))
@@ -164,7 +166,7 @@ const GraphVisualizer = () => {
         Object.keys(graphData[from]).map((to) => ({ from: Number(from), to: Number(to) }))
       );
     }
-
+  
     const data = { nodes, edges };
     const options = {
       edges: { arrows: "to" },
@@ -172,7 +174,7 @@ const GraphVisualizer = () => {
         zoomView: false,
       },
     };
-
+  
     if (graph) {
       graph.setData(data);
     } else {
@@ -378,6 +380,66 @@ const GraphVisualizer = () => {
     }, traversal.length * 1000);
   };
 
+  const dijkstra = (start) => {
+    if (graphType !== "AdjacencyMatrix") {
+      alert("Dijkstra's algorithm only works with Adjacency Matrix.");
+      return;
+    }
+
+    const numNodes = numVertices;
+    const distances = Array(numNodes).fill(Infinity);
+    const visited = Array(numNodes).fill(false);
+    const previous = Array(numNodes).fill(null);
+
+    distances[start] = 0;
+
+    for (let i = 0; i < numNodes - 1; i++) {
+      let minDistance = Infinity;
+      let minIndex = -1;
+
+      for (let v = 0; v < numNodes; v++) {
+        if (!visited[v] && distances[v] <= minDistance) {
+          minDistance = distances[v];
+          minIndex = v;
+        }
+      }
+
+      if (minIndex === -1) {
+        break;
+      }
+
+      visited[minIndex] = true;
+
+      for (let v = 0; v < numNodes; v++) {
+        if (!visited[v] && graphData[minIndex][v] && distances[minIndex] + Number(graphData[minIndex][v]) < distances[v]) {
+          distances[v] = distances[minIndex] + Number(graphData[minIndex][v]);
+          previous[v] = minIndex;
+        }
+      }
+    }
+
+    let resultDisplay = `Dijkstra's Shortest Paths from Node ${start}:\n`;
+    for (let i = 0; i < numNodes; i++) {
+      resultDisplay += `Node ${i}: Distance = ${distances[i]}`;
+
+      if (previous[i] !== null) {
+        let path = ` Path: ${i}`;
+        let current = previous[i];
+        let pathArray = [i];
+
+        while (current !== null) {
+          pathArray.unshift(current);
+          current = previous[current];
+        }
+
+        path = ` Path: ${pathArray.join(" -> ")}`;
+        resultDisplay += path;
+      }
+      resultDisplay += "\n";
+    }
+    setDijkstraResult(resultDisplay);
+  };
+
   return (
     <div style={{ textAlign: "center" }}>
       <h2>Graph Visualizer</h2>
@@ -448,7 +510,21 @@ const GraphVisualizer = () => {
           </div>
         </div>
       )}
+    {showGraph && graphType === "AdjacencyMatrix" && ( // Only if is Adjacency Matrix
+    <div>
+      <button onClick={() => dijkstra(startNode)} className="graph-button">
+        Run Dijkstra
+      </button>
     </div>
+  )}
+      {dijkstraResult && ( // Add it here!
+      <div>
+        <h3>Dijkstra Results:</h3>
+        <pre>{dijkstraResult}</pre>
+      </div>
+    )}
+    </div>
+
   );
 };
 
