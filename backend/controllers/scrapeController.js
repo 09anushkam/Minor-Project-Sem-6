@@ -51,15 +51,26 @@ module.exports.getTwitterData = async (req, res) => {
     const { query } = req.query;
     const bearerToken = process.env.TWITTER_BEARER_TOKEN;
 
-    const url = `https://api.twitter.com/2/tweets/search/recent?query=${query}&tweet.fields=created_at,author_id&max_results=100`;
+    const url = `https://api.twitter.com/2/tweets/search/recent?query=${query}&tweet.fields=created_at,author_id`;
     const options = {
-        method: 'GET',
+        method: "GET",
         headers: {
             Authorization: `Bearer ${bearerToken}`
         }
     };
 
     try {
+        // Check if the query already exists in the database
+        const existingData = await TwitterData.findOne({ query });
+
+        if (existingData) {
+            console.log(`Data for "${query}" already exists. Skipping storage.`);
+            return res.json({
+                message: `Data for "${query}" already exists.`,
+                data: existingData.tweets
+            });
+        }
+
         const response = await fetch(url, options);
 
         if (!response.ok) {
@@ -74,10 +85,13 @@ module.exports.getTwitterData = async (req, res) => {
             username: tweet.author_id,  // Twitter API v2 does not return the username directly
             created_at: tweet.created_at,
         }));
+
+        // Save the new data only if it doesn't already exist
         const newTwitterData = new TwitterData({ query, tweets });
         await newTwitterData.save();
 
         res.json({ message: "Data saved successfully!", data: tweets });
+
     } catch (error) {
         console.error("Error fetching Twitter data:", error);
         res.status(500).send(error.message);

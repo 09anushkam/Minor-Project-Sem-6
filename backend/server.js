@@ -135,3 +135,4 @@ app.use("/api/experiments", experimentRoutes);
 app.listen(port, () => {
     console.log(`app is listening on port ${port}`);
 });
+console.log("MONGO_URL:", process.env.MONGO_URL);

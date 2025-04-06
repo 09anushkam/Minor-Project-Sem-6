@@ -20,7 +20,7 @@ const Experiment = require('../models/Experiment');
 const experiments = [
     {
         no: 1,
-        title: "Social Media Analysis",
+        title: "Newton's Laws of Motion",
         aim: "Understand Newton's three laws of motion.",
         theory: "Newton’s laws explain the motion of objects...",
         procedure: "Step 1: Set up the experiment...",
@@ -64,7 +64,7 @@ const experiments = [
     },
     {
         no: 5,
-        title: "Graph Traversal",
+        title: "Boyle's Law",
         aim: "Understand the relationship between pressure and volume.",
         theory: "Boyle’s Law states that PV = constant...",
         procedure: "Step 1: Reduce the volume of a gas...",
