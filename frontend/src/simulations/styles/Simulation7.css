@@ -1,0 +1,618 @@
+.simulation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #ffffff;
+    padding-top: 2rem;
+}
+
+/* Main container styling */
+.tf-idf-visualizer {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Title and heading styles */
+.title {
+    color: #ff6b6b;
+    margin: 0 0 2rem 0;
+    font-size: 2.2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.title:hover {
+    transform: scale(1.05);
+}
+
+/* Button styles */
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    margin: 1.5rem 0;
+}
+
+.tf-idf-button {
+    padding: 1.5rem 2.5rem;
+    border: none;
+    border-radius: 12px;
+    background-color: #ff9494;
+    color: black;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 220px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tf-idf-button:hover {
+    background-color: #ff7070;
+    transform: scale(1.08);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tf-idf-button:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Input container styles */
+.input-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 1.5rem auto;
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease;
+}
+
+.input-container:hover {
+    transform: translateY(-5px);
+}
+
+/* Textarea styling */
+.text-input {
+    width: 100%;
+    min-height: 150px;
+    padding: 1rem;
+    border: 2px solid #ffcece;
+    border-radius: 10px;
+    font-size: 1rem;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+}
+
+.text-input:focus {
+    outline: none;
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
+}
+
+/* File upload styling */
+.file-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2.5rem;
+    border: 2px dashed #ffcece;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 800px;
+    margin: 1.5rem auto;
+}
+
+.file-upload:hover {
+    border-color: #ff6b6b;
+    background-color: rgba(255, 206, 206, 0.05);
+}
+
+/* Results table styling */
+.results-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 2rem auto;
+    overflow-x: auto;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+    padding: 1.5rem;
+}
+
+.results-container:hover {
+    transform: translateY(-5px);
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+
+.results-table th,
+.results-table td {
+    padding: 1rem;
+    border: 1px solid #ffcece;
+    transition: background-color 0.2s ease;
+}
+
+.results-table th {
+    background-color: #ff9494;
+    color: black;
+    font-size: 1.1rem;
+    font-weight: normal;
+}
+
+.results-table tr:hover td {
+    background-color: #fff5f5;
+}
+
+/* Animation for table rows */
+.table-row {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Preloaded posts container */
+.preloaded-posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 1000px;
+    margin: 1.5rem auto;
+}
+
+.post-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1.1rem;
+}
+
+.post-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading animation */
+.loading {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 148, 148, 0.3);
+    border-radius: 50%;
+    border-top-color: #ff9494;
+    animation: spin 0.8s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* File input styling */
+.file-input {
+    font-size: 1.1rem;
+    padding: 1rem;
+    border: 2px solid #ffcece;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.file-input::-webkit-file-upload-button {
+    background-color: #ff9494;
+    color: black;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: normal;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 1rem;
+}
+
+.file-input::-webkit-file-upload-button:hover {
+    background-color: #ff7070;
+    transform: scale(1.05);
+}
+
+.file-input:hover {
+    border-color: #ff6b6b;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .tf-idf-button {
+        width: 100%;
+        padding: 1.2rem 2rem;
+        font-size: 1.1rem;
+        height: 60px;
+    }
+
+    .preloaded-posts {
+        grid-template-columns: 1fr;
+    }
+
+    .input-container {
+        padding: 1rem;
+    }
+
+    .title {
+        font-size: 2.2rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* Add these new styles after your existing CSS */
+
+/* Visualization tabs */
+.visualization-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.tab-button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #ff6b6b;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid #ffcece;
+}
+
+.tab-button:hover {
+    background-color: #fff5f5;
+    transform: translateY(-2px);
+}
+
+.tab-button.active {
+    background-color: #ff9494;
+    color: white;
+    border-color: #ff9494;
+}
+
+/* Chart container */
+.chart-container {
+    width: 100%;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin: 1.5rem 0;
+}
+
+.chart-container h3 {
+    color: #ff6b6b;
+    margin-bottom: 2rem;
+    font-size: 1.4rem;
+}
+
+/* Summary container */
+.summary-container {
+    padding: 2rem;
+    background-color: white;
+    border-radius: 15px;
+}
+
+.summary-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.stat-card {
+    background-color: #fff5f5;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card h4 {
+    color: #ff6b6b;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.stat-card p {
+    font-size: 1.8rem;
+    color: #333;
+}
+
+.term-importance {
+    margin-top: 2rem;
+}
+
+.term-importance h4 {
+    color: #ff6b6b;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.term-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.term-chip {
+    background-color: #ff9494;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    color: black;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    min-width: 150px;
+    cursor: pointer;
+}
+
+.term-chip strong {
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.term-chip small {
+    display: block;
+    opacity: 0.8;
+    line-height: 1.4;
+}
+
+.term-chip:hover {
+    transform: scale(1.05);
+    background-color: #ff7070;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .visualization-tabs {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .tab-button {
+        width: 100%;
+    }
+
+    .summary-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .term-chips {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .term-chip {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Animation for chart elements */
+.recharts-bar-rectangle {
+    transition: opacity 0.3s ease;
+}
+
+.recharts-bar-rectangle:hover {
+    opacity: 0.8;
+}
+
+/* Add these new styles for heatmap */
+.heatmap-container {
+    width: 100%;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin: 1.5rem 0;
+    overflow-x: auto;
+}
+
+.heatmap-container h3 {
+    color: #ff6b6b;
+    margin-bottom: 2rem;
+    font-size: 1.4rem;
+    text-align: center;
+}
+
+.heatmap-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+}
+
+.heatmap-grid {
+    display: table;
+    border-collapse: collapse;
+    min-width: 100%;
+}
+
+.heatmap-header, .heatmap-row {
+    display: table-row;
+}
+
+.heatmap-cell {
+    display: table-cell;
+    padding: 0.8rem;
+    text-align: center;
+    min-width: 80px;
+    border: 1px solid #ffcece;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.heatmap-cell.header {
+    background-color: #ff9494;
+    color: black;
+    font-weight: normal;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.heatmap-cell.header.term {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    height: 120px;
+    padding: 0.5rem;
+    white-space: nowrap;
+}
+
+.heatmap-row:hover {
+    background-color: rgba(255, 206, 206, 0.1);
+}
+
+.heatmap-cell:hover:not(.header) {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+    cursor: pointer;
+}
+
+/* Update chart container styles */
+.chart-container {
+    position: relative;
+}
+
+.chart-container .recharts-wrapper {
+    margin: 0 auto;
+}
+
+.chart-container .recharts-surface {
+    overflow: visible;
+}
+
+.chart-container .recharts-xAxis .recharts-text {
+    font-size: 0.9rem;
+}
+
+.chart-container .recharts-tooltip-wrapper {
+    background-color: white !important;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ffcece;
+}
+
+/* Responsive adjustments for heatmap */
+@media (max-width: 768px) {
+    .heatmap-container {
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+
+    .heatmap-cell {
+        padding: 0.5rem;
+        min-width: 60px;
+        font-size: 0.8rem;
+    }
+
+    .heatmap-cell.header.term {
+        height: 100px;
+        padding: 0.3rem;
+    }
+}
+
+/* Add these styles for the custom tooltip */
+.custom-tooltip {
+    background-color: white;
+    border: 1px solid #ffcece;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.custom-tooltip .term {
+    color: #ff6b6b;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #ffcece;
+    padding-bottom: 0.5rem;
+}
+
+.custom-tooltip p {
+    margin: 0.3rem 0;
+    color: #333;
+}
+
+/* Enhance the bar chart appearance */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+    stroke: #ffcece;
+    stroke-opacity: 0.5;
+}
+
+.recharts-xaxis-tick-value {
+    font-size: 0.9rem;
+}
+
+.recharts-yaxis-label {
+    fill: #666;
+    font-size: 0.9rem;
+}
+
+/* Update summary card styles */
+.stat-card small {
+    display: block;
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}

@@ -20,7 +20,7 @@ module.exports.scrapeData = async (req, res) => {
 
     const options = {
         mode: "text",
-        pythonPath: "python3",
+        pythonPath: "python",
         scriptPath: path.join(__dirname, "../python_scripts"),
         args: [url],
     };
