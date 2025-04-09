@@ -2,9 +2,11 @@
 import pandas as pd
 import sys
 import os
-from textblob import TextBlob
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import json
+from textblob import TextBlob
+from sklearn.metrics import (
+    accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+)
 
 def analyze_sentiment(text):
     polarity = TextBlob(str(text)).sentiment.polarity
@@ -27,41 +29,39 @@ def main():
         print(f"Error reading CSV: {e}")
         sys.exit(1)
 
-    if 'Text' not in df.columns:
-        print("CSV must have a 'Text' column")
+    if 'text' not in df.columns:
+        print("CSV must have a 'text' column")
         sys.exit(1)
 
-    df['predicted_sentiment'] = df['Text'].apply(analyze_sentiment)
+    df['predicted_sentiment'] = df['text'].apply(analyze_sentiment)
 
-    # Check for ground truth column 'label' for evaluation
     metrics = {}
     if 'label' in df.columns:
         y_true = df['label']
         y_pred = df['predicted_sentiment']
         try:
-            metrics = {
-                'accuracy': accuracy_score(y_true, y_pred),
-                'precision': precision_score(y_true, y_pred, average='macro', zero_division=0),
-                'recall': recall_score(y_true, y_pred, average='macro', zero_division=0),
-                'f1': f1_score(y_true, y_pred, average='macro', zero_division=0),
+            accuracy = accuracy_score(y_true, y_pred)
+            precision = precision_score(y_true, y_pred, average='macro', zero_division=0)
+            recall = recall_score(y_true, y_pred, average='macro', zero_division=0)
+            f1 = f1_score(y_true, y_pred, average='macro', zero_division=0)
+
+            labels = ['positive', 'neutral', 'negative']
+            cm = confusion_matrix(y_true, y_pred, labels=labels)
+            cm_dict = {
+                actual: {pred: int(cm[i][j]) for j, pred in enumerate(labels)}
+                for i, actual in enumerate(labels)
             }
+
+            metrics = {
+                'accuracy': accuracy,
+                'precision': precision,
+                'recall': recall,
+                'f1': f1,
+                'confusion_matrix': cm_dict
+            }
+
         except Exception as e:
             print(f"Error calculating metrics: {e}")
-
-    # # Save the results in the same directory as input
-    # output_dir = os.path.dirname(input_csv)
-    # # output_csv = os.path.join(output_dir, 'output_sentiment.csv')
-    # output_csv = 'uploads/output_sentiment.csv'
-    # os.makedirs(os.path.dirname(output_csv), exist_ok=True)
-
-    # try:
-    #     df.to_csv(output_csv, index=False)
-    # except Exception as e:
-    #     print(f"Error saving output CSV: {e}")
-    #     sys.exit(1)
-
-    # # Print results (stdout will be captured by Node)
-    # print(json.dumps({"metrics": metrics, "output_csv": output_csv}))
 
     output_folder = 'backend/uploads'
     os.makedirs(output_folder, exist_ok=True)
@@ -70,8 +70,16 @@ def main():
     output_csv = os.path.join(output_folder, output_filename)
     df.to_csv(output_csv, index=False)
 
-    # Output relative web path for frontend to access
-    print(json.dumps({"metrics": metrics, "output_csv": f"uploads/{output_filename}"}))
+    response = {
+        "sentiments": df['predicted_sentiment'].tolist(),
+        "cleaned_texts": df['text'].astype(str).tolist(),
+        "output_csv": f"uploads/{output_filename}"
+    }
+
+    if metrics:
+        response["metrics"] = metrics
+
+    print(json.dumps(response))
 
 if __name__ == '__main__':
     main()
