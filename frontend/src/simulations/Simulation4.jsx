@@ -230,6 +230,238 @@ const sampleGeoData = [
   { location: 'Oceania', count: 40 }
 ];
 
+import React, { useState, useEffect } from 'react';
+import './styles/Simulation4.css';
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  ScatterChart, Scatter, ZAxis, ResponsiveContainer,
+  LineChart, Line, AreaChart, Area,
+  PieChart, Pie, Cell
+} from 'recharts';
+import { PDFDownloadLink, Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
+
+// Register fonts
+Font.register({
+  family: 'Roboto',
+  fonts: [
+    { src: 'https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxK.ttf' },
+    { src: 'https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fBBc4.ttf', fontWeight: 'bold' }
+  ]
+});
+
+// PDF Styles
+const styles = StyleSheet.create({
+  page: {
+    padding: 40,
+    fontFamily: 'Roboto'
+  },
+  header: {
+    marginBottom: 20,
+    paddingBottom: 10,
+    borderBottom: '1pt solid #FF6B6B'
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 10,
+    color: '#FF6B6B',
+    fontWeight: 'bold'
+  },
+  subtitle: {
+    fontSize: 16,
+    marginBottom: 5,
+    color: '#666'
+  },
+  section: {
+    marginBottom: 20
+  },
+  sectionTitle: {
+    fontSize: 18,
+    marginBottom: 10,
+    color: '#FF6B6B',
+    fontWeight: 'bold'
+  },
+  text: {
+    fontSize: 12,
+    marginBottom: 5,
+    lineHeight: 1.5
+  },
+  table: {
+    display: 'table',
+    width: 'auto',
+    marginBottom: 10
+  },
+  tableRow: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: '#FF6B6B',
+    borderBottomStyle: 'solid',
+    padding: 5
+  },
+  tableHeader: {
+    backgroundColor: '#FFF5F5',
+    fontWeight: 'bold'
+  },
+  tableCell: {
+    flex: 1,
+    fontSize: 10,
+    padding: 5
+  },
+  chartContainer: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: '#FFF5F5',
+    borderRadius: 5
+  }
+});
+
+// PDF Report Component
+const ReportPDF = ({ data }) => (
+  <Document>
+    <Page size="A4" style={styles.page}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Topic Modeling Analysis Report</Text>
+        <Text style={styles.subtitle}>Generated on: {new Date().toLocaleDateString()}</Text>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Dataset Information</Text>
+        <Text style={styles.text}>Dataset Name: {data.datasetName}</Text>
+        <Text style={styles.text}>Number of Records: {data.records}</Text>
+        <Text style={styles.text}>Analysis Model: {data.model}</Text>
+        <Text style={styles.text}>Number of Topics: {data.numTopics}</Text>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Topic Distribution</Text>
+        <View style={styles.table}>
+          <View style={[styles.tableRow, styles.tableHeader]}>
+            <Text style={styles.tableCell}>Topic</Text>
+            <Text style={styles.tableCell}>Distribution (%)</Text>
+            <Text style={styles.tableCell}>Key Words</Text>
+          </View>
+          {data.topics.map((topic, index) => (
+            <View key={index} style={styles.tableRow}>
+              <Text style={styles.tableCell}>Topic {index + 1}</Text>
+              <Text style={styles.tableCell}>{((topic.value / data.topics.reduce((sum, t) => sum + t.value, 0)) * 100).toFixed(1)}%</Text>
+              <Text style={styles.tableCell}>{topic.words.join(', ')}</Text>
+            </View>
+          ))}
+        </View>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Geographic Distribution</Text>
+        <View style={styles.table}>
+          <View style={[styles.tableRow, styles.tableHeader]}>
+            <Text style={styles.tableCell}>Region</Text>
+            <Text style={styles.tableCell}>Number of Posts</Text>
+            <Text style={styles.tableCell}>Percentage</Text>
+          </View>
+          {data.geoData.map((region, index) => (
+            <View key={index} style={styles.tableRow}>
+              <Text style={styles.tableCell}>{region.location}</Text>
+              <Text style={styles.tableCell}>{region.count}</Text>
+              <Text style={styles.tableCell}>
+                {((region.count / data.geoData.reduce((sum, r) => sum + r.count, 0)) * 100).toFixed(1)}%
+              </Text>
+            </View>
+          ))}
+        </View>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Analysis Summary</Text>
+        <Text style={styles.text}>
+          Classification Accuracy: {data.accuracy}%
+          {'\n\n'}
+          The analysis shows that the {data.model} model performed well in identifying {data.numTopics} distinct topics
+          in the {data.datasetName} dataset. The geographic distribution indicates a global reach of the content,
+          with significant contributions from multiple regions.
+        </Text>
+      </View>
+    </Page>
+  </Document>
+);
+
+// Simple WordCloud component
+const SimpleWordCloud = ({ words }) => {
+  return (
+    <div className="word-cloud-container">
+      {words.map((word, index) => (
+        <span
+          key={index}
+          className="word-cloud-word"
+          style={{
+            fontSize: `${word.value}px`,
+            opacity: Math.min(1, word.value / 100),
+            transform: `rotate(${Math.random() * 30 - 15}deg)`,
+            display: 'inline-block',
+            margin: '5px',
+            padding: '5px',
+            color: `hsl(${Math.random() * 360}, 70%, 50%)`
+          }}
+        >
+          {word.text}
+        </span>
+      ))}
+    </div>
+  );
+};
+
+// Sample data for visualizations
+const sampleFeatureData = [
+  { feature: 'Feature 1', importance: 0.8 },
+  { feature: 'Feature 2', importance: 0.6 },
+  { feature: 'Feature 3', importance: 0.4 },
+  { feature: 'Feature 4', importance: 0.3 },
+  { feature: 'Feature 5', importance: 0.2 }
+];
+
+const samplePCAData = Array.from({ length: 50 }, (_, i) => ({
+  x: Math.random() * 10 - 5,
+  y: Math.random() * 10 - 5,
+  z: Math.random() * 100
+}));
+
+const sampleTopicData = [
+  { name: 'Topic 1', value: 30 },
+  { name: 'Topic 2', value: 25 },
+  { name: 'Topic 3', value: 20 },
+  { name: 'Topic 4', value: 15 },
+  { name: 'Topic 5', value: 10 }
+];
+
+const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEEAD'];
+
+const sampleTimelineData = [
+  { date: '2023-01', Topic1: 30, Topic2: 25, Topic3: 20 },
+  { date: '2023-02', Topic1: 35, Topic2: 28, Topic3: 22 },
+  { date: '2023-03', Topic1: 40, Topic2: 30, Topic3: 25 },
+  { date: '2023-04', Topic1: 45, Topic2: 32, Topic3: 28 },
+  { date: '2023-05', Topic1: 50, Topic2: 35, Topic3: 30 }
+];
+
+const sampleConfusionMatrix = [
+  { actual: 'Class 1', predicted: 'Class 1', value: 50 },
+  { actual: 'Class 1', predicted: 'Class 2', value: 10 },
+  { actual: 'Class 1', predicted: 'Class 3', value: 5 },
+  { actual: 'Class 2', predicted: 'Class 1', value: 8 },
+  { actual: 'Class 2', predicted: 'Class 2', value: 45 },
+  { actual: 'Class 2', predicted: 'Class 3', value: 7 },
+  { actual: 'Class 3', predicted: 'Class 1', value: 6 },
+  { actual: 'Class 3', predicted: 'Class 2', value: 9 },
+  { actual: 'Class 3', predicted: 'Class 3', value: 40 }
+];
+
+const sampleGeoData = [
+  { location: 'North America', count: 150 },
+  { location: 'Europe', count: 120 },
+  { location: 'Asia', count: 200 },
+  { location: 'South America', count: 80 },
+  { location: 'Africa', count: 60 },
+  { location: 'Oceania', count: 40 }
+];
+
 const Simulation4 = () => {
   // State management
   const [currentPhase, setCurrentPhase] = useState(1);

@@ -1,0 +1,21 @@
+ID,text,label,predicted_sentiment
+1,I love this product!,positive,positive
+2,The food was absolutely amazing.,positive,positive
+3,I’m so happy with my experience.,positive,positive
+4,Great customer service and fast delivery.,positive,positive
+5,"Everything was perfect, thank you!",positive,positive
+6,"The event was okay, nothing special.",neutral,positive
+7,It works as expected.,neutral,negative
+8,"Not bad, just average overall.",neutral,positive
+9,"It's fine, but I’ve seen better.",neutral,positive
+10,Delivery was on time.,neutral,neutral
+11,I hate this app.,negative,negative
+12,"Terrible experience, never again.",negative,negative
+13,Worst purchase I’ve ever made.,negative,negative
+14,Very disappointed with the service.,negative,negative
+15,It kept crashing and wasting my time.,negative,neutral
+16,Absolutely thrilled with the outcome!,positive,positive
+17,Service was mediocre.,neutral,negative
+18,The quality exceeded my expectations.,positive,neutral
+19,The staff was rude and unhelpful.,negative,negative
+20,I’ll recommend this to everyone!,positive,neutral

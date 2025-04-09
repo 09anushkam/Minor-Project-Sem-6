@@ -247,6 +247,254 @@
 
 .right-column {
   flex: 0 0 65%;
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.simulation-container h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+}
+
+.controls {
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.graph-type-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.graph-button {
+  padding: 12px 24px;
+  background-color: #ffb6c1;  /* Light pink */
+  color: #333;  /* Darker text for better contrast */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.graph-button:hover {
+  background-color: #ff99a3;  /* Slightly darker pink on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 182, 193, 0.4);
+}
+
+.graph-button.active {
+  background-color: #ff8095;  /* Even darker pink when active */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(1px);
+}
+
+.input-section {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.vertex-input {
+  padding: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 200px;
+  text-align: center;
+  transition: border-color 0.3s ease;
+}
+
+.vertex-input:focus {
+  border-color: #ffb6c1;
+  outline: none;
+}
+
+.matrix-instructions {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  color: #2c3e50;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  border: 1px solid #e0e0e0;
+}
+
+.matrix-input {
+  max-width: 800px;
+  margin: 20px auto;
+  overflow-x: auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.matrix-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.matrix-input-cell {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.matrix-input-cell:not(:disabled):hover {
+  border-color: #ffb6c1;
+  transform: scale(1.05);
+}
+
+.matrix-input-cell:focus {
+  border-color: #ffb6c1;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 182, 193, 0.2);
+}
+
+.matrix-input-cell.diagonal {
+  background-color: #f8f9fa;
+  border: 1px dashed #e0e0e0;
+  color: #999;
+}
+
+/* Add visual feedback for valid/invalid values */
+.matrix-input-cell:not(.diagonal):valid {
+  background-color: #f0f9f0;
+}
+
+.matrix-input-cell:not(.diagonal):invalid {
+  background-color: #fff0f0;
+}
+
+/* Make the matrix more compact on smaller screens */
+@media (max-width: 768px) {
+  .matrix-input-cell {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
+  }
+  
+  .matrix-row {
+    gap: 4px;
+  }
+}
+
+.generate-section {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.graph-container {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px 0;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.graph-container svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.analysis-controls {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.results-container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 25px;
+  margin: 20px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.centrality-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.centrality-table th,
+.centrality-table td {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.centrality-table th {
+  background-color: #ffebee;
+  font-weight: 600;
+}
+
+.centrality-table tr:hover {
+  background-color: #f0f4f1;
+}
+
+.centrality-table tr.influencer {
+  background-color: #ffebee;
+  border-left: 4px solid #ff4444;
+}
+
+@media (max-width: 768px) {
+  .graph-type-buttons {
+    flex-direction: column;
+  }
+  
+  .matrix-input {
+    max-width: 100%;
+  }
+}
+
+/* Two-column layout */
+.simulation-layout {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.left-column {
+  flex: 0 0 35%;
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.right-column {
+  flex: 0 0 65%;
   display: flex;
   flex-direction: column;
   gap: 20px;

@@ -51,7 +51,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride("_method"));
 
-// Session configuration
+app.use('/uploads', express.static(path.join(__dirname, 'backend/uploads')));
+app.get('/test-download', (req, res) => {
+    res.send(`<a href="/uploads/output_sentiment.csv" download>Download CSV</a>`);
+});
+
 const store = MongoStore.create({
     mongoUrl: MONGO_URL,
     crypto: {

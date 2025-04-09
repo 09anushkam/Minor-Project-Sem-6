@@ -24,7 +24,7 @@ const experiments = [
         no: 1,
         title: "Newton's Laws of Motion",
         aim: "Understand Newton's three laws of motion.",
-        theory: "Newton's laws explain the motion of objects...",
+        theory: "Newton’s laws explain the motion of objects...",
         procedure: "Step 1: Set up the experiment...",
         simulation: "Interactive simulation link here...",
         quiz: "Q1: What is Newton's first law?",
@@ -78,6 +78,7 @@ const experiments = [
     {
         no: 6,
         title: "Social Network Analysis",
+        title: "Social Network Analysis",
         aim: "Explore electromagnetic induction.",
         theory: "A changing magnetic field induces a current...",
         procedure: "Step 1: Move a magnet near a coil...",
@@ -89,6 +90,7 @@ const experiments = [
     {
         no: 7,
         title: "TF-IDF",
+        title: "TF-IDF",
         aim: "Study the relationship between force and extension in springs.",
         theory: "Hooke's Law states that F = kx...",
         procedure: "Step 1: Attach weights to the spring...",
@@ -99,6 +101,7 @@ const experiments = [
     },
     {
         no: 8,
+        title: "Analyze Structure of Social Media Data",
         title: "Analyze Structure of Social Media Data",
         aim: "Understand the relationship between pressure and velocity in fluids.",
         theory: "Bernoulli's Principle explains fluid motion...",
