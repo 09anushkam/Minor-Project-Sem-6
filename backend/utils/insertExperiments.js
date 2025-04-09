@@ -20,8 +20,8 @@ const Experiment = require('../models/Experiment');
 const experiments = [
     {
         no: 1,
-        title: "Data Acquisition",
-        aim: "To acquire social media data through various methods as mentioned below and analyse the results. 1. Beautiful Soup 2. Request 3. API 4. Scrapy Tool",
+        title: "Newton's Laws of Motion",
+        aim: "Understand Newton's three laws of motion.",
         theory: "Newton’s laws explain the motion of objects...",
         procedure: "Step 1: Set up the experiment...",
         simulation: "Interactive simulation link here...",
@@ -42,7 +42,7 @@ const experiments = [
     },
     {
         no: 3,
-        title: "Archimedes' Principle",
+        title: "Sentiment Analysis on User Data",
         aim: "Study the buoyant force on an object in a fluid.",
         theory: "Archimedes' Principle explains why objects float...",
         procedure: "Step 1: Submerge the object...",
@@ -53,7 +53,7 @@ const experiments = [
     },
     {
         no: 4,
-        title: "Laws of Reflection",
+        title: "Social Media Topic Modeling",
         aim: "Understand how light reflects from surfaces.",
         theory: "The angle of incidence equals the angle of reflection...",
         procedure: "Step 1: Place a mirror at an angle...",
@@ -64,8 +64,8 @@ const experiments = [
     },
     {
         no: 5,
-        title: "Graph Traversal",
-        aim: "To demonstrate graph traversal algorithms using a virtual lab.",
+        title: "Boyle's Law",
+        aim: "Understand the relationship between pressure and volume.",
         theory: "Boyle’s Law states that PV = constant...",
         procedure: "Step 1: Reduce the volume of a gas...",
         simulation: "Gas law simulation...",
@@ -75,7 +75,7 @@ const experiments = [
     },
     {
         no: 6,
-        title: "Faraday's Law of Electromagnetic Induction",
+        title: "Social Network Analysis",
         aim: "Explore electromagnetic induction.",
         theory: "A changing magnetic field induces a current...",
         procedure: "Step 1: Move a magnet near a coil...",
@@ -86,7 +86,7 @@ const experiments = [
     },
     {
         no: 7,
-        title: "Hooke's Law",
+        title: "TF-IDF",
         aim: "Study the relationship between force and extension in springs.",
         theory: "Hooke’s Law states that F = kx...",
         procedure: "Step 1: Attach weights to the spring...",
@@ -97,7 +97,7 @@ const experiments = [
     },
     {
         no: 8,
-        title: "Bernoulli's Principle",
+        title: "Analyze Structure of Social Media Data",
         aim: "Understand the relationship between pressure and velocity in fluids.",
         theory: "Bernoulli’s Principle explains fluid motion...",
         procedure: "Step 1: Observe fluid flow in a pipe...",
