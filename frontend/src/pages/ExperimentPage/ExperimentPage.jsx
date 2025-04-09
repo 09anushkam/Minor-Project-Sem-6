@@ -4,6 +4,7 @@ import axios from "axios";
 import "./ExperimentPage.css";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import FeedbackForm from "../../components/Feedback/FeedbackForm";
 
 const ExperimentPage = () => {
     const { no } = useParams();
@@ -21,7 +22,20 @@ const ExperimentPage = () => {
     }
 
     const SimulationComponent = lazy(() => import(`../../simulations/Simulation${no}.jsx`));
-    // const QuizComponent = lazy(() => import(`../../components/Quiz${no}`));
+    const QuizComponent = lazy(() => import(`../../components/Quiz/Quiz${no}.jsx`));
+
+    const renderContent = () => {
+        switch (selectedSection) {
+            case "Simulation":
+                return <SimulationComponent />;
+            case "Quiz":
+                return <QuizComponent />;
+            case "Feedback":
+                return <FeedbackForm experimentNo={parseInt(no)} />;
+            default:
+                return <p>{experiment[selectedSection.toLowerCase()]}</p>;
+        }
+    };
 
     return (
         <>
@@ -43,14 +57,7 @@ const ExperimentPage = () => {
 
                 <div className="exp-content">
                     <Suspense fallback={<div>Loading...</div>}>
-                        {selectedSection === "Simulation" ? (
-                            <SimulationComponent />
-                        ) : selectedSection === "Quiz" ? (
-                            // <QuizComponent />
-                            <></>
-                        ) : (
-                            <p>{experiment[selectedSection.toLowerCase()]}</p>
-                        )}
+                        {renderContent()}
                     </Suspense>
                 </div>
             </div>

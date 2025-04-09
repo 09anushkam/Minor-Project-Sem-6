@@ -25,6 +25,8 @@ const { twitterCallback } = require('./controllers/auth');
 const authRouter = require('./routes/auth');
 const scrapeRoutes = require("./routes/scrapeRoutes");
 const experimentRoutes = require("./routes/Experiment");
+const feedbackRoutes = require('./routes/feedback');
+const quizScoreRoutes = require('./routes/quizScore');
 
 const MONGO_URL = process.env.ATLAS_DB;
 
@@ -38,12 +40,18 @@ async function main() {
     await mongoose.connect(MONGO_URL);
 }
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+// Middleware
+app.use(cors({ 
+    origin: 'http://localhost:5173', 
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+}));
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride("_method"));
 
+// Session configuration
 const store = MongoStore.create({
     mongoUrl: MONGO_URL,
     crypto: {
@@ -52,7 +60,7 @@ const store = MongoStore.create({
     touchAfter: 24 * 3600,
 });
 
-store.on("error", () => {
+store.on("error", (err) => {
     console.log("ERROR in MONGO SESSION STORE", err);
 });
 
@@ -65,34 +73,38 @@ const sessionOptions = {
         expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax'
     }
 };
 
+// Session and Passport
 app.use(session(sessionOptions));
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(
-    new LocalStrategy(
-        { usernameField: 'email' },
-        async (email, password, done) => {
-            try {
-                const user = await User.findOne({ email });
-                if (!user) {
-                    return done(null, false, { message: 'User not found.' });
-                }
 
-                const isMatch = await bcrypt.compare(password, user.password);
-                if (!isMatch) {
-                    return done(null, false, { message: 'Incorrect password.' });
-                }
-
-                return done(null, user);
-            } catch (err) {
-                return done(err);
+// Passport configuration
+passport.use(new LocalStrategy(
+    { usernameField: 'email' },
+    async (email, password, done) => {
+        try {
+            const user = await User.findOne({ email });
+            if (!user) {
+                return done(null, false, { message: 'User not found.' });
             }
+
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                return done(null, false, { message: 'Incorrect password.' });
+            }
+
+            return done(null, user);
+        } catch (err) {
+            return done(err);
         }
-    )
-);
+    }
+));
+
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -129,10 +141,30 @@ app.use((req, res, next) => {
 
 // app.use('/', homeRouter);
 app.use('/auth', authRouter);
-app.use("/api/scrape", scrapeRoutes);
-app.use("/api/experiments", experimentRoutes);
+app.use('/api/scrape', scrapeRoutes);
+app.use('/api/experiments', experimentRoutes);
+app.use('/api', feedbackRoutes);
+app.use('/api', quizScoreRoutes);
+
+// Debug middleware to log all requests
+app.use((req, res, next) => {
+    console.log('Incoming request:', req.method, req.path);
+    next();
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error('Error:', err);
+    res.status(500).json({ message: 'Something broke!', error: err.message });
+});
+
+// 404 handler
+app.use((req, res) => {
+    console.log('404 Not Found:', req.method, req.path);
+    res.status(404).json({ message: 'Route not found' });
+});
 
 app.listen(port, () => {
     console.log(`app is listening on port ${port}`);
 });
-console.log("MONGO_URL:", process.env.MONGO_URL);
+console.log("MONGO_URL:", process.env.ATLAS_DB);

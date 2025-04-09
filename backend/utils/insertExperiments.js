@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
-require('dotenv').config({ path: '../.env' });
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 // Connect to MongoDB
-const MONGO_URL = process.env.ATLAS_DB;
+const MONGO_URL = process.env.ATLAS_DB || 'mongodb://127.0.0.1:27017/SMA';
 
 main()
     .then((res) => {
@@ -11,6 +12,7 @@ main()
     .catch(err => console.log(err));
 
 async function main() {
+    console.log("Connecting to MongoDB at:", MONGO_URL);
     await mongoose.connect(MONGO_URL);
 }
 
@@ -20,12 +22,12 @@ const Experiment = require('../models/Experiment');
 const experiments = [
     {
         no: 1,
-        title: "Data Acquisition",
-        aim: "To acquire social media data through various methods as mentioned below and analyse the results. 1. Beautiful Soup 2. Request 3. API 4. Scrapy Tool",
-        theory: "Newton’s laws explain the motion of objects...",
+        title: "Newton's Laws of Motion",
+        aim: "Understand Newton's three laws of motion.",
+        theory: "Newton's laws explain the motion of objects...",
         procedure: "Step 1: Set up the experiment...",
         simulation: "Interactive simulation link here...",
-        quiz: "Q1: What is Newton’s first law?",
+        quiz: "Q1: What is Newton's first law?",
         references: "1. Physics Book by XYZ...",
         feedback: "Your feedback is valuable."
     },
@@ -42,7 +44,7 @@ const experiments = [
     },
     {
         no: 3,
-        title: "Archimedes' Principle",
+        title: "Sentiment Analysis on User Data",
         aim: "Study the buoyant force on an object in a fluid.",
         theory: "Archimedes' Principle explains why objects float...",
         procedure: "Step 1: Submerge the object...",
@@ -53,7 +55,7 @@ const experiments = [
     },
     {
         no: 4,
-        title: "Laws of Reflection",
+        title: "Social Media Topic Modeling",
         aim: "Understand how light reflects from surfaces.",
         theory: "The angle of incidence equals the angle of reflection...",
         procedure: "Step 1: Place a mirror at an angle...",
@@ -65,44 +67,44 @@ const experiments = [
     {
         no: 5,
         title: "Graph Traversal",
-        aim: "To demonstrate graph traversal algorithms using a virtual lab.",
-        theory: "Boyle’s Law states that PV = constant...",
+        aim: "Understand the relationship between pressure and volume.",
+        theory: "Boyle's Law states that PV = constant...",
         procedure: "Step 1: Reduce the volume of a gas...",
         simulation: "Gas law simulation...",
-        quiz: "Q1: What is Boyle’s Law?",
+        quiz: "Q1: What is Boyle's Law?",
         references: "1. Thermodynamics by XYZ...",
         feedback: "Your feedback is valuable."
     },
     {
         no: 6,
-        title: "Faraday's Law of Electromagnetic Induction",
+        title: "Social Network Analysis",
         aim: "Explore electromagnetic induction.",
         theory: "A changing magnetic field induces a current...",
         procedure: "Step 1: Move a magnet near a coil...",
         simulation: "Electromagnetic induction simulation...",
-        quiz: "Q1: What is Faraday’s Law?",
+        quiz: "Q1: What is Faraday's Law?",
         references: "1. Electromagnetism by XYZ...",
         feedback: "Your feedback is valuable."
     },
     {
         no: 7,
-        title: "Hooke's Law",
+        title: "TF-IDF",
         aim: "Study the relationship between force and extension in springs.",
-        theory: "Hooke’s Law states that F = kx...",
+        theory: "Hooke's Law states that F = kx...",
         procedure: "Step 1: Attach weights to the spring...",
         simulation: "Spring elasticity simulation...",
-        quiz: "Q1: What is Hooke’s Law?",
+        quiz: "Q1: What is Hooke's Law?",
         references: "1. Mechanics by ABC...",
         feedback: "Your feedback is valuable."
     },
     {
         no: 8,
-        title: "Bernoulli's Principle",
+        title: "Analyze Structure of Social Media Data",
         aim: "Understand the relationship between pressure and velocity in fluids.",
-        theory: "Bernoulli’s Principle explains fluid motion...",
+        theory: "Bernoulli's Principle explains fluid motion...",
         procedure: "Step 1: Observe fluid flow in a pipe...",
         simulation: "Bernoulli simulation...",
-        quiz: "Q1: What does Bernoulli’s Principle state?",
+        quiz: "Q1: What does Bernoulli's Principle state?",
         references: "1. Fluid Dynamics by XYZ...",
         feedback: "Your feedback is valuable."
     }

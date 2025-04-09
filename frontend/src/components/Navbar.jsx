@@ -33,6 +33,7 @@ const Navbar = () => {
                         <li><a href="/" onClick={() => setIsOpen(false)}>Home</a></li>
                         <li><a href="/about" onClick={() => setIsOpen(false)}>About</a></li>
                         {user && <li><a href="/exp" onClick={() => setIsOpen(false)}>Experiments</a></li>}
+                        {user && <li><a href="/quiz-history" onClick={() => setIsOpen(false)}>Quiz History</a></li>}
                         {!user ? (
                             <li><a href="/login" className="btns" onClick={() => setIsOpen(false)}>Login</a></li>
                         ) : (

@@ -1,10 +1,359 @@
 .simulation-container {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.simulation-container h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+}
+
+.controls {
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.graph-type-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.graph-button {
+  padding: 12px 24px;
+  background-color: #ffb6c1;  /* Light pink */
+  color: #333;  /* Darker text for better contrast */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.graph-button:hover {
+  background-color: #ff99a3;  /* Slightly darker pink on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 182, 193, 0.4);
+}
+
+.graph-button.active {
+  background-color: #ff8095;  /* Even darker pink when active */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(1px);
+}
+
+.input-section {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.vertex-input {
+  padding: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 200px;
+  text-align: center;
+  transition: border-color 0.3s ease;
+}
+
+.vertex-input:focus {
+  border-color: #ffb6c1;
+  outline: none;
+}
+
+.matrix-instructions {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  color: #2c3e50;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  border: 1px solid #e0e0e0;
+}
+
+.matrix-input {
+  max-width: 800px;
+  margin: 20px auto;
+  overflow-x: auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.matrix-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.matrix-input-cell {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.matrix-input-cell:not(:disabled):hover {
+  border-color: #ffb6c1;
+  transform: scale(1.05);
+}
+
+.matrix-input-cell:focus {
+  border-color: #ffb6c1;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 182, 193, 0.2);
+}
+
+.matrix-input-cell.diagonal {
+  background-color: #f8f9fa;
+  border: 1px dashed #e0e0e0;
+  color: #999;
+}
+
+/* Add visual feedback for valid/invalid values */
+.matrix-input-cell:not(.diagonal):valid {
+  background-color: #f0f9f0;
+}
+
+.matrix-input-cell:not(.diagonal):invalid {
+  background-color: #fff0f0;
+}
+
+/* Make the matrix more compact on smaller screens */
+@media (max-width: 768px) {
+  .matrix-input-cell {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
+  }
+  
+  .matrix-row {
+    gap: 4px;
+  }
+}
+
+.generate-section {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.graph-container {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px 0;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.graph-container svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.analysis-controls {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.results-container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 25px;
+  margin: 20px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.centrality-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.centrality-table th,
+.centrality-table td {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.centrality-table th {
+  background-color: #ffebee;
+  font-weight: 600;
+}
+
+.centrality-table tr:hover {
+  background-color: #f0f4f1;
+}
+
+.centrality-table tr.influencer {
+  background-color: #ffebee;
+  border-left: 4px solid #ff4444;
+}
+
+@media (max-width: 768px) {
+  .graph-type-buttons {
+    flex-direction: column;
+  }
+  
+  .matrix-input {
+    max-width: 100%;
+  }
+}
+
+/* Two-column layout */
+.simulation-layout {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.left-column {
+  flex: 0 0 35%;
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.right-column {
+  flex: 0 0 65%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  gap: 20px;
+}
+
+/* Adjust results container */
+.results-container h3 {
+  color: #2c3e50;
   text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  font-weight: 600;
+}
+
+/* Centrality Table Styles */
+.centrality-table {
   width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.centrality-table th,
+.centrality-table td {
+  padding: 15px;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+}
+
+.centrality-table th {
+  background-color: #ffb6c1;
+  color: #333;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+}
+
+.centrality-table tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.centrality-table tr {
+  transition: background-color 0.3s ease;
+}
+
+.centrality-table tr:hover {
+  background-color: #f0f4f1;
+}
+
+/* Restore influencer specific styles */
+.centrality-table tr.influencer {
+  background-color: #ffebee;
+  font-weight: 500;
+}
+
+.centrality-table tr.influencer td {
+  border-left: 4px solid #ff4444;
+}
+
+.centrality-table tr.influencer:hover {
+  background-color: #ffcdd2;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .simulation-container {
+    padding: 15px;
+  }
+
+  .graph-type-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .graph-button {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .matrix-input {
+    overflow-x: auto;
+  }
+
+  .centrality-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .vertex-input {
+    width: 80%;
+    max-width: 300px;
+  }
+
+  .graph-container {
+    width: 95%;
+    padding: 5px;
+  }
+
+  .graph-container svg {
+    height: 400px !important;
+  }
 }
 
 .navbar {
@@ -30,24 +379,6 @@
 .input-container {
   margin-bottom: 15px;
   text-align: center;
-}
-
-/* Buttons */
-.graph-button {
-  padding: 30px 40px;
-  margin: 10px;
-  border: none;
-  border-radius: 9px;
-  background-color: #ff9494;
-  color: black;
-  font-size: 18px;
-  cursor: pointer;
-  transition: transform 0.2s, background-color 0.2s ease-in-out;
-}
-
-.graph-button:hover {
-  background-color: #e76060;
-  transform: scale(1.1);
 }
 
 /* Graph Container */
@@ -109,19 +440,118 @@ input[type="number"] {
   align-items: center;
 }
 
-.matrix-row {
-  display: flex;
-  justify-content: center;
-}
-
-.matrix-row input {
-  width: 35px;
-  height: 35px;
-  text-align: center;
-  margin: 3px;
-}
-
 .center-button {
   display: block;
   margin: 20px auto;
+}
+
+.graph-input-section {
+  margin-bottom: 25px;
+}
+
+.graph-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+  width: 100%;
+}
+
+.graph-section h3 {
+  margin-bottom: 10px;
+}
+
+/* Animation for the graph container */
+.graph-container {
+  transition: transform 0.3s ease;
+}
+
+.graph-container:hover {
+  transform: scale(1.01);
+}
+
+/* Smooth transitions for all interactive elements */
+.simulation-container * {
+  transition: all 0.3s ease;
+}
+
+/* Loading state for buttons */
+.graph-button:active {
+  transform: scale(0.98);
+}
+
+/* Additional responsive styles */
+@media (max-width: 480px) {
+  .simulation-container h2 {
+    font-size: 1.8em;
+  }
+
+  .graph-section h3,
+  .results-container h3 {
+    font-size: 1.5em;
+  }
+
+  .vertex-input {
+    width: 150px;
+  }
+}
+
+/* Add smooth transitions for nodes and links */
+.graph-container circle,
+.graph-container line {
+  transition: all 0.3s ease;
+}
+
+/* Add subtle shadow effect to nodes */
+.graph-container circle {
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1));
+}
+
+.summary-section {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.summary-item {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    border-left: 4px solid #ff4444;
+}
+
+.summary-item h4 {
+    color: #2c3e50;
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.summary-item p {
+    color: #333;
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .summary-section {
+        flex-direction: column;
+    }
+    
+    .summary-item {
+        width: 100%;
+    }
 }

@@ -11,6 +11,7 @@ import { AuthProvider } from './utils/authContext';
 import './App.css';
 import Testing from "./Testing";
 import ExperimentPage from "./pages/ExperimentPage/ExperimentPage";
+import QuizHistory from "./components/Quiz/QuizHistory";
 
 function App() {
     const [user, setUser] = useState(() => {
@@ -50,7 +51,6 @@ function App() {
                 <Route
                     exact
                     path="/"
-                    // element={user ? <Home user={user} /> : <Navigate to="/login" />}
                     element={<Home user={user} />}
                 />
                 <Route
@@ -78,17 +78,22 @@ function App() {
                     element={<ExperimentPage />}
                 />
                 {/* <Route
-                    exact
-                    path="/admin"
-                    element={user && user.role === 'admin'
-                        ? <AdminPanel user={user} />
-                        : <Navigate to="/login" />
-                    }
-                /> */}
+                        exact
+                        path="/admin"
+                        element={user && user.role === 'admin'
+                            ? <AdminPanel user={user} />
+                            : <Navigate to="/login" />
+                        }
+                    /> */}
                 <Route
                     exact
                     path="/testing"
                     element={<Testing />}
+                />
+                <Route
+                    exact
+                    path="/quiz-history"
+                    element={user ? <QuizHistory /> : <Navigate to="/login" />}
                 />
             </Routes>
         </AuthProvider>

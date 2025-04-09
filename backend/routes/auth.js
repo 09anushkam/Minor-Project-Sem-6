@@ -10,7 +10,13 @@ router.post('/login', loginUser);
 router.get('/logout', logoutUser);
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-router.get('/google/callback', passport.authenticate('google', { successRedirect: 'http://localhost:5173/', failureRedirect: '/login/failed' }));
+router.get('/google/callback', 
+    passport.authenticate('google', { 
+        failureRedirect: '/login/failed',
+        successRedirect: 'http://localhost:5173/',
+        session: true
+    })
+);
 
 // router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 // router.get('/facebook/callback', passport.authenticate('facebook', { successRedirect: 'http://localhost:5173/', failureRedirect: '/login' }));
