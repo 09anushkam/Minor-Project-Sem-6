@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-import React, { useState, useEffect, useRef } from "react";
-=======
 
 import React, { useState, useEffect } from "react";
->>>>>>> 49fed4b290a884aee5bee27970270e3806498a8c
 import { Network } from "vis-network/standalone";
 import "vis-network/styles/vis-network.css";
 import { MinPriorityQueue } from '@datastructures-js/priority-queue';
@@ -17,21 +13,10 @@ const GraphVisualizer = () => {
   const [dfsTraversal, setDfsTraversal] = useState([]);
   const [bfsTraversal, setBfsTraversal] = useState([]);
   const [visitedQueue, setVisitedQueue] = useState([]);
-<<<<<<< HEAD
-  const [toVisitQueue, setToVisitQueue] = useState([]);
-  const [showGraph, setShowGraph] = useState(false);
-  const [randomGraphVertices, setRandomGraphVertices] = useState(null);
-  const [graph, setGraph] = useState(null);
-  const [dijkstraTraversal, setDijkstraTraversal] = useState([]);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const animationRef = useRef(null);
-  const [dijkstraResult, setDijkstraResult] = useState("");
-=======
   const [showGraph, setShowGraph] = useState(false);
   const [randomGraphVertices, setRandomGraphVertices] = useState(null);
   const [graph, setGraph] = useState(null);
   const [dijkstraResult, setDijkstraResult] = useState(null);
->>>>>>> 49fed4b290a884aee5bee27970270e3806498a8c
 
   useEffect(() => {
     if (showGraph) {
@@ -44,40 +29,6 @@ const GraphVisualizer = () => {
     };
   }, [showGraph, graphData]);
 
-<<<<<<< HEAD
-  const resetGraph = () => {
-    setVisitedQueue([]);
-    setToVisitQueue([]);
-    setIsProcessing(false);
-    if (graph) {
-      const nodes = graph.body.nodes;
-      const edges = graph.body.edges;
-      Object.values(nodes).forEach(node => {
-        node.setOptions({
-          color: { 
-            background: "#C0C0C0",
-            border: "#000000"
-          },
-          size: 30,
-          font: { 
-            color: "#000000",
-            size: 20
-          }
-        });
-      });
-      Object.values(edges).forEach(edge => {
-        edge.setOptions({
-          color: { color: "#000000" },
-          width: 2,
-          dashes: false
-        });
-      });
-      graph.redraw();
-    }
-  };
-
-=======
->>>>>>> 49fed4b290a884aee5bee27970270e3806498a8c
   const handleGraphTypeChange = (type) => {
     setGraphType(type);
     setNumVertices(null);
@@ -109,7 +60,7 @@ const GraphVisualizer = () => {
     setBfsTraversal([]);
     setDijkstraResult("");
     resetGraph();
-    
+
     // Force re-render of graph input
     if (graphType) {
       setGraphType(graphType);
@@ -137,11 +88,7 @@ const GraphVisualizer = () => {
   };
 
   const renderGraphInput = () => {
-<<<<<<< HEAD
-    if (!graphType) return null;
-=======
     if (!graphType) return null; // No message shown if graph type is not selected
->>>>>>> 49fed4b290a884aee5bee27970270e3806498a8c
 
     if (numVertices === null && graphType !== "RandomGraph") return <p>Now select the number of vertices.</p>;
 
@@ -236,25 +183,18 @@ const GraphVisualizer = () => {
   const drawGraph = () => {
     const container = document.getElementById("graph-container");
     if (!container) return;
-<<<<<<< HEAD
 
-    container.style.display = "flex";
-    container.style.visibility = "visible";
-
-=======
-  
->>>>>>> 49fed4b290a884aee5bee27970270e3806498a8c
     const nodes = Array.from({ length: numVertices }, (_, i) => ({
       id: i,
       label: `${i}`,
-      color: { 
+      color: {
         background: "#ffffff",
         border: "#4a90e2",
         highlight: { background: "#ffd700", border: "#ffd700" },
         hover: { background: "#e6f2ff", border: "#4a90e2" }
       },
       size: 30,
-      font: { 
+      font: {
         color: "#333333",
         size: 20,
         face: "Arial",
@@ -265,69 +205,20 @@ const GraphVisualizer = () => {
       borderWidthSelected: 3,
       shadow: true
     }));
-  
+
     let edges = [];
-  
+
     // Place the code block here:
     if (graphType === "AdjacencyMatrix") {
       edges = Object.keys(graphData).flatMap((i) =>
         Object.keys(graphData[i])
-<<<<<<< HEAD
-          .filter((j) => graphData[i][j] !== "0" && graphData[i][j] !== "")
-          .map((j) => ({
-            from: Number(i),
-            to: Number(j),
-            label: graphData[i][j].toString(),
-            width: 2,
-            color: { 
-              color: "#4a90e2",
-              highlight: "#ffd700",
-              hover: "#4a90e2"
-            },
-            font: {
-              size: 16,
-              align: "middle",
-              strokeWidth: 2,
-              strokeColor: "#ffffff"
-            },
-            smooth: {
-              type: "continuous",
-              roundness: 0.5
-            }
-          }))
-=======
           .filter((j) => graphData[i][j] !== "0")
           .map((j) => ({ from: Number(i), to: Number(j), label: graphData[i][j] }))
->>>>>>> 49fed4b290a884aee5bee27970270e3806498a8c
       );
     } else if (graphType === "EdgeList") {
       edges = Object.values(graphData)
         .filter(({ from, to }) => from !== "" && to !== "")
-<<<<<<< HEAD
-        .map(({ from, to, weight }) => ({
-          from: Number(from),
-          to: Number(to),
-          label: weight.toString(),
-          width: 2,
-          color: { 
-            color: "#4a90e2",
-            highlight: "#ffd700",
-            hover: "#4a90e2"
-          },
-          font: {
-            size: 16,
-            align: "middle",
-            strokeWidth: 2,
-            strokeColor: "#ffffff"
-          },
-          smooth: {
-            type: "continuous",
-            roundness: 0.5
-          }
-        }));
-=======
         .map(({ from, to, weight }) => ({ from: Number(from), to: Number(to), label: weight }));
->>>>>>> 49fed4b290a884aee5bee27970270e3806498a8c
     } else if (graphType === "AdjacencyList") {
       edges = Object.keys(graphData).flatMap((i) =>
         graphData[i].map((j) => ({
@@ -335,7 +226,7 @@ const GraphVisualizer = () => {
           to: Number(j.node),
           label: j.weight.toString(),
           width: 2,
-          color: { 
+          color: {
             color: "#4a90e2",
             highlight: "#ffd700",
             hover: "#4a90e2"
@@ -359,7 +250,7 @@ const GraphVisualizer = () => {
           to: Number(to),
           label: graphData[from][to].toString(),
           width: 2,
-          color: { 
+          color: {
             color: "#4a90e2",
             highlight: "#ffd700",
             hover: "#4a90e2"
@@ -376,17 +267,12 @@ const GraphVisualizer = () => {
           }
         }))
       );
-<<<<<<< HEAD
-    }
-
-=======
     } else if (graphType === "RandomGraph") {
       edges = Object.keys(graphData).flatMap((from) =>
         Object.keys(graphData[from]).map((to) => ({ from: Number(from), to: Number(to) }))
       );
     }
-  
->>>>>>> 49fed4b290a884aee5bee27970270e3806498a8c
+
     const data = { nodes, edges };
     const options = {
       edges: {
@@ -443,11 +329,7 @@ const GraphVisualizer = () => {
         improvedLayout: true
       }
     };
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> 49fed4b290a884aee5bee27970270e3806498a8c
     if (graph) {
       graph.destroy();
     }
@@ -464,135 +346,6 @@ const GraphVisualizer = () => {
 
   const generateRandomGraph = (numVertices) => {
     const newGraphData = {};
-<<<<<<< HEAD
-    const edgeProbability = 0.3; // 30% chance of edge creation
-    
-    // First, ensure each node has at least one connection
-    for (let i = 0; i < numVertices; i++) {
-      if (!newGraphData[i]) newGraphData[i] = {};
-      
-      // Find unconnected nodes
-      const unconnectedNodes = Array.from({ length: numVertices }, (_, j) => j)
-        .filter(j => j !== i && !newGraphData[i][j] && !newGraphData[j]?.[i]);
-      
-      if (unconnectedNodes.length > 0) {
-        // Connect to at least one random unconnected node with random weight
-        const randomNode = unconnectedNodes[Math.floor(Math.random() * unconnectedNodes.length)];
-        newGraphData[i][randomNode] = Math.floor(Math.random() * 10) + 1; // Random weight between 1 and 10
-      }
-    }
-
-    // Then add additional random edges with 30% probability
-    for (let i = 0; i < numVertices; i++) {
-      for (let j = 0; j < numVertices; j++) {
-        if (i !== j && !newGraphData[i][j] && Math.random() < edgeProbability) {
-          if (!newGraphData[i]) newGraphData[i] = {};
-          newGraphData[i][j] = Math.floor(Math.random() * 10) + 1; // Random weight between 1 and 10
-        }
-      }
-    }
-
-    // Verify all nodes are connected
-    const isConnected = () => {
-      const visited = new Set();
-      const queue = [0];
-      visited.add(0);
-
-      while (queue.length > 0) {
-        const current = queue.shift();
-        const neighbors = Object.keys(newGraphData[current] || {})
-          .map(Number)
-          .filter(node => !visited.has(node));
-        
-        neighbors.forEach(node => {
-          visited.add(node);
-          queue.push(node);
-        });
-      }
-
-      return visited.size === numVertices;
-    };
-
-    // If graph is not connected, add necessary edges
-    if (!isConnected()) {
-      const visited = new Set();
-      const unvisited = new Set(Array.from({ length: numVertices }, (_, i) => i));
-      
-      // Start with node 0
-      visited.add(0);
-      unvisited.delete(0);
-      
-      while (unvisited.size > 0) {
-        const current = Array.from(visited)[Math.floor(Math.random() * visited.size)];
-        const next = Array.from(unvisited)[Math.floor(Math.random() * unvisited.size)];
-        
-        if (!newGraphData[current]) newGraphData[current] = {};
-        newGraphData[current][next] = Math.floor(Math.random() * 10) + 1; // Random weight between 1 and 10
-        
-        visited.add(next);
-        unvisited.delete(next);
-      }
-    }
-
-    setNumVertices(numVertices);
-    setGraphData(newGraphData);
-    setShowGraph(true);
-    drawGraph();
-  };
-
-  const animateNode = (nodeId, color, size, delay) => {
-    if (graph && graph.body.nodes[nodeId]) {
-      animationRef.current = setTimeout(() => {
-        graph.body.nodes[nodeId].setOptions({
-          color: { background: color },
-          size: size,
-          font: { color: "#ffffff" }
-        });
-        graph.redraw();
-      }, delay);
-    }
-  };
-
-  const animateEdge = (from, to, color, width, delay) => {
-    if (graph) {
-      animationRef.current = setTimeout(() => {
-        const edge = graph.body.edges[`${from}-${to}`] || graph.body.edges[`${to}-${from}`];
-        if (edge) {
-          edge.setOptions({
-            color: { color: color, highlight: color },
-            width: width,
-            dashes: false,
-            shadow: true,
-            smooth: {
-              type: "continuous",
-              roundness: 0.5
-            }
-          });
-          graph.redraw();
-        }
-      }, delay);
-    }
-  };
-
-  const highlightEdge = (from, to, color, width, delay) => {
-    if (graph) {
-      animationRef.current = setTimeout(() => {
-        const edge = graph.body.edges[`${from}-${to}`] || graph.body.edges[`${to}-${from}`];
-        if (edge) {
-          edge.setOptions({
-            color: { color: color, highlight: color },
-            width: width,
-            dashes: [5, 5],
-            shadow: true,
-            smooth: {
-              type: "continuous",
-              roundness: 0.5
-            }
-          });
-          graph.redraw();
-        }
-      }, delay);
-=======
     // Create a complete graph
     for (let i = 0; i < numVertices; i++) {
       for (let j = 0; j < numVertices; j++) {
@@ -611,7 +364,6 @@ const GraphVisualizer = () => {
   const handleRandomGraphGeneration = () => {
     if (randomGraphVertices) {
       generateRandomGraph(randomGraphVertices);
->>>>>>> 49fed4b290a884aee5bee27970270e3806498a8c
     }
   };
 
@@ -654,17 +406,13 @@ const GraphVisualizer = () => {
     if (isProcessing) return;
     setIsProcessing(true);
     resetGraph();
-    
+
     let visited = new Array(numVertices).fill(false);
     let traversal = [];
     let tempVisitedQueue = [];
     let tempToVisitQueue = new Set();
     let delay = 0;
 
-<<<<<<< HEAD
-    const dfs = async (node) => {
-      let stack = [node];
-=======
     const animateNodeVisit = (node, delay) => {
       setTimeout(() => {
         if (graph && graph.body.nodes[node]) {
@@ -715,7 +463,6 @@ const GraphVisualizer = () => {
     const dfs = (node) => {
       let stack = [node];
 
->>>>>>> 49fed4b290a884aee5bee27970270e3806498a8c
       while (stack.length > 0) {
         let current = stack.pop();
         if (!visited[current]) {
@@ -723,13 +470,7 @@ const GraphVisualizer = () => {
           traversal.push(current);
           tempVisitedQueue.push(current);
           setVisitedQueue([...tempVisitedQueue]);
-<<<<<<< HEAD
-          
-          animateNode(current, "#4CAF50", 30, delay);
-          delay += 1000;
-=======
           animateNodeVisit(current, traversal.length * 1000);
->>>>>>> 49fed4b290a884aee5bee27970270e3806498a8c
 
           let neighbors = getNeighbors(current);
           neighbors.reverse().forEach((neighbor) => {
@@ -738,12 +479,7 @@ const GraphVisualizer = () => {
             tempToVisitQueue.add(neighbor);
           });
 
-<<<<<<< HEAD
-          setToVisitQueue(Array.from(tempToVisitQueue));
-          await new Promise(resolve => setTimeout(resolve, 1000));
-=======
           animateNodeVisit(current, traversal.length * 2000);
->>>>>>> 49fed4b290a884aee5bee27970270e3806498a8c
         }
       }
     };
@@ -763,16 +499,13 @@ const GraphVisualizer = () => {
     if (isProcessing) return;
     setIsProcessing(true);
     resetGraph();
-    
+
     let visited = new Array(numVertices).fill(false);
     let traversal = [];
     let tempVisitedQueue = [];
     let tempToVisitQueue = new Set();
     let delay = 0;
 
-<<<<<<< HEAD
-    const bfs = async (start) => {
-=======
     const animateNodeVisit = (node, delay) => {
       setTimeout(() => {
         if (graph && graph.body.nodes[node]) {
@@ -820,8 +553,7 @@ const GraphVisualizer = () => {
       return [];
     };
 
-    const bfs = (start) => {
->>>>>>> 49fed4b290a884aee5bee27970270e3806498a8c
+    const bfs = async (start) => {
       let queue = [start];
       visited[start] = true;
 
@@ -830,7 +562,7 @@ const GraphVisualizer = () => {
         traversal.push(current);
         tempVisitedQueue.push(current);
         setVisitedQueue([...tempVisitedQueue]);
-        
+
         animateNode(current, "#2196F3", 30, delay);
         delay += 1000;
 
@@ -864,7 +596,7 @@ const GraphVisualizer = () => {
     if (isProcessing) return;
     setIsProcessing(true);
     resetGraph();
-    
+
     const numNodes = numVertices;
     const distances = Array(numNodes).fill(Infinity);
     const visited = Array(numNodes).fill(false);
@@ -1001,23 +733,6 @@ const GraphVisualizer = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="graph-visualizer">
-      <h2 className="title">Graph Visualizer</h2>
-
-      <div className="button-container">
-        {["AdjacencyMatrix", "EdgeList", "AdjacencyList", "RandomGraph"].map(
-          (type) => (
-            <button
-              key={type}
-              onClick={() => handleGraphTypeChange(type)}
-              className={`graph-button ${graphType === type ? "active" : ""}`}
-            >
-              {type.replace(/([A-Z])/g, " $1").trim()}
-            </button>
-          )
-        )}
-=======
     <div style={{ textAlign: "center" }}>
       <h2>Graph Visualizer</h2>
       <div style={{ marginBottom: "20px", display: "flex", justifyContent: "center", gap: "10px" }}>
@@ -1038,7 +753,6 @@ const GraphVisualizer = () => {
             {type.replace(/([A-Z])/g, " $1").trim()}
           </button>
         ))}
->>>>>>> 49fed4b290a884aee5bee27970270e3806498a8c
       </div>
 
       {graphType && (
@@ -1097,49 +811,6 @@ const GraphVisualizer = () => {
             onChange={(e) => setStartNode(Number(e.target.value))}
             className="input-box"
           />
-<<<<<<< HEAD
-          <div className="algorithm-buttons">
-            <button 
-              onClick={runDFS} 
-              className="graph-button"
-              disabled={isProcessing}
-            >
-              Run DFS
-            </button>
-            <button 
-              onClick={runBFS} 
-              className="graph-button"
-              disabled={isProcessing}
-            >
-              Run BFS
-            </button>
-            <button 
-              onClick={runDijkstra} 
-              className="graph-button"
-              disabled={isProcessing}
-            >
-              Run Dijkstra
-            </button>
-          </div>
-          <div className="traversal-results">
-            {dfsTraversal.length > 0 && (
-              <div className="traversal-result">
-                <h4>DFS Traversal:</h4>
-                <p>{dfsTraversal.join(" → ")}</p>
-              </div>
-            )}
-            {bfsTraversal.length > 0 && (
-              <div className="traversal-result">
-                <h4>BFS Traversal:</h4>
-                <p>{bfsTraversal.join(" → ")}</p>
-              </div>
-            )}
-            {dijkstraResult && (
-              <div className="traversal-result">
-                <h4>Dijkstra's Results:</h4>
-                <pre>{dijkstraResult}</pre>
-              </div>
-=======
           <button onClick={runDFS} className="graph-button">Run DFS</button>
           <button onClick={runBFS} className="graph-button">Run BFS</button>
           <div>
@@ -1148,27 +819,23 @@ const GraphVisualizer = () => {
             )}
             {bfsTraversal.length > 0 && (
               <p>BFS Traversal: {bfsTraversal.join(" -> ")}</p>
->>>>>>> 49fed4b290a884aee5bee27970270e3806498a8c
             )}
           </div>
         </div>
       )}
-<<<<<<< HEAD
-=======
-    {showGraph && graphType === "AdjacencyMatrix" && ( // Only if is Adjacency Matrix
-    <div>
-      <button onClick={() => dijkstra(startNode)} className="graph-button">
-        Run Dijkstra
-      </button>
->>>>>>> 49fed4b290a884aee5bee27970270e3806498a8c
-    </div>
-  )}
+      {showGraph && graphType === "AdjacencyMatrix" && ( // Only if is Adjacency Matrix
+        <div>
+          <button onClick={() => dijkstra(startNode)} className="graph-button">
+            Run Dijkstra
+          </button>
+        </div>
+      )}
       {dijkstraResult && ( // Add it here!
-      <div>
-        <h3>Dijkstra Results:</h3>
-        <pre>{dijkstraResult}</pre>
-      </div>
-    )}
+        <div>
+          <h3>Dijkstra Results:</h3>
+          <pre>{dijkstraResult}</pre>
+        </div>
+      )}
     </div>
 
   );
