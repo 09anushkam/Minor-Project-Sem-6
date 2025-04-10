@@ -78,8 +78,7 @@ const experiments = [
     {
         no: 6,
         title: "Social Network Analysis using NetworkX",
-        title: "<b>Aim:</b> To perform social network data analysis using the <i>NetworkX</i> library by creating random social graphs, identifying influencer nodes, and calculating various network measures such as <i>degree centrality</i>.",
-        aim: "Explore electromagnetic induction.",
+        aim: "<b>Aim:</b> To perform social network data analysis using the <i>NetworkX</i> library by creating random social graphs, identifying influencer nodes, and calculating various network measures such as <i>degree centrality</i>.",
         theory: "A changing magnetic field induces a current...",
         procedure: "Step 1: Move a magnet near a coil...",
         simulation: "Electromagnetic induction simulation...",
@@ -90,8 +89,7 @@ const experiments = [
     {
         no: 7,
         title: "Social Media Insights using TF-IDF",
-        title: "<b>Aim:</b> To extract and analyze meaningful insights from social media posts using the <i>Term Frequency-Inverse Document Frequency (TF-IDF)</i> technique.",
-        aim: "Study the relationship between force and extension in springs.",
+        aim: "<b>Aim:</b> To extract and analyze meaningful insights from social media posts using the <i>Term Frequency-Inverse Document Frequency (TF-IDF)</i> technique.",
         theory: "Hooke's Law states that F = kx...",
         procedure: "Step 1: Attach weights to the spring...",
         simulation: "Spring elasticity simulation...",
@@ -102,8 +100,7 @@ const experiments = [
     {
         no: 8,
         title: "Graph Theory in Social Media Structure Analysis",
-        title: "<b>Aim:</b> To analyze the structure of social media networks using graph theory concepts, identify influential users and popular content, and explore user interactions within the network.",
-        aim: "Understand the relationship between pressure and velocity in fluids.",
+        aim: "<b>Aim:</b> To analyze the structure of social media networks using graph theory concepts, identify influential users and popular content, and explore user interactions within the network.",
         theory: "Bernoulli's Principle explains fluid motion...",
         procedure: "Step 1: Observe fluid flow in a pipe...",
         simulation: "Bernoulli simulation...",

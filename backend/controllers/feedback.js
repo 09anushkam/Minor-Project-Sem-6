@@ -64,7 +64,7 @@ module.exports.getFeedback = async (req, res) => {
             return res.status(400).json({ message: 'Invalid experiment number' });
         }
 
-        console.log('Fetching feedback for experiment:', experimentNo, 'user:', req.user._id);
+        // console.log('Fetching feedback for experiment:', experimentNo, 'user:', req.user._id);
         const feedback = await Feedback.findOne({
             userId: req.user._id,
             experimentNo: experimentNo
