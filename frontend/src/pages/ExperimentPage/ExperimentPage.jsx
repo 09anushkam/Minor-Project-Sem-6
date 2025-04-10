@@ -32,8 +32,16 @@ const ExperimentPage = () => {
                 return <QuizComponent />;
             case "Feedback":
                 return <FeedbackForm experimentNo={parseInt(no)} />;
+            // default:
+            //     return <p>{experiment[selectedSection.toLowerCase()]}</p>;
             default:
-                return <p>{experiment[selectedSection.toLowerCase()]}</p>;
+                return (
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: experiment[selectedSection.toLowerCase()]
+                        }}
+                    />
+                );
         }
     };
 

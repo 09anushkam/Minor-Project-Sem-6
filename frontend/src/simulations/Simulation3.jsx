@@ -139,7 +139,7 @@ const Simulation3 = () => {
             ) : (
                 <textarea
                     rows="6"
-                    cols="100"
+                    cols="80"
                     placeholder='Enter one sentence per line. Optionally add label after "|" (e.g., "Great! | positive")'
                     value={textInput}
                     onChange={handleTextChange}
