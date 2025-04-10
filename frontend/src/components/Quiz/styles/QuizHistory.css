@@ -353,71 +353,72 @@
     margin: 1rem;
     padding: 1rem;
   }
-  
+
   .quiz-dashboard-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .score-summary {
     grid-template-columns: repeat(3, 1fr);
     padding: 0.8rem;
     gap: 0.5rem;
   }
-  
+
   .summary-value {
     font-size: 1rem;
   }
-  
+
   .experiment-header h3 {
     font-size: 1.2rem;
   }
-  
+
   .experiment-card {
     min-height: 350px;
   }
-  
+
   .overall-progress {
     padding: 1rem;
   }
-  
+
   .progress-header {
     flex-direction: column;
     text-align: center;
     gap: 1.5rem;
     padding: 1.5rem 1rem;
   }
-  
+
   .progress-circle.large {
     margin: 0 auto;
     width: 130px;
     height: 130px;
   }
-  
+
   .progress-circle.large::before {
     width: 100px;
     height: 100px;
   }
-  
+
   .progress-circle.large .progress-value {
     font-size: 1.8rem;
   }
-  
+
   .progress-stats {
     grid-template-columns: 1fr;
     gap: 1rem;
     padding: 1rem;
   }
-  
+
   .stat-item {
     padding: 1rem;
   }
-  
+
   .stat-value {
     font-size: 1.5rem;
   }
 }
 
+/* 
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -482,4 +483,4 @@
 
 .logout-btn:hover {
   background-color: #004999;
-} 
+}  */

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import './styles/QuizHistory.css';
@@ -24,11 +24,11 @@ const QuizHistory = () => {
     const fetchQuizScores = async () => {
       try {
         setLoading(true);
-        const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
+        const backendUrl = 'http://localhost:8080';
         const response = await axios.get(`${backendUrl}/api/quiz-scores`, {
           withCredentials: true
         });
-        
+
         if (response.data && response.data.success) {
           // Initialize all experiments with empty arrays
           const allExperiments = {};
@@ -44,7 +44,7 @@ const QuizHistory = () => {
               allExperiments[score.experimentNo].sort((a, b) => new Date(b.completedAt) - new Date(a.completedAt));
             }
           });
-          
+
           setQuizScores(allExperiments);
         } else {
           setError('Failed to fetch quiz scores');
@@ -65,9 +65,9 @@ const QuizHistory = () => {
   }, [navigate]);
 
   const formatDate = (dateString) => {
-    const options = { 
-      year: 'numeric', 
-      month: 'short', 
+    const options = {
+      year: 'numeric',
+      month: 'short',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
@@ -105,12 +105,12 @@ const QuizHistory = () => {
     const totalExperiments = Object.keys(experimentNames).length;
     const attemptedExperiments = Object.values(quizScores).filter(scores => scores.length > 0).length;
     const overallPercentage = (attemptedExperiments / totalExperiments) * 100;
-    
+
     const totalBestScores = Object.values(quizScores).reduce((acc, scores) => {
       return acc + getHighestScore(scores);
     }, 0);
     const averageBestScore = totalBestScores / totalExperiments;
-    
+
     return {
       attempted: attemptedExperiments,
       total: totalExperiments,
@@ -143,10 +143,10 @@ const QuizHistory = () => {
     <div>
       <nav className="navbar">
         <div className="navbar-left">
-          <img 
+          <img
             src="https://kjsieit.somaiya.edu.in/assets/kjsieit/images/Logo/Somaiya-Logo.svg"
-            alt="Somaiya Logo" 
-            className="nav-logo" 
+            alt="Somaiya Logo"
+            className="nav-logo"
           />
           <span className="college-name">K J Somaiya Institute of Technology</span>
         </div>
@@ -224,7 +224,7 @@ const QuizHistory = () => {
                     <p>Take this quiz to test your knowledge!</p>
                   </div>
                 )}
-                <button 
+                <button
                   className="retake-quiz-button"
                   onClick={() => handleRetakeQuiz(parseInt(experimentNo))}
                 >

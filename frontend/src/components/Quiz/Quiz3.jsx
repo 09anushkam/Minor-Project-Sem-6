@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './styles/Quiz.css';
 
@@ -65,10 +65,10 @@ const Quiz3 = () => {
       correctAnswer: 2
     }
   ];
-  
+
   useEffect(() => {
     let interval = null;
-    
+
     if (!showScore && !isAnswered && timer > 0) {
       interval = setInterval(() => {
         setTimer((prevTimer) => {
@@ -127,7 +127,7 @@ const Quiz3 = () => {
         return;
       }
 
-      const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
+      const backendUrl = 'http://localhost:8080';
       await axios.post(`${backendUrl}/api/quiz-scores`, {
         experimentNo: 7,
         score: score,
@@ -168,30 +168,30 @@ const Quiz3 = () => {
             <div className="timer">
               Time Remaining: {timer}s
             </div>
-            <div 
+            <div
               className="timer-bar"
-              style={{ 
+              style={{
                 width: `${(timer / QUESTION_TIMER) * 100}%`,
                 backgroundColor: timer <= 5 ? '#ff4444' : '#ff6b6b'
               }}
             ></div>
           </div>
-          
+
           <div className="question-count">
             <span>Question {currentQuestion + 1}</span>/{questions.length}
           </div>
-          
+
           <div className="question-text">
             {questions[currentQuestion].questionText}
           </div>
-          
+
           <div className="answer-options">
             {questions[currentQuestion].options.map((option, index) => (
               <button
                 key={index}
                 className={`answer-button 
-                  ${selectedAnswer === index ? 
-                    (index === questions[currentQuestion].correctAnswer ? 'correct' : 'incorrect') 
+                  ${selectedAnswer === index ?
+                    (index === questions[currentQuestion].correctAnswer ? 'correct' : 'incorrect')
                     : ''
                   }
                   ${showCorrectAnswer && index === questions[currentQuestion].correctAnswer ? 'correct' : ''}
@@ -209,9 +209,9 @@ const Quiz3 = () => {
               Correct Answer: {questions[currentQuestion].options[questions[currentQuestion].correctAnswer]}
             </div>
           )}
-          
+
           <div className="progress-bar">
-            <div 
+            <div
               className="progress"
               style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
             ></div>

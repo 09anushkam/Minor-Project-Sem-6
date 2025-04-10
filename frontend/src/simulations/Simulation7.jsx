@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Papa from "papaparse";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -120,7 +120,7 @@ const Simulation7 = () => {
   const processDataForVisualization = (tfidfMatrix) => {
     // Process for Bar Chart - Calculate total and maximum TF-IDF scores for each term
     const termStats = {};
-    
+
     // Initialize term statistics
     tfidfMatrix.forEach((doc) => {
       Object.entries(doc.tfidf).forEach(([term, score]) => {
@@ -252,28 +252,28 @@ const Simulation7 = () => {
           <div className="chart-container">
             <h3>Top 10 Terms by Frequency and TF-IDF Score</h3>
             <ResponsiveContainer width="100%" height={400}>
-              <BarChart 
+              <BarChart
                 data={processedData.barData}
                 margin={{ top: 20, right: 30, left: 20, bottom: 70 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  dataKey="term" 
-                  angle={-45} 
+                <XAxis
+                  dataKey="term"
+                  angle={-45}
                   textAnchor="end"
                   height={100}
                   interval={0}
                 />
-                <YAxis 
+                <YAxis
                   domain={[0, Math.ceil(processedData.maxScore * 10) / 10]}
-                  label={{ 
-                    value: 'TF-IDF Score', 
-                    angle: -90, 
+                  label={{
+                    value: 'TF-IDF Score',
+                    angle: -90,
                     position: 'insideLeft',
                     offset: -5
                   }}
                 />
-                <Tooltip 
+                <Tooltip
                   content={({ active, payload, label }) => {
                     if (active && payload && payload.length) {
                       return (
@@ -290,14 +290,14 @@ const Simulation7 = () => {
                   }}
                 />
                 <Legend />
-                <Bar 
+                <Bar
                   name="Maximum TF-IDF Score"
-                  dataKey="maxScore" 
+                  dataKey="maxScore"
                   fill="#ff9494"
                 >
                   {processedData.barData.map((entry, index) => (
-                    <Cell 
-                      key={index} 
+                    <Cell
+                      key={index}
                       fill={`hsl(${index * 36}, 70%, 70%)`}
                     />
                   ))}

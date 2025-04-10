@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './styles/Quiz.css';
@@ -68,12 +68,12 @@ const Quiz7 = () => {
       correctAnswer: 0
     }
   ];
-  
-  
+
+
 
   useEffect(() => {
     let interval = null;
-    
+
     if (!showScore && !isAnswered && timer > 0) {
       interval = setInterval(() => {
         setTimer((prevTimer) => {
@@ -127,7 +127,7 @@ const Quiz7 = () => {
 
   const saveScore = async () => {
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
+      const backendUrl = 'http://localhost:8080';
       await axios.post(`${backendUrl}/api/quiz-scores`, {
         experimentNo: 7,
         score: score,
@@ -166,8 +166,8 @@ const Quiz7 = () => {
             {score === questions.length
               ? "Perfect score! Excellent understanding of social network analysis!"
               : score >= questions.length * 0.7
-              ? "Good job! You have a solid understanding of the concepts."
-              : "Keep practicing! Review the experiment to better understand the concepts."}
+                ? "Good job! You have a solid understanding of the concepts."
+                : "Keep practicing! Review the experiment to better understand the concepts."}
           </p>
           <button className="restart-button" onClick={restartQuiz}>
             Try Again
@@ -184,30 +184,30 @@ const Quiz7 = () => {
           <div className="timer">
             Time Remaining: {timer}s
           </div>
-          <div 
+          <div
             className="timer-bar"
-            style={{ 
+            style={{
               width: `${(timer / QUESTION_TIMER) * 100}%`,
               backgroundColor: timer <= 5 ? '#ff4444' : '#ff6b6b'
             }}
           ></div>
         </div>
-        
+
         <div className="question-count">
           <span>Question {currentQuestion + 1}</span>/{questions.length}
         </div>
-        
+
         <div className="question-text">
           {questions[currentQuestion].questionText}
         </div>
-        
+
         <div className="answer-options">
           {questions[currentQuestion].options.map((option, index) => (
             <button
               key={index}
               className={`answer-button 
-                ${selectedAnswer === index ? 
-                  (index === questions[currentQuestion].correctAnswer ? 'correct' : 'incorrect') 
+                ${selectedAnswer === index ?
+                  (index === questions[currentQuestion].correctAnswer ? 'correct' : 'incorrect')
                   : ''
                 }
                 ${showCorrectAnswer && index === questions[currentQuestion].correctAnswer ? 'correct' : ''}
@@ -225,9 +225,9 @@ const Quiz7 = () => {
             Correct Answer: {questions[currentQuestion].options[questions[currentQuestion].correctAnswer]}
           </div>
         )}
-        
+
         <div className="progress-bar">
-          <div 
+          <div
             className="progress"
             style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
           ></div>

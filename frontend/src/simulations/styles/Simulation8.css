@@ -1,7 +1,7 @@
 /* Simulation8.css - Styles for Social Media Network Analysis */
 
 /* Main container styles */
-.simulation-container {
+/* .simulation-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,7 +30,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-}
+} */
 
 /* Step container styles */
 .step-container {
@@ -483,7 +483,7 @@
 }
 
 /* Buttons */
-button {
+.analyze-button {
   padding: 10px 20px;
   border: none;
   border-radius: 9px;
@@ -494,12 +494,12 @@ button {
   transition: transform 0.2s, background-color 0.2s ease-in-out;
 }
 
-button:hover {
+.analyze-button:hover {
   background-color: #e76060;
   transform: scale(1.1);
 }
 
-button:disabled {
+.analyze-button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
   transform: none;
@@ -539,50 +539,50 @@ input[type="number"]:focus {
     gap: 15px;
     padding: 10px;
   }
-  
+
   .user-input-section {
     padding: 20px;
     margin: 20px 10px;
   }
-  
+
   .num-users-section {
     margin: 15px 10px;
   }
-  
+
   .form-group input {
     max-width: 100%;
   }
-  
+
   .influencers-list {
     grid-template-columns: 1fr;
   }
-  
+
   .influencer-card {
     padding: 15px;
   }
-  
+
   .metrics-breakdown li {
     font-size: 0.85em;
   }
-  
+
   .metrics-explanation li {
     font-size: 0.9em;
   }
-  
+
   .user-name-input {
     padding: 12px;
   }
-  
+
   .metrics-summary-table {
     display: block;
     overflow-x: auto;
     white-space: nowrap;
   }
-  
+
   .summary-section {
     flex-direction: column;
   }
-  
+
   .summary-item {
     width: 100%;
   }
@@ -593,4 +593,4 @@ input[type="number"]:focus {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
-} 
+}
