@@ -1,12 +1,12 @@
 const Feedback = require('../models/Feedback');
 
 module.exports.submitFeedback = async (req, res) => {
-    console.log('Received feedback submission request');
+    // console.log('Received feedback submission request');
     try {
         const { experimentNo, understanding, difficulty, usefulness, comments, suggestions } = req.body;
-        console.log('Request body:', req.body);
-        console.log('Session:', req.session);
-        console.log('User:', req.user);
+        // console.log('Request body:', req.body);
+        // console.log('Session:', req.session);
+        // console.log('User:', req.user);
 
         if (!req.isAuthenticated() || !req.user) {
             console.log('No authenticated user found');
