@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import { Wordcloud } from '@visx/wordcloud';
 
 const WordCloudVisx = ({ words }) => {
-    const fontScale = (word) => word.value * 4 + 12;
+    const fontScale = (word) => word.value * 0.5 + 10;
     const rotate = () => ~~(Math.random() * 2) * 90;
 
     return (
         <svg width={500} height={300}>
             <Wordcloud
-                words={words}
+                words={words.slice(0, 100)} // max 100 common words
                 width={500}
                 height={300}
                 fontSize={fontScale}
