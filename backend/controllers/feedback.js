@@ -7,7 +7,7 @@ module.exports.submitFeedback = async (req, res) => {
         console.log('Request body:', req.body);
         console.log('Session:', req.session);
         console.log('User:', req.user);
-        
+
         if (!req.isAuthenticated() || !req.user) {
             console.log('No authenticated user found');
             return res.status(401).json({ message: 'Please login to submit feedback' });
@@ -98,4 +98,4 @@ module.exports.getAllFeedback = async (req, res) => {
         console.error('Error getting all feedback:', error);
         res.status(500).json({ message: 'Error retrieving feedback', error: error.message });
     }
-}; 
+};
