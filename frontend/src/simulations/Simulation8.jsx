@@ -423,7 +423,7 @@ const Simulation8 = () => {
   };
 
   return (
-    <div className="simulation-container">
+    <div className="simulation8-container">
       <div className="num-users-section">
         <label htmlFor="numUsers">Number of Users:</label>
         <input
