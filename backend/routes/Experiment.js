@@ -10,8 +10,6 @@ router.post('/sentiment-analysis/text', sentimentText);
 router.post('/sentiment-analysis/text-multi', sentimentMulti);
 router.get('/default-datasets', (req, res) => {
     const datasetDir = path.join(__dirname, '..', 'datasets');
-    console.log('__dirname in server.js:', __dirname);
-    console.log('Resolved dataset path:', datasetDir);
 
     // Ensure the folder exists
     if (!fs.existsSync(datasetDir)) {
