@@ -2,6 +2,18 @@ const Experiment = require('../models/Experiment');
 const { exec, spawn } = require('child_process');
 const path = require('path');
 
+function findPythonPath() {
+    try {
+        return execSync('which python3').toString().trim();  // Linux/Mac
+    } catch {
+        try {
+            return execSync('where python').toString().split('\n')[0].trim();  // Windows
+        } catch {
+            return null;
+        }
+    }
+}
+
 module.exports.experiment = async (req, res) => {
     try {
         // console.log('Received request for experiment:', req.params.no);
@@ -104,52 +116,42 @@ module.exports.sentimentMulti = (req, res) => {
     }
 
     const pythonScript = path.join(__dirname, '..', 'python_scripts', 'sentiment_analysis_multi.py');
-    console.log('Python script path:', pythonScript);
-    console.log('Input data:', JSON.stringify(inputData));
+    const pythonProcess = spawn('python', [pythonScript]);
 
-    // Find Python executable
-    const pythonPath = findPythonPath();
-    if (!pythonPath) {
-        return res.status(500).json({
-            error: 'Python not found',
-            details: 'Could not find Python installation. Please ensure Python is installed and in PATH.'
-        });
-    }
+    let stdout = '';
+    let stderr = '';
 
-    // Create a temporary file to store the input data
-    const tempInput = JSON.stringify(inputData);
+    pythonProcess.stdout.on('data', (data) => {
+        stdout += data.toString();
+    });
 
-    exec(`"${pythonPath}" "${pythonScript}"`, {
-        input: tempInput,
-        encoding: 'utf-8',
-        maxBuffer: 1024 * 1024, // Increase buffer size to 1MB
-        windowsHide: true // Prevent command window from showing on Windows
-    }, (error, stdout, stderr) => {
-        if (error) {
-            console.error('Python execution error:', error);
-            console.error('stderr:', stderr);
+    pythonProcess.stderr.on('data', (data) => {
+        stderr += data.toString();
+    });
+
+    pythonProcess.on('close', (code) => {
+        if (code !== 0 || stderr) {
+            console.error('Python stderr:', stderr);
             return res.status(500).json({
                 error: 'Python script execution failed',
-                details: stderr || error.message,
-                command: `${pythonPath} ${pythonScript}`
+                stderr,
+                code
             });
-        }
-
-        if (stderr) {
-            console.error('Python stderr:', stderr);
         }
 
         try {
-            console.log('Python stdout:', stdout);
-            const parsedResult = JSON.parse(stdout);
-            res.json({ output: parsedResult });
-        } catch (err) {
-            console.error('Error parsing Python output:', err);
-            res.status(500).json({
+            const parsed = JSON.parse(stdout);
+            return res.json({ output: parsed });
+        } catch (e) {
+            return res.status(500).json({
                 error: 'Error parsing Python output',
-                details: err.message,
-                raw: stdout
+                raw: stdout,
+                message: e.message
             });
         }
     });
+
+    // Send the data to Python's stdin
+    pythonProcess.stdin.write(JSON.stringify(inputData));
+    pythonProcess.stdin.end();
 };
