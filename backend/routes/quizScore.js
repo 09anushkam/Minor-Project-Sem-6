@@ -7,13 +7,18 @@ const {
   getExperimentQuizScores 
 } = require('../controllers/quizScore');
 
+// Test route to verify router is working
+router.get('/test', (req, res) => {
+  res.json({ message: 'Quiz score routes are working' });
+});
+
 // Save a new quiz score
-router.post('/quiz-scores', isAuthenticated, saveQuizScore);
+router.post('/', isAuthenticated, saveQuizScore);
 
 // Get all quiz scores for the logged-in user
-router.get('/quiz-scores', isAuthenticated, getUserQuizScores);
+router.get('/', isAuthenticated, getUserQuizScores);
 
 // Get quiz scores for a specific experiment
-router.get('/quiz-scores/experiment/:experimentNo', isAuthenticated, getExperimentQuizScores);
+router.get('/experiment/:experimentNo', isAuthenticated, getExperimentQuizScores);
 
 module.exports = router; 

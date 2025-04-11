@@ -147,8 +147,17 @@ app.use((req, res, next) => {
 app.use('/auth', authRouter);
 app.use('/api/scrape', scrapeRoutes);
 app.use('/api/experiments', experimentRoutes);
-app.use('/api', feedbackRoutes);
-app.use('/api', quizScoreRoutes);
+app.use('/api/feedback', feedbackRoutes);
+
+// Register quiz score routes with debug middleware
+app.use('/api/quiz-scores', (req, res, next) => {
+    console.log('Quiz Score Route Hit:');
+    console.log('Method:', req.method);
+    console.log('Path:', req.path);
+    console.log('User:', req.user);
+    console.log('Session:', req.session);
+    next();
+}, quizScoreRoutes);
 
 // Debug middleware to log all requests
 app.use((req, res, next) => {
