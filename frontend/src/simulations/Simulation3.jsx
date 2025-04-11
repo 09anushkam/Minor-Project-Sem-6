@@ -57,22 +57,48 @@ const Simulation3 = () => {
 
             } catch (error) {
                 console.error('Error during file analysis:', error);
+                alert('Error analyzing file. Please try again.');
             }
 
         } else {
+            // Example of how to format the text input
+            if (!textInput) {
+                setTextInput("This product is amazing! | positive\nThe service was terrible. | negative\nIt was okay, nothing special. | neutral");
+                setLoading(false);
+                return;
+            }
+
             const lines = textInput.split('\n').filter(Boolean);
             const payload = lines.map(line => {
-                const [text, label] = line.split('|').map(item => item.trim());
-                return { text, label: label || null };
+                const [text, label = ''] = line.split('|').map(item => item.trim());
+                // Validate the label
+                const validLabel = ['positive', 'negative', 'neutral'].includes(label) ? label : null;
+                return { text, label: validLabel };
             });
 
+            // Validate that we have at least one valid text entry
+            if (payload.length === 0 || !payload.every(item => item.text)) {
+                alert('Please enter at least one valid text entry.');
+                setLoading(false);
+                return;
+            }
+
             try {
+                console.log('Sending payload:', payload); // Debug log
                 const res = await axios.post('http://localhost:8080/api/experiments/sentiment-analysis/text-multi', { data: payload });
-                setOutput(res.data.output);
-                const allText = payload.map(p => p.text);
-                generateWordCloud(allText);
+                console.log('Response:', res.data); // Debug log
+                
+                if (res.data && res.data.output) {
+                    setOutput(res.data.output);
+                    const allText = payload.map(p => p.text);
+                    generateWordCloud(allText);
+                } else {
+                    throw new Error('Invalid response format');
+                }
             } catch (error) {
                 console.error('Error during text analysis:', error);
+                const errorMessage = error.response?.data?.details || error.response?.data?.error || error.message;
+                alert(`Error analyzing text: ${errorMessage}`);
             }
         }
 

@@ -26,7 +26,10 @@ const QuizHistory = () => {
         setLoading(true);
         const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
         const response = await axios.get(`${backendUrl}/api/quiz-scores`, {
-          withCredentials: true
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json'
+          }
         });
         
         if (response.data && response.data.success) {
@@ -51,10 +54,16 @@ const QuizHistory = () => {
         }
       } catch (error) {
         console.error('Error fetching quiz scores:', error);
-        if (error.response && error.response.status === 401) {
-          navigate('/login');
+        if (error.response) {
+          if (error.response.status === 401) {
+            navigate('/login');
+          } else if (error.response.status === 404) {
+            setError('Quiz scores service is currently unavailable');
+          } else {
+            setError(`Failed to fetch quiz scores: ${error.response.data?.message || 'Unknown error'}`);
+          }
         } else {
-          setError('Failed to fetch quiz scores. Please try again later.');
+          setError('Failed to connect to the server. Please try again later.');
         }
       } finally {
         setLoading(false);
@@ -141,23 +150,6 @@ const QuizHistory = () => {
 
   return (
     <div>
-      <nav className="navbar">
-        <div className="navbar-left">
-          <img 
-            src="https://kjsieit.somaiya.edu.in/assets/kjsieit/images/Logo/Somaiya-Logo.svg"
-            alt="Somaiya Logo" 
-            className="nav-logo" 
-          />
-          <span className="college-name">K J Somaiya Institute of Technology</span>
-        </div>
-        <div className="navbar-right">
-          <Link to="/" className="nav-link">Home</Link>
-          <Link to="/about" className="nav-link">About</Link>
-          <Link to="/experiments" className="nav-link">Experiments</Link>
-          <Link to="/quiz-history" className="nav-link active">Quiz History</Link>
-          <button onClick={() => navigate('/logout')} className="logout-btn">Logout</button>
-        </div>
-      </nav>
       <div className="quiz-history-container">
         <h2>Quiz Dashboard</h2>
         <div className="overall-progress">
