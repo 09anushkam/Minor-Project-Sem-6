@@ -2,6 +2,32 @@ const Experiment = require('../models/Experiment');
 const { exec, spawn } = require('child_process');
 const path = require('path');
 
+// Add these constants at the top of the file after the requires
+const PYTHON_PATHS = [
+    'python',
+    'python3',
+    'py',
+    'C:\\Python312\\python.exe',
+    'C:\\Python311\\python.exe',
+    'C:\\Python310\\python.exe',
+    'C:\\Users\\Priya\\AppData\\Local\\Programs\\Python\\Python312\\python.exe',
+    'C:\\Users\\Priya\\AppData\\Local\\Programs\\Python\\Python311\\python.exe',
+    'C:\\Users\\Priya\\AppData\\Local\\Programs\\Python\\Python310\\python.exe'
+];
+
+function findPythonPath() {
+    for (const pythonPath of PYTHON_PATHS) {
+        try {
+            const result = exec(`"${pythonPath}" --version`, { encoding: 'utf8' });
+            console.log(`Found Python at: ${pythonPath}`);
+            return pythonPath;
+        } catch (error) {
+            console.log(`Python not found at: ${pythonPath}`);
+        }
+    }
+    return null;
+}
+
 module.exports.experiment = async (req, res) => {
     try {
         // console.log('Received request for experiment:', req.params.no);
@@ -103,26 +129,58 @@ module.exports.sentimentText = (req, res) => {
 
 module.exports.sentimentMulti = (req, res) => {
     const inputData = req.body.data;
+    
+    if (!inputData || !Array.isArray(inputData)) {
+        return res.status(400).json({ error: 'Invalid input data. Expected an array of text entries.' });
+    }
 
-    const python = spawn('python', ['python_scripts/sentiment_analysis_multi.py']);
+    const pythonScript = path.join(__dirname, '..', 'python_scripts', 'sentiment_analysis_multi.py');
+    console.log('Python script path:', pythonScript);
+    console.log('Input data:', JSON.stringify(inputData));
 
-    let result = '';
-    python.stdout.on('data', (data) => {
-        result += data.toString();
-    });
+    // Find Python executable
+    const pythonPath = findPythonPath();
+    if (!pythonPath) {
+        return res.status(500).json({ 
+            error: 'Python not found',
+            details: 'Could not find Python installation. Please ensure Python is installed and in PATH.'
+        });
+    }
 
-    python.stderr.on('data', (data) => {
-        console.error('Python error:', data.toString());
-    });
+    // Create a temporary file to store the input data
+    const tempInput = JSON.stringify(inputData);
+    
+    exec(`"${pythonPath}" "${pythonScript}"`, {
+        input: tempInput,
+        encoding: 'utf-8',
+        maxBuffer: 1024 * 1024, // Increase buffer size to 1MB
+        windowsHide: true // Prevent command window from showing on Windows
+    }, (error, stdout, stderr) => {
+        if (error) {
+            console.error('Python execution error:', error);
+            console.error('stderr:', stderr);
+            return res.status(500).json({ 
+                error: 'Python script execution failed',
+                details: stderr || error.message,
+                command: `${pythonPath} ${pythonScript}`
+            });
+        }
 
-    python.on('close', (code) => {
+        if (stderr) {
+            console.error('Python stderr:', stderr);
+        }
+
         try {
-            res.json({ output: JSON.parse(result) });
+            console.log('Python stdout:', stdout);
+            const parsedResult = JSON.parse(stdout);
+            res.json({ output: parsedResult });
         } catch (err) {
-            res.status(500).json({ error: 'Error parsing Python output', raw: result });
+            console.error('Error parsing Python output:', err);
+            res.status(500).json({ 
+                error: 'Error parsing Python output',
+                details: err.message,
+                raw: stdout
+            });
         }
     });
-
-    python.stdin.write(JSON.stringify(inputData));
-    python.stdin.end();
-}
+};

@@ -26,7 +26,10 @@ const QuizHistory = () => {
         setLoading(true);
         const backendUrl = 'http://localhost:8080';
         const response = await axios.get(`${backendUrl}/api/quiz-scores`, {
-          withCredentials: true
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json'
+          }
         });
 
         if (response.data && response.data.success) {
@@ -51,10 +54,16 @@ const QuizHistory = () => {
         }
       } catch (error) {
         console.error('Error fetching quiz scores:', error);
-        if (error.response && error.response.status === 401) {
-          navigate('/login');
+        if (error.response) {
+          if (error.response.status === 401) {
+            navigate('/login');
+          } else if (error.response.status === 404) {
+            setError('Quiz scores service is currently unavailable');
+          } else {
+            setError(`Failed to fetch quiz scores: ${error.response.data?.message || 'Unknown error'}`);
+          }
         } else {
-          setError('Failed to fetch quiz scores. Please try again later.');
+          setError('Failed to connect to the server. Please try again later.');
         }
       } finally {
         setLoading(false);

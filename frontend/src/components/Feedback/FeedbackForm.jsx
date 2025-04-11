@@ -30,7 +30,7 @@ const FeedbackForm = ({ experimentNo }) => {
 
         const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
         const response = await axios.get(
-          `${backendUrl}/api/experiment-feedback/${experimentNo}`,
+          `${backendUrl}/api/feedback/experiment-feedback/${experimentNo}`,
           { withCredentials: true }
         );
 
@@ -82,7 +82,7 @@ const FeedbackForm = ({ experimentNo }) => {
       }
 
       const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
-      await axios.post(`${backendUrl}/api/experiment-feedback`, {
+      await axios.post(`${backendUrl}/api/feedback/experiment-feedback`, {
         experimentNo,
         ...feedback
       }, {

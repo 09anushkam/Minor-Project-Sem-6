@@ -594,3 +594,27 @@ input[type="number"]:focus {
     gap: 20px;
   }
 }
+
+.follow-matrix {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0;
+}
+
+.analyze-button {
+  text-align: center;
+}
+
+.simulation8-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.user-input-section {
+  margin-top: 0;
+}
