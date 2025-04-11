@@ -34,10 +34,14 @@ const Home = ({ user }) => {
 
 Home.propTypes = {
     user: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        email: PropTypes.string.isRequired,
-        role: PropTypes.string.isRequired,
-    }).isRequired,
+        name: PropTypes.string,
+        email: PropTypes.string,
+        role: PropTypes.string,
+    })
+};
+
+Home.defaultProps = {
+    user: null
 };
 
 export default Home;

@@ -25,7 +25,9 @@ const Navbar = () => {
     return (
         <header className="header">
             <div className="navbar">
-                <a href="/" className="logo"><img src="/kjsieit-logo.svg" alt="logo" /></a>
+                <a href="/" className="logo">
+                    <img src="/kjsieit-logo.svg" alt="logo" />
+                </a>
                 <div className="hamburger" onClick={() => setIsOpen(!isOpen)}>☰</div>
                 <nav className={isOpen ? "nav-menu open" : "nav-menu"}>
                     <div className="close-btn" onClick={() => setIsOpen(false)}>✖</div>

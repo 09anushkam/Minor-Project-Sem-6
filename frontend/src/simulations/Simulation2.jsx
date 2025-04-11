@@ -40,10 +40,10 @@ const Simulation2 = () => {
                     "BeautifulSoup",
                     "Requests",
                     "TwitterAPI",
-                    "FacebookAPI",
-                    "InstagramAPI",
-                    "YouTubeAPI",
-                    "IEEEXplore",
+                    // "FacebookAPI",
+                    // "InstagramAPI",
+                    // "YouTubeAPI",
+                    // "IEEEXplore",
                 ].map((method) => (
                     <button
                         key={method}

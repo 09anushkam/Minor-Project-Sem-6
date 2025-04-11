@@ -1,17 +1,30 @@
-module.exports.isAuthenticated = (req, res, next) => {
-    console.log('Checking authentication:', req.isAuthenticated(), 'User:', req.user);
-    if (req.isAuthenticated()) return next();
+const multer = require('multer');
+const path = require('path');
+
+// Authentication middleware
+const isAuthenticated = (req, res, next) => {
+    console.log('Checking authentication...');
+    console.log('Session:', req.session);
+    console.log('Is authenticated:', req.isAuthenticated());
+    console.log('User:', req.user);
+    console.log('Cookies:', req.cookies);
+    console.log('Headers:', req.headers);
+    
+    if (req.isAuthenticated()) {
+        console.log('User is authenticated, proceeding...');
+        return next();
+    }
+    console.log('Authentication failed, sending 401');
     res.status(401).json({ message: 'Please login to continue' });
 };
 
-module.exports.isAuthorized = (role) => (req, res, next) => {
+// Authorization middleware
+const isAuthorized = (role) => (req, res, next) => {
     if (req.user.role === role) return next();
     res.status(403).json({ message: 'Access denied' });
 };
 
-const multer = require('multer');
-const path = require('path');
-
+// File upload middleware
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads/');
@@ -24,4 +37,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-module.exports = { upload };
+module.exports = {
+    isAuthenticated,
+    isAuthorized,
+    upload
+};

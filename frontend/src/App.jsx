@@ -1,102 +1,75 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import Home from "./pages/Home/index";
-import Login from "./pages/Login/Login";
-import Signup from "./pages/Signup/Signup";
-import Experiments from './pages/Experiments/Experiments';
-import AboutPage from "./pages/AboutPage/AboutPage";
-// import AdminPanel from './pages/AdminPanel/AdminPanel';
-import { AuthProvider } from './utils/authContext';
+import { useContext, useEffect, useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import axios from 'axios';
+import Navbar from './components/Navbar';
 import './App.css';
-import Testing from "./Testing";
-import ExperimentPage from "./pages/ExperimentPage/ExperimentPage";
-import QuizHistory from "./components/Quiz/QuizHistory";
+import { AuthContext } from './utils/authContext';
+
+// Import your components
+import Home from './pages/Home/index';
+import Login from './pages/Login/Login';
+import Signup from './pages/Signup/Signup';
+import Experiments from './pages/Experiments/Experiments';
+import AboutPage from './pages/AboutPage/AboutPage';
+import QuizHistory from './components/Quiz/QuizHistory';
+import ExperimentPage from './pages/ExperimentPage/ExperimentPage';
 
 function App() {
-    const [user, setUser] = useState(() => {
-        const storedUser = localStorage.getItem("user");
-        return storedUser ? JSON.parse(storedUser) : null;
-    });
-
-    const getUser = async () => {
-        try {
-            const url = `http://localhost:8080/auth/login/success`;
-            const { data } = await axios.get(url, { withCredentials: true });
-            if (data && data.user) {
-                setUser(data.user);
-                localStorage.setItem("user", JSON.stringify(data.user));
-                window.location.reload();
-            } else {
-                console.log("User data is not available.");
-                setUser(null);
-                localStorage.removeItem("user");
-            }
-        } catch (err) {
-            console.error("Error fetching user data:", err.message || err);
-            setUser(null);
-            localStorage.removeItem("user");
-        }
-    };
+    const { user, login } = useContext(AuthContext);
 
     useEffect(() => {
-        if (!user) {
-            getUser();
-        }
-    }, [user]);
+        const getUser = async () => {
+            try {
+                const url = `http://localhost:8080/auth/login/success`;
+                const { data } = await axios.get(url, { withCredentials: true });
+                if (data && data.user) {
+                    await login(data.user);
+                }
+            } catch (err) {
+                console.error('Error fetching user data:', err.message || err);
+            }
+        };
+
+        getUser();
+    }, []); // Only run once on mount
+
+    // Add a loading state while checking authentication
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const url = `http://localhost:8080/auth/login/success`;
+                await axios.get(url, { withCredentials: true });
+            } catch (err) {
+                console.error('Auth check failed:', err.message || err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        checkAuth();
+    }, []);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     return (
-        <AuthProvider>
-            <Routes>
-                <Route
-                    exact
-                    path="/"
-                    element={<Home user={user} />}
-                />
-                <Route
-                    exact
-                    path="/login"
-                    element={user ? <Navigate to="/" /> : <Login />}
-                />
-                <Route
-                    exact
-                    path="/signup"
-                    element={user ? <Navigate to="/" /> : <Signup />}
-                />
-                <Route
-                    exact
-                    path="/exp"
-                    element={user ? <Experiments user={user} /> : <Navigate to="/login" />}
-                />
-                <Route
-                    exact
-                    path="/about"
-                    element={<AboutPage />}
-                />
-                <Route
-                    path="/exp/:no"
-                    element={<ExperimentPage />}
-                />
-                {/* <Route
-                        exact
-                        path="/admin"
-                        element={user && user.role === 'admin'
-                            ? <AdminPanel user={user} />
-                            : <Navigate to="/login" />
-                        }
-                    /> */}
-                <Route
-                    exact
-                    path="/testing"
-                    element={<Testing />}
-                />
-                <Route
-                    exact
-                    path="/quiz-history"
-                    element={user ? <QuizHistory /> : <Navigate to="/login" />}
-                />
-            </Routes>
-        </AuthProvider>
+        <div className="app">
+            <Navbar />
+            <div className="main-content">
+                <Routes>
+                    <Route path="/" element={<Home user={user} />} />
+                    <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
+                    <Route path="/signup" element={user ? <Navigate to="/" /> : <Signup />} />
+                    <Route path="/exp" element={user ? <Experiments user={user} /> : <Navigate to="/login" />} />
+                    <Route path="/about" element={<AboutPage />} />
+                    <Route path="/exp/:no" element={user ? <ExperimentPage /> : <Navigate to="/login" />} />
+                    <Route path="/quiz-history" element={user ? <QuizHistory /> : <Navigate to="/login" />} />
+                </Routes>
+            </div>
+        </div>
     );
 }
 

@@ -7,6 +7,11 @@ const {
   getExperimentQuizScores
 } = require('../controllers/quizScore');
 
+// Test route to verify router is working
+router.get('/test', (req, res) => {
+  res.json({ message: 'Quiz score routes are working' });
+});
+
 // Save a new quiz score
 router.post('/quiz-scores', saveQuizScore);
 

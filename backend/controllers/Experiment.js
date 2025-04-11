@@ -36,27 +36,42 @@ module.exports.experiment = async (req, res) => {
 }
 
 module.exports.sentimentCSV = (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ error: 'No file uploaded' });
+    let filePath;
+
+    if (req.body.filename) {
+        filePath = path.join(__dirname, '..', 'uploads', req.body.filename);
+    } else if (req.body.datasetName) {
+        filePath = path.join(__dirname, '..', 'datasets', req.body.datasetName);
+    } else if (req.file) {
+        filePath = path.join(__dirname, '..', 'uploads', req.file.filename);
+    } else {
+        return res.status(400).json({ error: 'No input file provided' });
     }
-    const filePath = path.join(__dirname, '..', 'uploads', req.file.filename);
+    console.log("filepath is: ", filePath);
+
     const pythonScript = path.join(__dirname, '..', 'python_scripts', 'sentiment_analysis.py');
 
-    exec(`python3 "${pythonScript}" "${filePath}"`, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`exec error: ${error}`);
-            return res.status(500).json({ error: error.message });
+    exec(`python "${pythonScript}" "${filePath}"`, (error, stdout, stderr) => {
+        if (error || stderr) {
+            console.error('Python error:', stderr || error.message);
+            return res.status(500).json({
+                error: 'Python script execution failed',
+                detail: stderr || error.message,
+            });
         }
 
         try {
             const output = JSON.parse(stdout);
-            res.status(200).json({ message: 'Analysis complete', output });
-        } catch (e) {
-            console.error('Error parsing Python output:', e);
-            return res.status(500).json({ error: 'Error parsing output from Python script' });
+            return res.status(200).json({ message: 'Analysis complete', output });
+        } catch (parseError) {
+            console.error('Error parsing Python output:', stdout);
+            return res.status(500).json({
+                error: 'Invalid JSON output from Python script',
+                raw: stdout,
+            });
         }
     });
-}
+};
 
 module.exports.sentimentText = (req, res) => {
     const { text } = req.body;
@@ -67,7 +82,7 @@ module.exports.sentimentText = (req, res) => {
 
     const safeText = text.replace(/"/g, '\\"');
 
-    exec(`python3 "${pythonScript}" "${safeText}"`, (error, stdout, stderr) => {
+    exec(`python "${pythonScript}" "${safeText}"`, (error, stdout, stderr) => {
         if (error) {
             console.error(`exec error: ${error}`);
             return res.status(500).json({ error: error.message });
@@ -84,25 +99,57 @@ module.exports.sentimentText = (req, res) => {
 module.exports.sentimentMulti = (req, res) => {
     const inputData = req.body.data;
 
-    const python = spawn('python', ['python_scripts/sentiment_analysis_multi.py']);
+    if (!inputData || !Array.isArray(inputData)) {
+        return res.status(400).json({ error: 'Invalid input data. Expected an array of text entries.' });
+    }
 
-    let result = '';
-    python.stdout.on('data', (data) => {
-        result += data.toString();
-    });
+    const pythonScript = path.join(__dirname, '..', 'python_scripts', 'sentiment_analysis_multi.py');
+    console.log('Python script path:', pythonScript);
+    console.log('Input data:', JSON.stringify(inputData));
 
-    python.stderr.on('data', (data) => {
-        console.error('Python error:', data.toString());
-    });
+    // Find Python executable
+    const pythonPath = findPythonPath();
+    if (!pythonPath) {
+        return res.status(500).json({
+            error: 'Python not found',
+            details: 'Could not find Python installation. Please ensure Python is installed and in PATH.'
+        });
+    }
 
-    python.on('close', (code) => {
+    // Create a temporary file to store the input data
+    const tempInput = JSON.stringify(inputData);
+
+    exec(`"${pythonPath}" "${pythonScript}"`, {
+        input: tempInput,
+        encoding: 'utf-8',
+        maxBuffer: 1024 * 1024, // Increase buffer size to 1MB
+        windowsHide: true // Prevent command window from showing on Windows
+    }, (error, stdout, stderr) => {
+        if (error) {
+            console.error('Python execution error:', error);
+            console.error('stderr:', stderr);
+            return res.status(500).json({
+                error: 'Python script execution failed',
+                details: stderr || error.message,
+                command: `${pythonPath} ${pythonScript}`
+            });
+        }
+
+        if (stderr) {
+            console.error('Python stderr:', stderr);
+        }
+
         try {
-            res.json({ output: JSON.parse(result) });
+            console.log('Python stdout:', stdout);
+            const parsedResult = JSON.parse(stdout);
+            res.json({ output: parsedResult });
         } catch (err) {
-            res.status(500).json({ error: 'Error parsing Python output', raw: result });
+            console.error('Error parsing Python output:', err);
+            res.status(500).json({
+                error: 'Error parsing Python output',
+                details: err.message,
+                raw: stdout
+            });
         }
     });
-
-    python.stdin.write(JSON.stringify(inputData));
-    python.stdin.end();
-}
+};

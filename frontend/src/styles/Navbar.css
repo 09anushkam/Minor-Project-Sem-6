@@ -1,0 +1,75 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 2rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-logo {
+  height: 45px;
+  width: auto;
+}
+
+.college-name {
+  font-size: 1.2rem;
+  color: #333333;
+  font-weight: 500;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #0066cc;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.5rem;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #004999;
+}
+
+.nav-link.active {
+  color: #0066cc;
+  font-weight: 600;
+}
+
+.logout-btn {
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: #004999;
+}
+
+/* Add padding to the main content to account for fixed navbar */
+.main-content {
+  padding-top: 70px;
+}
