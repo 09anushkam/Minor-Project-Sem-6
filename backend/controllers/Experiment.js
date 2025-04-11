@@ -82,7 +82,7 @@ module.exports.sentimentCSV = (req, res) => {
 
     const pythonScript = path.join(__dirname, '..', 'python_scripts', 'sentiment_analysis.py');
 
-    exec(`python3 "${pythonScript}" "${filePath}"`, (error, stdout, stderr) => {
+    exec(`python "${pythonScript}" "${filePath}"`, (error, stdout, stderr) => {
         if (error || stderr) {
             console.error('Python error:', stderr || error.message);
             return res.status(500).json({
@@ -113,7 +113,7 @@ module.exports.sentimentText = (req, res) => {
 
     const safeText = text.replace(/"/g, '\\"');
 
-    exec(`python3 "${pythonScript}" "${safeText}"`, (error, stdout, stderr) => {
+    exec(`python "${pythonScript}" "${safeText}"`, (error, stdout, stderr) => {
         if (error) {
             console.error(`exec error: ${error}`);
             return res.status(500).json({ error: error.message });
