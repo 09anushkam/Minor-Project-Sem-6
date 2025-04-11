@@ -1,0 +1,31 @@
+.procedure-heading {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #9B2928;
+    margin-bottom: 1rem;
+    text-align: center;
+    border-bottom: 2px solid #d1d5db;
+    padding-bottom: 0.5rem;
+}
+
+.procedure-step {
+    margin-bottom: 2rem;
+}
+
+.procedure-step h3 {
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+}
+
+.procedure-step ul {
+    margin-left: 1.5rem;
+    list-style-type: disc;
+}
+
+.note {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #f0f4ff;
+    border-left: 4px solid #007bff;
+    font-style: italic;
+}

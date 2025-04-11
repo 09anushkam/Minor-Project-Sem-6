@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
     BarChart, Bar, XAxis, YAxis, Tooltip, Legend,
@@ -18,6 +18,14 @@ const Simulation3 = () => {
     const [loading, setLoading] = useState(false);
     const [wordData, setWordData] = useState([]);
     const [csvTextEntries, setCsvTextEntries] = useState([]);
+    const [availableDatasets, setAvailableDatasets] = useState([]);
+    const [selectedDataset, setSelectedDataset] = useState('');
+
+    useEffect(() => {
+        axios.get('http://localhost:8080/api/experiments/default-datasets')
+            .then(res => setAvailableDatasets(res.data.datasets))
+            .catch(err => console.error("Failed to fetch datasets:", err));
+    }, []);
 
     const handleFileChange = (e) => setFile(e.target.files[0]);
     const handleTextChange = (e) => setTextInput(e.target.value);
@@ -44,7 +52,7 @@ const Simulation3 = () => {
                     : res.data.output;
 
                 setOutput(parsedOutput);
-                generateWordCloud(parsedOutput.cleaned_texts);
+                generateWordCloudsBySentiment(parsedOutput.cleaned_texts, parsedOutput.sentiments);
 
                 // Combine text and prediction for display
                 const textList = parsedOutput.cleaned_texts || [];
@@ -57,9 +65,38 @@ const Simulation3 = () => {
 
             } catch (error) {
                 console.error('Error during file analysis:', error);
-                alert('Error analyzing file. Please try again.');
             }
 
+        } else if (inputType === 'dataset') {
+            if (!selectedDataset) {
+                alert('Please select a dataset.');
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const res = await axios.post('http://localhost:8080/api/experiments/sentiment-analysis', {
+                    datasetName: selectedDataset
+                });
+
+                const parsedOutput = typeof res.data.output === 'string'
+                    ? JSON.parse(res.data.output.replace(/'/g, '"'))
+                    : res.data.output;
+
+                setOutput(parsedOutput);
+                generateWordCloudsBySentiment(parsedOutput.cleaned_texts, parsedOutput.sentiments);
+
+                const combined = parsedOutput.cleaned_texts.map((text, index) => ({
+                    text,
+                    sentiment: parsedOutput.sentiments[index] || 'unknown'
+                }));
+                setCsvTextEntries(combined);
+            } catch (error) {
+                console.error('Error analyzing dataset:', error);
+            }
+
+            setLoading(false);
+            return;
         } else {
             // Example of how to format the text input
             if (!textInput) {
@@ -86,15 +123,9 @@ const Simulation3 = () => {
             try {
                 console.log('Sending payload:', payload); // Debug log
                 const res = await axios.post('http://localhost:8080/api/experiments/sentiment-analysis/text-multi', { data: payload });
-                console.log('Response:', res.data); // Debug log
-                
-                if (res.data && res.data.output) {
-                    setOutput(res.data.output);
-                    const allText = payload.map(p => p.text);
-                    generateWordCloud(allText);
-                } else {
-                    throw new Error('Invalid response format');
-                }
+                setOutput(res.data.output);
+                const allText = payload.map(p => p.text);
+                generateWordCloudsBySentiment(allText.cleaned_texts, allText.sentiments);
             } catch (error) {
                 console.error('Error during text analysis:', error);
                 const errorMessage = error.response?.data?.details || error.response?.data?.error || error.message;
@@ -119,23 +150,43 @@ const Simulation3 = () => {
         }))
         : [];
 
-    const generateWordCloud = (texts) => {
-        const allWords = texts.join(' ').toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/);
-        const filteredWords = removeStopwords(allWords);
-        const frequency = {};
-        filteredWords.forEach(word => {
-            frequency[word] = (frequency[word] || 0) + 1;
+    const generateWordCloudsBySentiment = (texts, sentiments) => {
+        const categories = {
+            positive: [],
+            neutral: [],
+            negative: []
+        };
+
+        texts.forEach((text, i) => {
+            const sentiment = sentiments[i];
+            if (categories[sentiment]) {
+                categories[sentiment].push(text);
+            }
         });
-        const topWords = Object.entries(frequency)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 30)
-            .map(([text, value]) => ({ text, value }));
-        setWordData(topWords);
+
+        const cloudify = (textArray) => {
+            const allWords = textArray.join(' ').toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/);
+            const filtered = removeStopwords(allWords);
+            const freq = {};
+            filtered.forEach(word => {
+                freq[word] = (freq[word] || 0) + 1;
+            });
+            return Object.entries(freq)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 100)
+                .map(([text, value]) => ({ text, value }));
+        };
+
+        setWordData({
+            positive: cloudify(categories.positive),
+            neutral: cloudify(categories.neutral),
+            negative: cloudify(categories.negative)
+        });
     };
 
     return (
         <div className="simulation3-container">
-            <h2 className="heading">🧪 Experiment 3: Sentiment Analysis</h2>
+            <h2 className="heading">🧪 Sentiment Analysis</h2>
 
             <div className="input-toggle">
                 <label>
@@ -158,14 +209,39 @@ const Simulation3 = () => {
                     />
                     Enter Text Manually
                 </label>
+                <label>
+                    <input
+                        type="radio"
+                        name="inputType"
+                        value="dataset"
+                        checked={inputType === 'dataset'}
+                        onChange={() => setInputType('dataset')}
+                    />
+                    Use Default Dataset
+                </label>
             </div>
 
-            {inputType === 'file' ? (
+            {inputType === 'dataset' && (
+                <select
+                    value={selectedDataset}
+                    onChange={(e) => setSelectedDataset(e.target.value)}
+                    className="dataset-dropdown"
+                >
+                    <option value="">-- Select a dataset --</option>
+                    {availableDatasets.map((file, idx) => (
+                        <option key={idx} value={file}>{file}</option>
+                    ))}
+                </select>
+            )}
+
+            {inputType === 'file' && (
                 <input type="file" accept=".csv" onChange={handleFileChange} className="file-input" />
-            ) : (
+            )}
+
+            {inputType === 'text' && (
                 <textarea
                     rows="6"
-                    cols="100"
+                    cols="80"
                     placeholder='Enter one sentence per line. Optionally add label after "|" (e.g., "Great! | positive")'
                     value={textInput}
                     onChange={handleTextChange}
@@ -287,20 +363,42 @@ const Simulation3 = () => {
                     <div className="chart-section">
                         <h3 className="subheading">📉 Sentiment Trend (Line)</h3>
                         <ResponsiveContainer width="100%" height={300}>
-                            <LineChart data={sentimentTrendData}>
-                                <XAxis dataKey="index" />
+                            <LineChart
+                                data={sentimentTrendData.slice(0, 1000)} // limit for clarity
+                                margin={{ top: 10, right: 30, left: 20, bottom: 10 }}
+                            >
+                                <XAxis dataKey="index" hide />
                                 <YAxis domain={[-1, 1]} ticks={[-1, 0, 1]} />
                                 <Tooltip />
                                 <Legend />
-                                <Line type="monotone" dataKey="sentiment" stroke="#82ca9d" />
+                                <Line
+                                    type="monotone"
+                                    dataKey="sentiment"
+                                    stroke="#82ca9d"
+                                    dot={false}
+                                    strokeWidth={2}
+                                />
                             </LineChart>
                         </ResponsiveContainer>
                     </div>
 
-                    {wordData.length > 0 && (
+                    {wordData && (
                         <div className="chart-section wordcloud-section">
-                            <h3 className="subheading">☁️ Word Cloud</h3>
-                            <WordCloudVisx words={wordData} />
+                            <h3 className="subheading">☁️ Word Clouds by Sentiment</h3>
+                            <div className="wordcloud-grid">
+                                <div>
+                                    <h4>😊 Positive</h4>
+                                    <WordCloudVisx words={wordData.positive} />
+                                </div>
+                                <div>
+                                    <h4>😐 Neutral</h4>
+                                    <WordCloudVisx words={wordData.neutral} />
+                                </div>
+                                <div>
+                                    <h4>😠 Negative</h4>
+                                    <WordCloudVisx words={wordData.negative} />
+                                </div>
+                            </div>
                         </div>
                     )}
 

@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-import { Graph } from 'graph-data-structure';
+// import { Graph } from 'graph-data-structure';
 import "./Simulation.css";
 
 const Simulation6 = () => {
@@ -38,7 +38,7 @@ const Simulation6 = () => {
 
     const handleGraphInputChange = (e, i, j) => {
         const value = e.target.value === "" ? "" : Number(e.target.value);
-        
+
         // Validate input: only allow 0 or 1
         if (value !== "" && value !== 0 && value !== 1) {
             return;
@@ -48,11 +48,11 @@ const Simulation6 = () => {
             const newGraph = { ...prev };
             if (!newGraph[i]) newGraph[i] = {};
             if (!newGraph[j]) newGraph[j] = {};
-            
+
             // Set both (i,j) and (j,i) for undirected graph
             newGraph[i][j] = value;
             newGraph[j][i] = value;  // Make it symmetric
-            
+
             return newGraph;
         });
     };
@@ -111,13 +111,13 @@ const Simulation6 = () => {
     const generateRandomGraph = () => {
         const n = numVertices;
         const p = 0.3; // Probability of edge creation for additional edges
-        
+
         // Initialize the graph data structure
         const newGraphData = {};
         for (let i = 0; i < n; i++) {
             newGraphData[i] = {};
         }
-        
+
         // Step 1: Create a spanning tree to ensure connectivity
         // Use a simple approach: connect each node to the next one in sequence
         for (let i = 0; i < n - 1; i++) {
@@ -125,40 +125,40 @@ const Simulation6 = () => {
             newGraphData[i][j] = 1;
             newGraphData[j][i] = 1;
         }
-        
+
         // Step 2: Add additional random edges to create a more realistic social network
         // Use a higher probability for nodes that are closer in the spanning tree
         for (let i = 0; i < n; i++) {
             for (let j = i + 1; j < n; j++) {
                 // Skip edges that are already in the spanning tree
                 if (j === i + 1) continue;
-                
+
                 // Calculate distance in the spanning tree
                 const distance = j - i;
-                
+
                 // Adjust probability based on distance (closer nodes are more likely to connect)
                 const adjustedProbability = p * (1 / Math.sqrt(distance));
-                
+
                 if (Math.random() < adjustedProbability) {
                     newGraphData[i][j] = 1;
                     newGraphData[j][i] = 1;
                 }
             }
         }
-        
+
         // Step 3: Add a few "hub" nodes with higher connectivity
         const numHubs = Math.max(1, Math.floor(n / 10)); // 10% of nodes are hubs
         const hubNodes = [];
-        
+
         // Select random hub nodes
         for (let i = 0; i < numHubs; i++) {
             let hub;
             do {
                 hub = Math.floor(Math.random() * n);
             } while (hubNodes.includes(hub));
-            
+
             hubNodes.push(hub);
-            
+
             // Connect hub to 50% of other nodes
             for (let j = 0; j < n; j++) {
                 if (j !== hub && Math.random() < 0.5) {
@@ -175,15 +175,15 @@ const Simulation6 = () => {
 
     const drawGraph = () => {
         if (!svgRef.current) return;
-        
+
         // Clear previous visualization
         d3.select(svgRef.current).selectAll("*").remove();
-        
+
         // Get the container dimensions
         const container = d3.select(svgRef.current);
         const width = container.node().getBoundingClientRect().width;
         const height = container.node().getBoundingClientRect().height;
-        
+
         // Create nodes array
         const nodes = Array.from({ length: numVertices }, (_, i) => ({
             id: i,
@@ -308,7 +308,7 @@ const Simulation6 = () => {
 
     const calculateCentrality = () => {
         console.log("Calculating centrality with graph data:", graphData);
-        
+
         // Calculate all centrality measures
         const centralities = {
             degree: {},
@@ -316,7 +316,7 @@ const Simulation6 = () => {
             betweenness: {},
             eigenvector: {}
         };
-        
+
         // First: Calculate degree centrality for all nodes
         const degrees = {};
         let maxDegree = 0;
@@ -349,7 +349,7 @@ const Simulation6 = () => {
 
             while (queue.length > 0) {
                 const [node, distance] = queue.shift();
-                
+
                 if (graphData[node]) {
                     Object.entries(graphData[node]).forEach(([neighbor, value]) => {
                         const neighborId = parseInt(neighbor);
@@ -363,7 +363,7 @@ const Simulation6 = () => {
                 }
             }
 
-            centralities.closeness[i] = reachableNodes > 0 ? 
+            centralities.closeness[i] = reachableNodes > 0 ?
                 reachableNodes / ((numVertices - 1) * Math.max(1, totalDistance)) : 0;
         }
 
@@ -381,15 +381,15 @@ const Simulation6 = () => {
                     const paths = [];
                     const queue = [[s, [s]]];
                     const visited = new Set();
-                    
+
                     while (queue.length > 0) {
                         const [node, path] = queue.shift();
-                        
+
                         if (node === t) {
                             paths.push(path);
                             continue;
                         }
-                        
+
                         if (graphData[node]) {
                             Object.entries(graphData[node]).forEach(([neighbor, value]) => {
                                 const neighborId = parseInt(neighbor);
@@ -416,7 +416,7 @@ const Simulation6 = () => {
             // Normalize betweenness values
             const maxBetweenness = (numVertices - 1) * (numVertices - 2) / 2;
             for (let i = 0; i < numVertices; i++) {
-                centralities.betweenness[i] = maxBetweenness > 0 ? 
+                centralities.betweenness[i] = maxBetweenness > 0 ?
                     betweenness[i] / maxBetweenness : 0;
             }
         };
@@ -425,16 +425,16 @@ const Simulation6 = () => {
         const calculateEigenvector = () => {
             let eigenvector = {};
             let newEigenvector = {};
-            
+
             // Initialize with equal values
             for (let i = 0; i < numVertices; i++) {
                 eigenvector[i] = 1 / numVertices;
             }
-            
+
             // Power iteration (20 iterations)
             for (let iter = 0; iter < 20; iter++) {
                 let sum = 0;
-                
+
                 // Calculate new values
                 for (let i = 0; i < numVertices; i++) {
                     newEigenvector[i] = 0;
@@ -449,14 +449,14 @@ const Simulation6 = () => {
                     }
                     sum += newEigenvector[i] * newEigenvector[i];
                 }
-                
+
                 // Normalize
                 const norm = Math.sqrt(sum);
                 for (let i = 0; i < numVertices; i++) {
                     eigenvector[i] = norm > 0 ? newEigenvector[i] / norm : 0;
                 }
             }
-            
+
             centralities.eigenvector = eigenvector;
         };
 
@@ -506,7 +506,7 @@ const Simulation6 = () => {
     return (
         <div className="simulation-container">
             <h2>Social Network Analysis</h2>
-            
+
             <div className="controls">
                 <h3>Network Configuration</h3>
                 <div className="graph-type-buttons">
@@ -599,7 +599,7 @@ const Simulation6 = () => {
                                                 }
                                             }
                                             const connectionsStr = connections.join(', ');
-                                            
+
                                             return (
                                                 <tr key={i} className={centralityResults.influencers.includes(i) ? 'influencer' : ''}>
                                                     <td><strong>Node {i}</strong></td>

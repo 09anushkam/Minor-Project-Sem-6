@@ -1,5 +1,5 @@
-import React from 'react';
 import FeedbackForm from './FeedbackForm';
+import PropTypes from 'prop-types';
 
 const ExperimentFeedback = ({ experimentNo, onClose }) => {
   return (
@@ -17,4 +17,9 @@ const ExperimentFeedback = ({ experimentNo, onClose }) => {
   );
 };
 
-export default ExperimentFeedback; 
+ExperimentFeedback.propTypes = {
+  experimentNo: PropTypes.string.isRequired, // or PropTypes.number if that's what you're using
+  onClose: PropTypes.func, // optional function
+};
+
+export default ExperimentFeedback;

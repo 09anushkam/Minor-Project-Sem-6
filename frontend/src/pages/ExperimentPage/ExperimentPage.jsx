@@ -23,17 +23,26 @@ const ExperimentPage = () => {
 
     const SimulationComponent = lazy(() => import(`../../simulations/Simulation${no}.jsx`));
     const QuizComponent = lazy(() => import(`../../components/Quiz/Quiz${no}.jsx`));
+    const ProcedureComponent = lazy(() => import(`../../procedures/Procedure${no}.jsx`));
 
     const renderContent = () => {
         switch (selectedSection) {
             case "Simulation":
                 return <SimulationComponent />;
+            case "Procedure":
+                return <ProcedureComponent />;
             case "Quiz":
                 return <QuizComponent />;
             case "Feedback":
                 return <FeedbackForm experimentNo={parseInt(no)} />;
             default:
-                return <p>{experiment[selectedSection.toLowerCase()]}</p>;
+                return (
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: experiment[selectedSection.toLowerCase()]
+                        }}
+                    />
+                );
         }
     };
 

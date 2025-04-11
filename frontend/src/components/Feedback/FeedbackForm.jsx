@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import './FeedbackForm.css';
 import { AuthContext } from '../../utils/authContext';
@@ -120,8 +121,8 @@ const FeedbackForm = ({ experimentNo }) => {
         <div className="feedback-success">
           <h2>Thank You!</h2>
           <p>Your feedback has been submitted successfully.</p>
-          <button 
-            className="submit-button" 
+          <button
+            className="submit-button"
             onClick={() => setSubmitted(false)}
             style={{ marginTop: '20px' }}
           >
@@ -240,6 +241,10 @@ const FeedbackForm = ({ experimentNo }) => {
       </form>
     </div>
   );
+};
+
+FeedbackForm.propTypes = {
+  experimentNo: PropTypes.string.isRequired, // or PropTypes.number if it's a number
 };
 
 export default FeedbackForm; 

@@ -1,10 +1,3 @@
-/* Global styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
   margin: 0;
   padding: 0;
@@ -38,31 +31,6 @@ body {
   margin: 0 auto;
 }
 
-/* Remove any existing navbar styles */
-.navbar {
-  display: none;
-}
-
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #0066cc;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #004999;
-}
-
 /* Button and input global styles */
 button {
   cursor: pointer;
@@ -76,7 +44,9 @@ button:disabled {
   cursor: not-allowed;
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
   font-family: inherit;
   font-size: inherit;
   outline: none;
@@ -86,9 +56,11 @@ input, textarea, select {
   transition: all 0.3s ease;
 }
 
-input:focus, textarea:focus, select:focus {
-  border-color: #0066cc;
-  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
 }
 
 /* Loading state */
@@ -109,4 +81,3 @@ input:focus, textarea:focus, select:focus {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-

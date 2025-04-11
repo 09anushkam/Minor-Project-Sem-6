@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 import ExperimentFeedback from './ExperimentFeedback';
 
 const FeedbackButton = ({ experimentNo }) => {
@@ -21,6 +22,10 @@ const FeedbackButton = ({ experimentNo }) => {
       Provide Feedback
     </button>
   );
+};
+
+FeedbackButton.propTypes = {
+  experimentNo: PropTypes.string.isRequired, // or PropTypes.number if it's a number
 };
 
 export default FeedbackButton; 

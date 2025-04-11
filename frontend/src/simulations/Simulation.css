@@ -30,8 +30,10 @@
 
 .graph-button {
   padding: 12px 24px;
-  background-color: #ffb6c1;  /* Light pink */
-  color: #333;  /* Darker text for better contrast */
+  background-color: #ffb6c1;
+  /* Light pink */
+  color: #333;
+  /* Darker text for better contrast */
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -41,13 +43,15 @@
 }
 
 .graph-button:hover {
-  background-color: #ff99a3;  /* Slightly darker pink on hover */
+  background-color: #ff99a3;
+  /* Slightly darker pink on hover */
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(255, 182, 193, 0.4);
 }
 
 .graph-button.active {
-  background-color: #ff8095;  /* Even darker pink when active */
+  background-color: #ff8095;
+  /* Even darker pink when active */
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
   transform: translateY(1px);
 }
@@ -145,7 +149,7 @@
     height: 35px;
     font-size: 0.9rem;
   }
-  
+
   .matrix-row {
     gap: 4px;
   }
@@ -224,7 +228,7 @@
   .graph-type-buttons {
     flex-direction: column;
   }
-  
+
   .matrix-input {
     max-width: 100%;
   }
@@ -278,8 +282,10 @@
 
 .graph-button {
   padding: 12px 24px;
-  background-color: #ffb6c1;  /* Light pink */
-  color: #333;  /* Darker text for better contrast */
+  background-color: #ffb6c1;
+  /* Light pink */
+  color: #333;
+  /* Darker text for better contrast */
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -289,13 +295,15 @@
 }
 
 .graph-button:hover {
-  background-color: #ff99a3;  /* Slightly darker pink on hover */
+  background-color: #ff99a3;
+  /* Slightly darker pink on hover */
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(255, 182, 193, 0.4);
 }
 
 .graph-button.active {
-  background-color: #ff8095;  /* Even darker pink when active */
+  background-color: #ff8095;
+  /* Even darker pink when active */
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
   transform: translateY(1px);
 }
@@ -393,7 +401,7 @@
     height: 35px;
     font-size: 0.9rem;
   }
-  
+
   .matrix-row {
     gap: 4px;
   }
@@ -472,7 +480,7 @@
   .graph-type-buttons {
     flex-direction: column;
   }
-  
+
   .matrix-input {
     max-width: 100%;
   }
@@ -604,16 +612,16 @@
   }
 }
 
-.navbar {
+/* .navbar {
   background-color: #ffffff;
   color: black;
   width: 100%;
   text-align: center;
-  /* font-size: 24px; */
+  font-size: 24px;
   font-weight: bold;
-  /* padding: 15px 0; */
+  padding: 15px 0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+} */
 
 .simulation-content {
   margin-top: 20px;
@@ -670,7 +678,8 @@
 }
 
 /* Inputs */
-input[type="number"], input[type="text"] {
+input[type="number"],
+input[type="text"] {
   margin: 5px;
   padding: 8px;
   border: 1px solid #ccc;
@@ -757,49 +766,49 @@ input[type="number"] {
 }
 
 .summary-section {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .summary-item {
-    flex: 1;
-    min-width: 200px;
-    text-align: center;
-    padding: 15px;
-    background-color: #f8f9fa;
-    border-radius: 6px;
-    border-left: 4px solid #ff4444;
+  flex: 1;
+  min-width: 200px;
+  text-align: center;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid #ff4444;
 }
 
 .summary-item h4 {
-    color: #2c3e50;
-    margin: 0 0 10px 0;
-    font-size: 1.1rem;
-    font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .summary-item p {
-    color: #333;
-    margin: 0;
-    font-size: 1.1rem;
-    font-weight: 500;
-    line-height: 1.4;
+  color: #333;
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .summary-section {
-        flex-direction: column;
-    }
-    
-    .summary-item {
-        width: 100%;
-    }
+  .summary-section {
+    flex-direction: column;
+  }
+
+  .summary-item {
+    width: 100%;
+  }
 }

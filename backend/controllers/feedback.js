@@ -1,13 +1,13 @@
 const Feedback = require('../models/Feedback');
 
 module.exports.submitFeedback = async (req, res) => {
-    console.log('Received feedback submission request');
+    // console.log('Received feedback submission request');
     try {
         const { experimentNo, understanding, difficulty, usefulness, comments, suggestions } = req.body;
-        console.log('Request body:', req.body);
-        console.log('Session:', req.session);
-        console.log('User:', req.user);
-        
+        // console.log('Request body:', req.body);
+        // console.log('Session:', req.session);
+        // console.log('User:', req.user);
+
         if (!req.isAuthenticated() || !req.user) {
             console.log('No authenticated user found');
             return res.status(401).json({ message: 'Please login to submit feedback' });
@@ -64,7 +64,7 @@ module.exports.getFeedback = async (req, res) => {
             return res.status(400).json({ message: 'Invalid experiment number' });
         }
 
-        console.log('Fetching feedback for experiment:', experimentNo, 'user:', req.user._id);
+        // console.log('Fetching feedback for experiment:', experimentNo, 'user:', req.user._id);
         const feedback = await Feedback.findOne({
             userId: req.user._id,
             experimentNo: experimentNo
@@ -98,4 +98,4 @@ module.exports.getAllFeedback = async (req, res) => {
         console.error('Error getting all feedback:', error);
         res.status(500).json({ message: 'Error retrieving feedback', error: error.message });
     }
-}; 
+};

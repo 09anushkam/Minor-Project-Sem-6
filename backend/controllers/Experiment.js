@@ -30,30 +30,30 @@ function findPythonPath() {
 
 module.exports.experiment = async (req, res) => {
     try {
-        console.log('Received request for experiment:', req.params.no);
+        // console.log('Received request for experiment:', req.params.no);
         const experimentNo = parseInt(req.params.no, 10);
-        
+
         if (isNaN(experimentNo)) {
-            console.log('Invalid experiment number:', req.params.no);
+            // console.log('Invalid experiment number:', req.params.no);
             return res.status(400).json({ error: "Invalid experiment number" });
         }
 
-        console.log('Looking for experiment number:', experimentNo);
+        // console.log('Looking for experiment number:', experimentNo);
         const experiment = await Experiment.findOne({ no: experimentNo });
-        
+
         if (!experiment) {
-            console.log('Experiment not found:', experimentNo);
+            // console.log('Experiment not found:', experimentNo);
             // Let's check what experiments exist in the database
             const allExperiments = await Experiment.find({}, { no: 1, title: 1 }).sort({ no: 1 });
-            console.log('Available experiments:', allExperiments);
-            return res.status(404).json({ 
+            // console.log('Available experiments:', allExperiments);
+            return res.status(404).json({
                 error: "Experiment not found",
                 message: `No experiment found with number ${experimentNo}`,
                 availableExperiments: allExperiments
             });
         }
 
-        console.log('Found experiment:', experiment.title);
+        // console.log('Found experiment:', experiment.title);
         res.json(experiment);
     } catch (error) {
         console.error("Error fetching experiment:", error);
@@ -62,27 +62,47 @@ module.exports.experiment = async (req, res) => {
 }
 
 module.exports.sentimentCSV = (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ error: 'No file uploaded' });
+    // if (!req.file) {
+    //     return res.status(400).json({ error: 'No file uploaded' });
+    // }
+
+    // const filePath = path.join(__dirname, '..', 'uploads', req.file.filename);
+    let filePath;
+
+    if (req.body.filename) {
+        filePath = path.join(__dirname, '..', 'uploads', req.body.filename);
+    } else if (req.body.datasetName) {
+        filePath = path.join(__dirname, '..', 'datasets', req.body.datasetName);
+    } else if (req.file) {
+        filePath = path.join(__dirname, '..', 'uploads', req.file.filename);
+    } else {
+        return res.status(400).json({ error: 'No input file provided' });
     }
-    const filePath = path.join(__dirname, '..', 'uploads', req.file.filename);
+    console.log("filepath is: ", filePath);
+
     const pythonScript = path.join(__dirname, '..', 'python_scripts', 'sentiment_analysis.py');
 
     exec(`python3 "${pythonScript}" "${filePath}"`, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`exec error: ${error}`);
-            return res.status(500).json({ error: error.message });
+        if (error || stderr) {
+            console.error('Python error:', stderr || error.message);
+            return res.status(500).json({
+                error: 'Python script execution failed',
+                detail: stderr || error.message,
+            });
         }
 
         try {
             const output = JSON.parse(stdout);
-            res.status(200).json({ message: 'Analysis complete', output });
-        } catch (e) {
-            console.error('Error parsing Python output:', e);
-            return res.status(500).json({ error: 'Error parsing output from Python script' });
+            return res.status(200).json({ message: 'Analysis complete', output });
+        } catch (parseError) {
+            console.error('Error parsing Python output:', stdout);
+            return res.status(500).json({
+                error: 'Invalid JSON output from Python script',
+                raw: stdout,
+            });
         }
     });
-}
+};
 
 module.exports.sentimentText = (req, res) => {
     const { text } = req.body;
