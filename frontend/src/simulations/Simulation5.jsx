@@ -63,6 +63,46 @@ const GraphVisualizer = () => {
     }
   };
 
+  const animateNode = (node, color, size, delay) => {
+    setTimeout(() => {
+      if (graph && graph.body.nodes[node]) {
+        graph.body.nodes[node].setOptions({
+          color: { 
+            background: color,
+            border: "#000000"
+          },
+          size: size,
+          font: { 
+            color: "#ffffff",
+            size: 20
+          }
+        });
+        graph.redraw();
+      }
+    }, delay);
+  };
+
+  const animateEdge = (from, to, color, width, delay) => {
+    setTimeout(() => {
+      if (graph) {
+        const edge = graph.body.edges[`${from}-${to}`] || graph.body.edges[`${to}-${from}`];
+        if (edge) {
+          edge.setOptions({
+            color: { color: color, highlight: color },
+            width: width,
+            dashes: [5, 5],
+            shadow: true,
+            smooth: {
+              type: "continuous",
+              roundness: 0.5
+            }
+          });
+          graph.redraw();
+        }
+      }
+    }, delay);
+  };
+
   const handleGraphTypeChange = (type) => {
     setGraphType(type);
     setNumVertices(null);
@@ -550,87 +590,6 @@ const GraphVisualizer = () => {
     if (isProcessing) return;
     setIsProcessing(true);
     resetGraph();
-
-    let visited = new Array(numVertices).fill(false);
-    let traversal = [];
-    let tempVisitedQueue = [];
-    let tempToVisitQueue = new Set();
-    let delay = 0;
-
-    const animateNodeVisit = (node, delay) => {
-      setTimeout(() => {
-        if (graph && graph.body.nodes[node]) {
-          graph.body.nodes[node].setOptions({
-            color: { background: "#4CAF50" },
-            size: 30,
-            font: { color: "#ffffff" },
-          });
-          graph.redraw();
-        }
-      }, delay);
-    }
-  };
-
-  const highlightEdge = (from, to, color, width, delay) => {
-    if (graph) {
-      animationRef.current = setTimeout(() => {
-        const edge = graph.body.edges[`${from}-${to}`] || graph.body.edges[`${to}-${from}`];
-        if (edge) {
-          edge.setOptions({
-            color: { color: color, highlight: color },
-            width: width,
-            dashes: [5, 5],
-            shadow: true,
-            smooth: {
-              type: "continuous",
-              roundness: 0.5
-            }
-          });
-          graph.redraw();
-        }
-      }, delay);
-    }
-  };
-
-  const getNeighbors = (node) => {
-    if (graphType === "AdjacencyMatrix") {
-      return Object.keys(graphData[node] || {})
-        .filter((neighbor) => graphData[node][neighbor] !== "0" && graphData[node][neighbor] !== "")
-        .map(Number);
-    } else if (graphType === "AdjacencyList") {
-      return graphData[node] ? graphData[node].map(n => n.node) : [];
-    } else if (graphType === "EdgeList") {
-      return Object.values(graphData)
-        .filter(({ from }) => Number(from) === node)
-        .map(({ to }) => Number(to));
-    } else if (graphType === "RandomGraph") {
-      return Object.keys(graphData[node] || {}).map(Number);
-    }
-    return [];
-  };
-
-  const getEdgeWeight = (from, to) => {
-    if (graphType === "AdjacencyMatrix") {
-      return graphData[from] && graphData[from][to] ? Number(graphData[from][to]) : Infinity;
-    } else if (graphType === "EdgeList") {
-      const edge = Object.values(graphData).find(
-        ({ from: f, to: t }) => Number(f) === from && Number(t) === to
-      );
-      return edge ? Number(edge.weight) : Infinity;
-    } else if (graphType === "AdjacencyList") {
-      const neighbors = graphData[from] || [];
-      const neighbor = neighbors.find(n => n.node === to);
-      return neighbor ? neighbor.weight : Infinity;
-    } else if (graphType === "RandomGraph") {
-      return graphData[from] && graphData[from][to] ? Number(graphData[from][to]) : Infinity;
-    }
-    return Infinity;
-  };
-
-  const runDFS = async () => {
-    if (isProcessing) return;
-    setIsProcessing(true);
-    resetGraph();
     
     let visited = new Array(numVertices).fill(false);
     let traversal = [];
@@ -716,23 +675,6 @@ const GraphVisualizer = () => {
       }, delay);
     };
 
-    const getNeighbors = (node) => {
-      if (graphType === "AdjacencyMatrix") {
-        return Object.keys(graphData[node] || {})
-          .filter((neighbor) => graphData[node][neighbor] !== "0")
-          .map(Number);
-      } else if (graphType === "AdjacencyList") {
-        return graphData[node] ? graphData[node].map(Number) : [];
-      } else if (graphType === "EdgeList") {
-        return Object.values(graphData)
-          .filter(({ from }) => Number(from) === node)
-          .map(({ to }) => Number(to));
-      } else if (graphType === "RandomGraph") {
-        return Object.keys(graphData[node] || {}).map(Number);
-      }
-      return [];
-    };
-
     const bfs = async (start) => {
       let queue = [start];
       visited[start] = true;
@@ -776,86 +718,6 @@ const GraphVisualizer = () => {
     if (isProcessing) return;
     setIsProcessing(true);
     resetGraph();
-
-    const numNodes = numVertices;
-    const distances = Array(numNodes).fill(Infinity);
-    const visited = Array(numNodes).fill(false);
-    const previous = Array(numNodes).fill(null);
-    let delay = 0;
-
-    distances[startNode] = 0;
-    animateNode(startNode, "#4CAF50", 30, delay); // Green for start node
-    delay += 1000;
-
-    for (let i = 0; i < numNodes - 1; i++) {
-      let minDistance = Infinity;
-      let minIndex = -1;
-
-      for (let v = 0; v < numNodes; v++) {
-        if (!visited[v] && distances[v] <= minDistance) {
-          minDistance = distances[v];
-          minIndex = v;
-        }
-      }
-
-      if (minIndex === -1) {
-        break;
-      }
-
-      visited[minIndex] = true;
-      animateNode(minIndex, "#FFA500", 30, delay); // Orange for processing node
-      delay += 1000;
-
-      const neighbors = getNeighbors(minIndex);
-      for (const neighbor of neighbors) {
-        const weight = getEdgeWeight(minIndex, neighbor);
-        if (!visited[neighbor] && distances[minIndex] + weight < distances[neighbor]) {
-          distances[neighbor] = distances[minIndex] + weight;
-          previous[neighbor] = minIndex;
-          highlightEdge(minIndex, neighbor, "#FFA500", 3, delay);
-          animateEdge(minIndex, neighbor, "#9C27B0", 3, delay + 500);
-          delay += 1000;
-        }
-      }
-    }
-
-    // Color all remaining unvisited nodes
-    for (let i = 0; i < numNodes; i++) {
-      if (!visited[i]) {
-        animateNode(i, "#FF0000", 30, delay); // Red for unreachable nodes
-        delay += 500;
-      }
-    }
-
-    let resultDisplay = `Dijkstra's Shortest Paths from Node ${startNode}:\n\n`;
-    for (let i = 0; i < numNodes; i++) {
-      resultDisplay += `Node ${i}: Distance = ${distances[i]}`;
-
-      if (previous[i] !== null) {
-        let path = ` Path: ${i}`;
-        let current = previous[i];
-        let pathArray = [i];
-
-        while (current !== null) {
-          pathArray.unshift(current);
-          current = previous[current];
-        }
-
-        path = ` Path: ${pathArray.join(" → ")}`;
-        resultDisplay += path;
-      } else if (i !== startNode) {
-        resultDisplay += " (Unreachable)";
-      }
-      resultDisplay += "\n";
-    }
-    setDijkstraResult(resultDisplay);
-    setIsProcessing(false);
-  };
-
-  const runDijkstra = async () => {
-    if (isProcessing) return;
-    setIsProcessing(true);
-    resetGraph();
     
     const numNodes = numVertices;
     const distances = Array(numNodes).fill(Infinity);
@@ -863,11 +725,13 @@ const GraphVisualizer = () => {
     const previous = Array(numNodes).fill(null);
     let delay = 0;
 
+    // Initialize start node
     distances[startNode] = 0;
-    animateNode(startNode, "#4CAF50", 30, delay);
+    animateNode(startNode, "#4CAF50", 30, delay); // Green for start node
     delay += 1000;
 
     for (let i = 0; i < numNodes - 1; i++) {
+      // Find the node with minimum distance
       let minDistance = Infinity;
       let minIndex = -1;
 
@@ -878,55 +742,60 @@ const GraphVisualizer = () => {
         }
       }
 
-      if (minIndex === -1) {
-        break;
-      }
+      if (minIndex === -1) break;
 
+      // Mark the current node as visited
       visited[minIndex] = true;
-      animateNode(minIndex, "#FFA500", 30, delay);
+      animateNode(minIndex, "#FFA500", 30, delay); // Orange for processing node
       delay += 1000;
 
+      // Update distances to neighbors
       const neighbors = getNeighbors(minIndex);
       for (const neighbor of neighbors) {
         const weight = getEdgeWeight(minIndex, neighbor);
         if (!visited[neighbor] && distances[minIndex] + weight < distances[neighbor]) {
+          // Update distance and previous node
           distances[neighbor] = distances[minIndex] + weight;
           previous[neighbor] = minIndex;
-          highlightEdge(minIndex, neighbor, "#FFA500", 3, delay);
-          animateEdge(minIndex, neighbor, "#9C27B0", 3, delay + 500);
+          
+          // Animate the edge being considered
+          animateEdge(minIndex, neighbor, "#FFA500", 3, delay);
+          delay += 500;
+          
+          // Animate the node being updated
+          animateNode(neighbor, "#2196F3", 30, delay); // Blue for updated node
           delay += 1000;
         }
       }
     }
 
+    // Color unreachable nodes
     for (let i = 0; i < numNodes; i++) {
-      if (!visited[i]) {
-        animateNode(i, "#FF0000", 30, delay);
+      if (!visited[i] && i !== startNode) {
+        animateNode(i, "#FF0000", 30, delay); // Red for unreachable nodes
         delay += 500;
       }
     }
 
+    // Build result string
     let resultDisplay = `Dijkstra's Shortest Paths from Node ${startNode}:\n\n`;
     for (let i = 0; i < numNodes; i++) {
       resultDisplay += `Node ${i}: Distance = ${distances[i]}`;
 
       if (previous[i] !== null) {
-        let path = ` Path: ${i}`;
+        let path = [i];
         let current = previous[i];
-        let pathArray = [i];
-
         while (current !== null) {
-          pathArray.unshift(current);
+          path.unshift(current);
           current = previous[current];
         }
-
-        path = ` Path: ${pathArray.join(" → ")}`;
-        resultDisplay += path;
+        resultDisplay += ` Path: ${path.join(" → ")}`;
       } else if (i !== startNode) {
         resultDisplay += " (Unreachable)";
       }
       resultDisplay += "\n";
     }
+
     setDijkstraResult(resultDisplay);
     setIsProcessing(false);
   };
@@ -1052,15 +921,9 @@ const GraphVisualizer = () => {
       )}
       {showGraph && graphType === "AdjacencyMatrix" && ( // Only if is Adjacency Matrix
         <div>
-          <button onClick={() => dijkstra(startNode)} className="graph-button">
+          <button onClick={() => runDijkstra()} className="graph-button">
             Run Dijkstra
           </button>
-        </div>
-      )}
-      {dijkstraResult && ( // Add it here!
-        <div>
-          <h3>Dijkstra Results:</h3>
-          <pre>{dijkstraResult}</pre>
         </div>
       )}
     </div>
