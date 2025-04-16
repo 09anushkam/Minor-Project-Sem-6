@@ -1,16 +1,13 @@
 const Experiment = require('../models/Experiment');
-const { exec, spawn } = require('child_process');
+const { exec, spawn, execSync } = require('child_process');
 const path = require('path');
+const fs = require('fs');
 
 function findPythonPath() {
     try {
-        return execSync('which python3').toString().trim();  // Linux/Mac
+        return execSync('where python').toString().split('\n')[0].trim();  // Windows
     } catch {
-        try {
-            return execSync('where python').toString().split('\n')[0].trim();  // Windows
-        } catch {
-            return null;
-        }
+        return 'python';
     }
 }
 
@@ -154,4 +151,142 @@ module.exports.sentimentMulti = (req, res) => {
     // Send the data to Python's stdin
     pythonProcess.stdin.write(JSON.stringify(inputData));
     pythonProcess.stdin.end();
+};
+
+module.exports.defaultDatasets = (req, res) => {
+    const datasetDir = path.join(__dirname, '..', 'datasets');
+
+    // Ensure the folder exists
+    if (!fs.existsSync(datasetDir)) {
+        return res.status(400).json({ error: 'Dataset folder not found' });
+    }
+
+    fs.readdir(datasetDir, (err, files) => {
+        if (err) {
+            console.error('Failed to read datasets:', err);
+            return res.status(500).json({ error: 'Failed to read dataset folder' });
+        }
+
+        const csvFiles = files.filter(file => file.endsWith('.csv'));
+        res.json({ datasets: csvFiles });
+    });
+}
+
+module.exports.runTopicModeling = (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    const filePath = path.join(__dirname, '..', 'uploads', req.file.filename);
+    const numTopics = req.body.numTopics || 5;
+    const pythonScript = path.join(__dirname, '..', 'python_scripts', 'topic_modeling.py');
+
+    const pythonCommand = findPythonPath();
+
+    const command = `"${pythonCommand}" "${pythonScript}" "${filePath}" "${numTopics}"`;
+
+    exec(command, (error, stdout, stderr) => {
+        console.error('[SERVER] STDERR:', stderr);
+        if (error) console.error('[SERVER] ERROR:', error.message);
+
+        if (error) {
+            return res.status(500).json({
+                error: 'Python script execution failed',
+                detail: stderr || error.message,
+            });
+        }
+
+        if (!stdout || stdout.trim() === '') {
+            console.error('[PYTHON OUTPUT ERROR] No output from Python script:', stdout);
+            return res.status(500).json({
+                error: 'Python script returned empty output',
+            });
+        }
+
+        try {
+            const jsonRegex = /({[\s\S]*})/;
+            const match = stdout.match(jsonRegex);
+            if (!match) throw new Error("JSON not found in Python output");
+
+            const output = JSON.parse(match[1]);
+            return res.status(200).json({
+                message: 'Topic modeling complete',
+                output: output,
+            });
+        } catch (parseError) {
+            console.error('[PYTHON OUTPUT PARSE ERROR]', stdout);
+            return res.status(500).json({
+                error: 'Invalid JSON output from Python script',
+                raw: stdout,
+            });
+        }
+    });
+};
+
+module.exports.getDefaultDatasets = (req, res) => {
+    const datasetsDir = path.join(__dirname, '..', 'datasets');
+
+    fs.readdir(datasetsDir, (err, files) => {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to read datasets directory' });
+        }
+
+        const csvFiles = files.filter(file => file.endsWith('.csv'));
+        return res.status(200).json({ datasets: csvFiles });
+    });
+};
+
+module.exports.runTopicModelingDefault = (req, res) => {
+    const { datasetName, numTopics = 5 } = req.body;
+
+    if (!datasetName) {
+        return res.status(400).json({ error: 'Dataset name is required' });
+    }
+
+    const datasetPath = path.join(__dirname, '..', 'datasets', datasetName);
+
+    // Check if file exists
+    if (!fs.existsSync(datasetPath)) {
+        return res.status(404).json({ error: 'Dataset not found' });
+    }
+
+    const pythonScript = path.join(__dirname, '..', 'python_scripts', 'topic_modeling.py');
+    const pythonCommand = findPythonPath();
+
+    const command = `"${pythonCommand}" "${pythonScript}" "${datasetPath}" "${numTopics}"`;
+
+    exec(command, (error, stdout, stderr) => {
+        console.error('[SERVER] STDERR:', stderr);
+        if (error) console.error('[SERVER] ERROR:', error.message);
+
+        if (error) {
+            return res.status(500).json({
+                error: 'Python script execution failed',
+                detail: stderr || error.message,
+            });
+        }
+
+        if (!stdout || stdout.trim() === '') {
+            return res.status(500).json({
+                error: 'Python script returned empty output',
+            });
+        }
+
+        try {
+            const jsonRegex = /({[\s\S]*})/;
+            const match = stdout.match(jsonRegex);
+            if (!match) throw new Error("JSON not found in Python output");
+
+            const output = JSON.parse(match[1]);
+            return res.status(200).json({
+                message: 'Topic modeling complete',
+                output,
+            });
+        } catch (parseError) {
+            return res.status(500).json({
+                error: 'Invalid JSON output from Python script',
+                raw: stdout,
+            });
+        }
+    });
 };

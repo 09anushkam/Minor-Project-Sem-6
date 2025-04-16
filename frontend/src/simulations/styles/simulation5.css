@@ -19,16 +19,6 @@
     margin: 0 auto;
 }
 
-.navbar {
-    background-color: #ffffff;
-    color: black;
-    width: 100%;
-    text-align: center;
-    font-weight: bold;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 15px 0;
-}
-
 .simulation-content {
     margin-top: 20px;
     padding: 20px;
@@ -115,15 +105,17 @@
 }
 
 @keyframes nodePulse {
-    0% { 
+    0% {
         transform: scale(1);
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-    50% { 
+
+    50% {
         transform: scale(1.2);
         box-shadow: 0 8px 16px rgba(255, 215, 0, 0.4);
     }
-    100% { 
+
+    100% {
         transform: scale(1);
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
@@ -155,17 +147,19 @@
 }
 
 @keyframes edgePulse {
-    0% { 
+    0% {
         stroke-width: 2px;
         stroke-dasharray: 5, 5;
         filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.5));
     }
-    50% { 
+
+    50% {
         stroke-width: 4px;
         stroke-dasharray: 10, 5;
         filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.7));
     }
-    100% { 
+
+    100% {
         stroke-width: 2px;
         stroke-dasharray: 5, 5;
         filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.5));
@@ -173,17 +167,19 @@
 }
 
 @keyframes edgeTraverse {
-    0% { 
+    0% {
         stroke-width: 1px;
         stroke-dasharray: 1, 0;
         filter: drop-shadow(0 0 1px rgba(156, 39, 176, 0.3));
     }
-    50% { 
+
+    50% {
         stroke-width: 4px;
         stroke-dasharray: 5, 5;
         filter: drop-shadow(0 0 4px rgba(156, 39, 176, 0.7));
     }
-    100% { 
+
+    100% {
         stroke-width: 3px;
         stroke-dasharray: 1, 0;
         filter: drop-shadow(0 0 2px rgba(156, 39, 176, 0.5));
@@ -322,7 +318,8 @@ input[type="number"] {
         height: 400px;
     }
 
-    .matrix-cell, .header-cell {
+    .matrix-cell,
+    .header-cell {
         width: 80px;
         min-width: 80px;
         height: 50px;

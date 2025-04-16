@@ -24,7 +24,7 @@ const { twitterCallback } = require('./controllers/auth');
 // const homeRouter = require('./routes/home');
 const authRouter = require('./routes/auth');
 const scrapeRoutes = require("./routes/scrapeRoutes");
-const experimentRoutes = require("./routes/Experiment");
+const experimentRoutes = require("./routes/Experiment.js");
 const feedbackRoutes = require('./routes/feedback');
 const quizScoreRoutes = require('./routes/quizScore');
 
@@ -160,22 +160,22 @@ app.use('/api/quiz-scores', (req, res, next) => {
 }, quizScoreRoutes);
 
 // Debug middleware to log all requests
-app.use((req, res, next) => {
-    console.log('Incoming request:', req.method, req.path);
-    next();
-});
+// app.use((req, res, next) => {
+//     console.log('Incoming request:', req.method, req.path);
+//     next();
+// });
 
 // Error handling middleware
-app.use((err, req, res, next) => {
-    console.error('Error:', err);
-    res.status(500).json({ message: 'Something broke!', error: err.message });
-});
+// app.use((err, req, res, next) => {
+//     console.error('Error:', err);
+//     res.status(500).json({ message: 'Something broke!', error: err.message });
+// });
 
 // 404 handler
-app.use((req, res) => {
-    console.log('404 Not Found:', req.method, req.path);
-    res.status(404).json({ message: 'Route not found' });
-});
+// app.use((req, res) => {
+//     console.log('404 Not Found:', req.method, req.path);
+//     res.status(404).json({ message: 'Route not found' });
+// });
 
 app.listen(port, () => {
     console.log(`app is listening on port ${port}`);
