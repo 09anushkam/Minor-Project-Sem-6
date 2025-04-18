@@ -125,7 +125,8 @@ const Simulation3 = () => {
                 const res = await axios.post('http://localhost:8080/api/experiments/sentiment-analysis/text-multi', { data: payload });
                 setOutput(res.data.output);
                 const allText = payload.map(p => p.text);
-                generateWordCloudsBySentiment(allText.cleaned_texts, allText.sentiments);
+                const sentiments = res.data.output.sentiments || [];
+                generateWordCloudsBySentiment(allText, sentiments);
             } catch (error) {
                 console.error('Error during text analysis:', error);
                 const errorMessage = error.response?.data?.details || error.response?.data?.error || error.message;

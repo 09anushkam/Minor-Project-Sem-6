@@ -41,12 +41,12 @@ const GraphVisualizer = () => {
       const edges = graph.body.edges;
       Object.values(nodes).forEach(node => {
         node.setOptions({
-          color: { 
+          color: {
             background: "#C0C0C0",
             border: "#000000"
           },
           size: 30,
-          font: { 
+          font: {
             color: "#000000",
             size: 20
           }
@@ -67,12 +67,12 @@ const GraphVisualizer = () => {
     setTimeout(() => {
       if (graph && graph.body.nodes[node]) {
         graph.body.nodes[node].setOptions({
-          color: { 
+          color: {
             background: color,
             border: "#000000"
           },
           size: size,
-          font: { 
+          font: {
             color: "#ffffff",
             size: 20
           }
@@ -289,7 +289,7 @@ const GraphVisualizer = () => {
             to: Number(j),
             label: graphData[i][j].toString(),
             width: 2,
-            color: { 
+            color: {
               color: "#4a90e2",
               highlight: "#ffd700",
               hover: "#4a90e2"
@@ -314,7 +314,7 @@ const GraphVisualizer = () => {
           to: Number(to),
           label: weight.toString(),
           width: 2,
-          color: { 
+          color: {
             color: "#4a90e2",
             highlight: "#ffd700",
             hover: "#4a90e2"
@@ -385,7 +385,7 @@ const GraphVisualizer = () => {
           to: Number(to),
           label: graphData[from][to].toString(),
           width: 2,
-          color: { 
+          color: {
             color: "#4a90e2",
             highlight: "#ffd700",
             hover: "#4a90e2"
@@ -478,13 +478,13 @@ const GraphVisualizer = () => {
   const generateRandomGraph = (numVertices) => {
     const newGraphData = {};
     const edgeProbability = 0.3;
-    
+
     for (let i = 0; i < numVertices; i++) {
       if (!newGraphData[i]) newGraphData[i] = {};
-      
+
       const unconnectedNodes = Array.from({ length: numVertices }, (_, j) => j)
         .filter(j => j !== i && !newGraphData[i][j] && !newGraphData[j]?.[i]);
-      
+
       if (unconnectedNodes.length > 0) {
         const randomNode = unconnectedNodes[Math.floor(Math.random() * unconnectedNodes.length)];
         newGraphData[i][randomNode] = Math.floor(Math.random() * 10) + 1;
@@ -510,7 +510,7 @@ const GraphVisualizer = () => {
         const neighbors = Object.keys(newGraphData[current] || {})
           .map(Number)
           .filter(node => !visited.has(node));
-        
+
         neighbors.forEach(node => {
           visited.add(node);
           queue.push(node);
@@ -523,17 +523,17 @@ const GraphVisualizer = () => {
     if (!isConnected()) {
       const visited = new Set();
       const unvisited = new Set(Array.from({ length: numVertices }, (_, i) => i));
-      
+
       visited.add(0);
       unvisited.delete(0);
-      
+
       while (unvisited.size > 0) {
         const current = Array.from(visited)[Math.floor(Math.random() * visited.size)];
         const next = Array.from(unvisited)[Math.floor(Math.random() * unvisited.size)];
-        
+
         if (!newGraphData[current]) newGraphData[current] = {};
         newGraphData[current][next] = Math.floor(Math.random() * 10) + 1;
-        
+
         visited.add(next);
         unvisited.delete(next);
       }
@@ -590,7 +590,7 @@ const GraphVisualizer = () => {
     if (isProcessing) return;
     setIsProcessing(true);
     resetGraph();
-    
+
     let visited = new Array(numVertices).fill(false);
     let traversal = [];
     let tempVisitedQueue = [];
@@ -606,7 +606,7 @@ const GraphVisualizer = () => {
           traversal.push(current);
           tempVisitedQueue.push(current);
           setVisitedQueue([...tempVisitedQueue]);
-          
+
           animateNode(current, "#4CAF50", 30, delay);
           delay += 1000;
 
@@ -718,7 +718,7 @@ const GraphVisualizer = () => {
     if (isProcessing) return;
     setIsProcessing(true);
     resetGraph();
-    
+
     const numNodes = numVertices;
     const distances = Array(numNodes).fill(Infinity);
     const visited = Array(numNodes).fill(false);
@@ -757,11 +757,11 @@ const GraphVisualizer = () => {
           // Update distance and previous node
           distances[neighbor] = distances[minIndex] + weight;
           previous[neighbor] = minIndex;
-          
+
           // Animate the edge being considered
           animateEdge(minIndex, neighbor, "#FFA500", 3, delay);
           delay += 500;
-          
+
           // Animate the node being updated
           animateNode(neighbor, "#2196F3", 30, delay); // Blue for updated node
           delay += 1000;
@@ -875,22 +875,22 @@ const GraphVisualizer = () => {
             className="input-box"
           />
           <div className="algorithm-buttons">
-            <button 
-              onClick={runDFS} 
+            <button
+              onClick={runDFS}
               className="graph-button"
               disabled={isProcessing}
             >
               Run DFS
             </button>
-            <button 
-              onClick={runBFS} 
+            <button
+              onClick={runBFS}
               className="graph-button"
               disabled={isProcessing}
             >
               Run BFS
             </button>
-            <button 
-              onClick={runDijkstra} 
+            <button
+              onClick={runDijkstra}
               className="graph-button"
               disabled={isProcessing}
             >
@@ -912,7 +912,7 @@ const GraphVisualizer = () => {
             )}
             {dijkstraResult && (
               <div className="traversal-result">
-                <h4>Dijkstra's Results:</h4>
+                <h4>Dijkstra&apos;s Results:</h4>
                 <pre>{dijkstraResult}</pre>
               </div>
             )}
