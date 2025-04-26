@@ -30,10 +30,8 @@
 
 .graph-button {
   padding: 12px 24px;
-  background-color: #ffb6c1;
-  /* Light pink */
-  color: #333;
-  /* Darker text for better contrast */
+  background-color: #ff9494;
+  color: black;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -43,15 +41,13 @@
 }
 
 .graph-button:hover {
-  background-color: #ff99a3;
-  /* Slightly darker pink on hover */
+  background-color: #e76060;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(255, 182, 193, 0.4);
 }
 
 .graph-button.active {
-  background-color: #ff8095;
-  /* Even darker pink when active */
+  background-color: #e76060;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
   transform: translateY(1px);
 }
@@ -72,7 +68,7 @@
 }
 
 .vertex-input:focus {
-  border-color: #ffb6c1;
+  border-color: #ff9494;
   outline: none;
 }
 
@@ -117,14 +113,14 @@
 }
 
 .matrix-input-cell:not(:disabled):hover {
-  border-color: #ffb6c1;
+  border-color: #ff9494;
   transform: scale(1.05);
 }
 
 .matrix-input-cell:focus {
-  border-color: #ffb6c1;
+  border-color: #ff9494;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(255, 182, 193, 0.2);
+  box-shadow: 0 0 0 2px rgba(255, 148, 148, 0.2);
 }
 
 .matrix-input-cell.diagonal {
@@ -211,8 +207,12 @@
 }
 
 .centrality-table th {
-  background-color: #ffebee;
+  background-color: #ff9494;
+  color: #333;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
 }
 
 .centrality-table tr:hover {
@@ -220,8 +220,16 @@
 }
 
 .centrality-table tr.influencer {
-  background-color: #ffebee;
-  border-left: 4px solid #ff4444;
+  background-color: #ffe6e6;
+  font-weight: 500;
+}
+
+.centrality-table tr.influencer td {
+  border-left: 4px solid #e76060;
+}
+
+.centrality-table tr.influencer:hover {
+  background-color: #ffcdd2;
 }
 
 @media (max-width: 768px) {
@@ -282,10 +290,8 @@
 
 .graph-button {
   padding: 12px 24px;
-  background-color: #ffb6c1;
-  /* Light pink */
-  color: #333;
-  /* Darker text for better contrast */
+  background-color: #ff9494;
+  color: black;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -295,15 +301,13 @@
 }
 
 .graph-button:hover {
-  background-color: #ff99a3;
-  /* Slightly darker pink on hover */
+  background-color: #e76060;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(255, 182, 193, 0.4);
 }
 
 .graph-button.active {
-  background-color: #ff8095;
-  /* Even darker pink when active */
+  background-color: #e76060;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
   transform: translateY(1px);
 }
@@ -324,7 +328,7 @@
 }
 
 .vertex-input:focus {
-  border-color: #ffb6c1;
+  border-color: #ff9494;
   outline: none;
 }
 
@@ -369,14 +373,14 @@
 }
 
 .matrix-input-cell:not(:disabled):hover {
-  border-color: #ffb6c1;
+  border-color: #ff9494;
   transform: scale(1.05);
 }
 
 .matrix-input-cell:focus {
-  border-color: #ffb6c1;
+  border-color: #ff9494;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(255, 182, 193, 0.2);
+  box-shadow: 0 0 0 2px rgba(255, 148, 148, 0.2);
 }
 
 .matrix-input-cell.diagonal {
@@ -463,8 +467,12 @@
 }
 
 .centrality-table th {
-  background-color: #ffebee;
+  background-color: #ff9494;
+  color: #333;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
 }
 
 .centrality-table tr:hover {
@@ -472,8 +480,16 @@
 }
 
 .centrality-table tr.influencer {
-  background-color: #ffebee;
-  border-left: 4px solid #ff4444;
+  background-color: #ffe6e6;
+  font-weight: 500;
+}
+
+.centrality-table tr.influencer td {
+  border-left: 4px solid #e76060;
+}
+
+.centrality-table tr.influencer:hover {
+  background-color: #ffcdd2;
 }
 
 @media (max-width: 768px) {
@@ -536,15 +552,6 @@
   border: 1px solid #e0e0e0;
 }
 
-.centrality-table th {
-  background-color: #ffb6c1;
-  color: #333;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-size: 0.9rem;
-}
-
 .centrality-table tr:nth-child(even) {
   background-color: #f8f9fa;
 }
@@ -555,20 +562,6 @@
 
 .centrality-table tr:hover {
   background-color: #f0f4f1;
-}
-
-/* Restore influencer specific styles */
-.centrality-table tr.influencer {
-  background-color: #ffebee;
-  font-weight: 500;
-}
-
-.centrality-table tr.influencer td {
-  border-left: 4px solid #ff4444;
-}
-
-.centrality-table tr.influencer:hover {
-  background-color: #ffcdd2;
 }
 
 /* Responsive Design */
@@ -612,16 +605,16 @@
   }
 }
 
-/* .navbar {
+.navbar {
   background-color: #ffffff;
   color: black;
   width: 100%;
   text-align: center;
-  font-size: 24px;
+  /* font-size: 24px; */
   font-weight: bold;
-  padding: 15px 0;
+  /* padding: 15px 0; */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-} */
+}
 
 .simulation-content {
   margin-top: 20px;
@@ -784,7 +777,7 @@ input[type="number"] {
   padding: 15px;
   background-color: #f8f9fa;
   border-radius: 6px;
-  border-left: 4px solid #ff4444;
+  border-left: 4px solid #e76060;
 }
 
 .summary-item h4 {
