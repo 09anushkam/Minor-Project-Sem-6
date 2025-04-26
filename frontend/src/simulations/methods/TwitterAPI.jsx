@@ -4,12 +4,12 @@ import "../styles/Simulation2.css";
 
 const TwitterAPI = () => {
     const [query, setQuery] = useState("");
+    const [token, setToken] = useState("");
     const [data, setData] = useState([]);
     const [storedData, setStoredData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
-    // Pagination state
     const [page, setPage] = useState(1);
     const [storedPage, setStoredPage] = useState(1);
     const tweetsPerPage = 10;
@@ -18,8 +18,6 @@ const TwitterAPI = () => {
         const fetchStoredData = async () => {
             try {
                 const response = await axios.get("http://localhost:8080/api/scrape/twitter-stored");
-
-                // Flattening stored data for proper pagination
                 const flattenedTweets = response.data.flatMap((batch) =>
                     batch.tweets.map((tweet) => ({
                         id: tweet.id,
@@ -29,7 +27,6 @@ const TwitterAPI = () => {
                         query: batch.query
                     }))
                 );
-
                 setStoredData(flattenedTweets);
             } catch (err) {
                 console.error("Error fetching stored data:", err);
@@ -45,32 +42,28 @@ const TwitterAPI = () => {
         setError("");
 
         try {
-            const response = await axios.get(`http://localhost:8080/api/scrape/twitter?query=${query}`);
+            const response = await axios.post(`http://localhost:8080/api/scrape/twitter`, {
+                query,
+                bearerToken: token,
+            });
             setData(response.data.data);
-            setPage(1);  // Reset to first page on new search
+            setPage(1);  // Reset page
         } catch (err) {
-            console.log(err);
-            setError("Failed to fetch Twitter data.");
+            console.error(err);
+            if (err.response && err.response.data) {
+                setError(err.response.data.error || "Failed to fetch Twitter data.");
+            } else {
+                setError("Something went wrong.");
+            }
         } finally {
             setLoading(false);
         }
     };
 
-    const handleNextPage = () => {
-        setPage((prev) => prev + 1);
-    };
-
-    const handlePrevPage = () => {
-        setPage((prev) => (prev > 1 ? prev - 1 : 1));
-    };
-
-    const handleNextStoredPage = () => {
-        setStoredPage((prev) => prev + 1);
-    };
-
-    const handlePrevStoredPage = () => {
-        setStoredPage((prev) => (prev > 1 ? prev - 1 : 1));
-    };
+    const handleNextPage = () => setPage((prev) => prev + 1);
+    const handlePrevPage = () => setPage((prev) => (prev > 1 ? prev - 1 : 1));
+    const handleNextStoredPage = () => setStoredPage((prev) => prev + 1);
+    const handlePrevStoredPage = () => setStoredPage((prev) => (prev > 1 ? prev - 1 : 1));
 
     const paginate = (items, currentPage, itemsPerPage) => {
         const startIndex = (currentPage - 1) * itemsPerPage;
@@ -80,19 +73,32 @@ const TwitterAPI = () => {
     const currentData = paginate(data, page, tweetsPerPage);
     const currentStoredData = paginate(storedData, storedPage, tweetsPerPage);
 
-    const hasMoreData = currentData.length === tweetsPerPage;
-    const hasMoreStoredData = currentStoredData.length === tweetsPerPage;
+    const hasMoreData = (page * tweetsPerPage) < data.length;
+    const hasMoreStoredData = (storedPage * tweetsPerPage) < storedData.length;
 
     return (
         <div className="scrape-container">
             <h2>Twitter API Data Extraction</h2>
 
+            <p className="token-warning">
+                Your token is only used locally and is not stored anywhere.
+                Please note: Twitter API allows only <strong>1 request every 15 minutes per user</strong> under free access.
+                A complete guide for creating your token is provided in the <strong>Procedure</strong> section to help you get started easily.
+            </p>
+
             <form onSubmit={handleSubmit} className="scrape-form">
                 <input
                     type="text"
-                    placeholder="Enter Twitter search query"
+                    placeholder="Enter any search query"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
+                    required
+                />
+                <input
+                    type="text"
+                    placeholder="Enter your Twitter Bearer Token"
+                    value={token}
+                    onChange={(e) => setToken(e.target.value)}
                     required
                 />
                 <button type="submit" disabled={loading}>
@@ -116,19 +122,15 @@ const TwitterAPI = () => {
                     </ul>
 
                     <div className="pagination-buttons">
-                        <button onClick={handlePrevPage} disabled={page === 1}>
-                            Previous
-                        </button>
-                        <button onClick={handleNextPage} disabled={!hasMoreData}>
-                            Next
-                        </button>
+                        <button onClick={handlePrevPage} disabled={page === 1}>Previous</button>
+                        <button onClick={handleNextPage} disabled={!hasMoreData}>Next</button>
                     </div>
                 </div>
             )}
 
             {currentStoredData.length > 0 && (
                 <div className="results">
-                    <h3>Previously Stored Data:</h3>
+                    <h3>Previously Extracted Data:</h3>
                     <ul>
                         {currentStoredData.map((tweet) => (
                             <li key={tweet.id}>
@@ -142,12 +144,8 @@ const TwitterAPI = () => {
                     </ul>
 
                     <div className="pagination-buttons">
-                        <button onClick={handlePrevStoredPage} disabled={storedPage === 1}>
-                            Previous
-                        </button>
-                        <button onClick={handleNextStoredPage} disabled={!hasMoreStoredData}>
-                            Next
-                        </button>
+                        <button onClick={handlePrevStoredPage} disabled={storedPage === 1}>Previous</button>
+                        <button onClick={handleNextStoredPage} disabled={!hasMoreStoredData}>Next</button>
                     </div>
                 </div>
             )}

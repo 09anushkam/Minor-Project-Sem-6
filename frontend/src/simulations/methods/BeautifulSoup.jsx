@@ -34,7 +34,7 @@ const BeautifulSoup = () => {
             <form onSubmit={handleSubmit} className="scrape-form">
                 <input
                     type="text"
-                    placeholder="Enter URL or Query"
+                    placeholder="Enter URL"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     required
@@ -49,6 +49,7 @@ const BeautifulSoup = () => {
             {results && (
                 <div className="results">
                     <h3>Results:</h3>
+                    <p className="json-note">Note: The results are currently displayed in JSON format. A more user-friendly format will be introduced in upcoming updates.</p>
                     <pre>{JSON.stringify(results, null, 2)}</pre>
                 </div>
             )}

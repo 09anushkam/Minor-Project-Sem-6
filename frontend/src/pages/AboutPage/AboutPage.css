@@ -59,7 +59,6 @@
     flex: 1;
 }
 
-/* Responsive for screens smaller than 900px */
 @media (max-width: 900px) {
     .top-section {
         flex-direction: column-reverse;
@@ -70,23 +69,32 @@
     }
 }
 
-/* Specific for small screens below 500px */
-@media (max-width: 500px) {
+@media (max-width: 900px) {
 
     .about-kjsit p,
     .about-computer p {
-        font-size: 1rem;
-        /* smaller text */
+        font-size: 1.2rem;
     }
 
     .about-kjsit h2,
     .about-computer h2 {
         font-size: 1.5rem;
-        /* slightly smaller headings */
     }
 }
 
-/* For large screens above 901px */
+@media (max-width: 500px) {
+
+    .about-kjsit p,
+    .about-computer p {
+        font-size: 1rem;
+    }
+
+    .about-kjsit h2,
+    .about-computer h2 {
+        font-size: 1.3rem;
+    }
+}
+
 @media (min-width: 901px) {
     .college-image img {
         width: 50vw;
@@ -95,20 +103,27 @@
     .lab-image img {
         width: 50vw;
     }
+
+    .about-kjsit p,
+    .about-computer p {
+        font-size: 1.2rem;
+    }
+
+    .about-kjsit h2,
+    .about-computer h2 {
+        font-size: 1.5rem;
+    }
 }
 
-/* Specific for very large screens above 1500px */
 @media (min-width: 1500px) {
 
     .about-kjsit p,
     .about-computer p {
         font-size: 1.5rem;
-        /* larger text */
     }
 
     .about-kjsit h2,
     .about-computer h2 {
         font-size: 2.5rem;
-        /* larger headings */
     }
 }

@@ -58,6 +58,9 @@
     line-height: 1.6;
     font-size: 16px;
     margin: 0 1rem;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
 }
 
 .exp-content h3 {
@@ -194,7 +197,7 @@
     border-bottom: 1px solid #ccc;
     padding: 1rem 10px;
     box-shadow: inset 0px 4px 6px -4px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
+    transition: all 0.5s ease-in-out;
 }
 
 .exp-navbar.open button {
@@ -227,13 +230,13 @@
         background-color: white;
         opacity: 0;
         transform: translateY(-20px);
-        transition: all 0.3s ease;
+        transition: all 0.5s ease;
     }
 
     .exp-navbar.open {
         max-height: 500px;
         padding: 1rem 10px;
-        transition: all 0.4s ease;
+        transition: all 0.5s ease;
     }
 }
 
