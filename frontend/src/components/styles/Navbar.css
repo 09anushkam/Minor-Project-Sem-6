@@ -56,6 +56,7 @@
 }
 
 .btns {
+    text-align: center;
     background-color: #01438D;
     color: white !important;
     border-radius: 10px;
@@ -116,7 +117,7 @@
     .close-btn {
         font-size: 24px;
         position: absolute;
-        top: 10px;
+        top: 30px;
         right: 15px;
         cursor: pointer;
     }
@@ -133,5 +134,37 @@
 
     .nav-menu {
         display: flex;
+    }
+}
+
+@media (max-width: 500px) {
+    .header {
+        padding: 8px 12px;
+    }
+
+    .logo img {
+        width: 200px;
+        height: auto;
+    }
+
+    .hamburger {
+        font-size: 24px;
+        margin-right: 20px;
+    }
+
+    .nav-menu {
+        width: 180px;
+        padding-top: 50px;
+    }
+
+    .nav-menu a {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .close-btn {
+        font-size: 20px;
+        top: 30px;
+        right: 12px;
     }
 }
