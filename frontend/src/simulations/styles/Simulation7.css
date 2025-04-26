@@ -7,7 +7,9 @@
     width: 100%;
     min-height: 100vh;
     background-color: #ffffff;
-    padding-top: 2rem;
+    padding: 2rem 1rem;
+    overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 /* Main container styling */
@@ -24,6 +26,8 @@
     background-color: #ffffff;
     border-radius: 20px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 /* Title and heading styles */
@@ -32,7 +36,8 @@
     margin: 0 0 2rem 0;
     font-size: 2.2rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    width: 100%;
+    text-align: center;
 }
 
 .title:hover {
@@ -46,6 +51,8 @@
     gap: 1.5rem;
     justify-content: center;
     margin: 1.5rem 0;
+    width: 100%;
+    max-width: 1000px;
 }
 
 .tf-idf-button {
@@ -85,6 +92,7 @@
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.06);
+    box-sizing: border-box;
     transition: transform 0.3s ease;
 }
 
@@ -119,11 +127,12 @@
     padding: 2.5rem;
     border: 2px dashed #ffcece;
     border-radius: 15px;
-    transition: all 0.3s ease;
     background-color: #ffffff;
     width: 100%;
     max-width: 800px;
     margin: 1.5rem auto;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
 }
 
 .file-upload:hover {
@@ -131,27 +140,35 @@
     background-color: rgba(255, 206, 206, 0.05);
 }
 
-/* Results table styling */
+/* Results container */
 .results-container {
     width: 100%;
-    max-width: 1000px;
+    max-width: 100%;
     margin: 2rem auto;
     overflow-x: auto;
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease;
     padding: 1.5rem;
+    box-sizing: border-box;
 }
 
 .results-container:hover {
     transform: translateY(-5px);
 }
 
+/* Table container */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 .results-table {
     width: 100%;
     border-collapse: collapse;
     margin: 1rem 0;
+    table-layout: fixed;
 }
 
 .results-table th,
@@ -159,6 +176,8 @@
     padding: 1rem;
     border: 1px solid #ffcece;
     transition: background-color 0.2s ease;
+    word-wrap: break-word;
+    max-width: 200px;
 }
 
 .results-table th {
@@ -294,6 +313,10 @@
     margin-bottom: 2rem;
     justify-content: center;
     flex-wrap: wrap;
+    width: 100%;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .tab-button {
@@ -327,6 +350,8 @@
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     margin: 1.5rem 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .chart-container h3 {
@@ -465,6 +490,7 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     margin: 1.5rem 0;
     overflow-x: auto;
+    box-sizing: border-box;
 }
 
 .heatmap-container h3 {
@@ -478,6 +504,7 @@
     width: 100%;
     overflow-x: auto;
     padding-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
 }
 
 .heatmap-grid {
@@ -615,4 +642,478 @@
     color: #666;
     font-size: 0.9rem;
     margin-top: 0.5rem;
+}
+
+/* Enhanced Responsive Design */
+@media (max-width: 1200px) {
+    .simulation-container {
+        padding: 1.5rem 1rem;
+    }
+
+    .tf-idf-visualizer {
+        max-width: 95%;
+        padding: 1.5rem;
+    }
+
+    .button-container {
+        max-width: 95%;
+    }
+
+    .results-table th,
+    .results-table td {
+        max-width: 150px;
+    }
+}
+
+@media (max-width: 992px) {
+    .simulation-container {
+        padding: 1.2rem 1rem;
+    }
+
+    .tf-idf-visualizer {
+        max-width: 100%;
+        padding: 1.2rem;
+    }
+
+    .input-container,
+    .file-upload {
+        max-width: 95%;
+    }
+
+    .results-table th,
+    .results-table td {
+        max-width: 120px;
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .simulation-container {
+        padding: 1rem;
+    }
+
+    .tf-idf-visualizer {
+        padding: 1rem;
+        width: 100%;
+    }
+
+    .results-container {
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+
+    .results-table th,
+    .results-table td {
+        max-width: 100px;
+        padding: 0.6rem;
+        font-size: 0.8rem;
+    }
+
+    .chart-container,
+    .heatmap-container {
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+
+    .title {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .input-container,
+    .file-upload {
+        padding: 1rem;
+        margin: 1rem auto;
+    }
+}
+
+@media (max-width: 576px) {
+    .simulation-container {
+        padding: 0.8rem;
+    }
+
+    .tf-idf-visualizer {
+        padding: 0.8rem;
+    }
+
+    .title {
+        font-size: 1.5rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .input-container,
+    .file-upload {
+        padding: 0.8rem;
+        margin: 0.8rem auto;
+    }
+
+    .results-table th,
+    .results-table td {
+        max-width: 80px;
+        padding: 0.4rem;
+        font-size: 0.7rem;
+    }
+
+    .heatmap-cell {
+        min-width: 40px;
+        font-size: 0.7rem;
+    }
+
+    .heatmap-cell.header.term {
+        height: 80px;
+    }
+
+    .stat-card h4 {
+        font-size: 1rem;
+    }
+
+    .stat-card p {
+        font-size: 1.5rem;
+    }
+}
+
+/* Add horizontal scroll for very small screens */
+@media (max-width: 400px) {
+    .results-container,
+    .heatmap-wrapper {
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .results-table {
+        min-width: 600px;
+    }
+
+    .heatmap-grid {
+        min-width: 500px;
+    }
+}
+
+/* Add touch-friendly styles */
+@media (hover: none) {
+    .tf-idf-button:hover,
+    .tab-button:hover,
+    .term-chip:hover,
+    .stat-card:hover {
+        transform: none;
+    }
+
+    .heatmap-cell:hover:not(.header) {
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+/* Add landscape mode adjustments */
+@media (max-height: 600px) and (orientation: landscape) {
+    .simulation-container {
+        padding-top: 0.5rem;
+    }
+
+    .title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .button-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .tf-idf-button {
+        width: auto;
+        min-width: 150px;
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .input-container,
+    .file-upload {
+        margin: 0.5rem auto;
+    }
+
+    .text-input {
+        min-height: 80px;
+    }
+}
+
+/* Add high-DPI screen adjustments */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .tf-idf-button,
+    .tab-button,
+    .term-chip {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Media Queries for Responsive Design */
+/* Large devices (desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .tf-idf-visualizer {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+}
+
+/* Medium devices (tablets, 992px to 1199px) */
+@media (max-width: 1199px) and (min-width: 992px) {
+    .tf-idf-visualizer {
+        max-width: 95%;
+        padding: 1.5rem;
+    }
+
+    .button-container {
+        gap: 1rem;
+    }
+
+    .tf-idf-button {
+        min-width: 200px;
+        padding: 1.2rem 2rem;
+    }
+
+    .summary-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Small devices (tablets, 768px to 991px) */
+@media (max-width: 991px) and (min-width: 768px) {
+    .simulation-container {
+        padding-top: 1.5rem;
+    }
+
+    .title {
+        font-size: 2rem;
+    }
+
+    .button-container {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .tf-idf-button {
+        min-width: 180px;
+        padding: 1rem 1.8rem;
+        font-size: 1.1rem;
+    }
+
+    .input-container,
+    .file-upload {
+        max-width: 90%;
+    }
+
+    .results-container {
+        max-width: 95%;
+    }
+
+    .chart-container {
+        padding: 1.5rem;
+    }
+
+    .heatmap-container {
+        padding: 1.5rem;
+    }
+}
+
+/* Extra small devices (phones, 576px to 767px) */
+@media (max-width: 767px) and (min-width: 576px) {
+    .simulation-container {
+        padding-top: 1rem;
+    }
+
+    .title {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .tf-idf-button {
+        width: 100%;
+        max-width: 300px;
+        margin-bottom: 0.5rem;
+    }
+
+    .input-container {
+        padding: 1rem;
+        margin: 1rem auto;
+    }
+
+    .text-input {
+        min-height: 120px;
+        font-size: 0.9rem;
+    }
+
+    .file-upload {
+        padding: 1.5rem;
+    }
+
+    .visualization-tabs {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .tab-button {
+        width: 100%;
+        max-width: 300px;
+        margin-bottom: 0.5rem;
+    }
+
+    .results-container {
+        padding: 1rem;
+        margin: 1rem auto;
+    }
+
+    .results-table {
+        font-size: 0.9rem;
+    }
+
+    .results-table th,
+    .results-table td {
+        padding: 0.5rem;
+    }
+
+    .chart-container {
+        padding: 1rem;
+    }
+
+    .chart-container h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .heatmap-container {
+        padding: 1rem;
+    }
+
+    .heatmap-cell {
+        padding: 0.5rem;
+        min-width: 60px;
+        font-size: 0.8rem;
+    }
+
+    .heatmap-cell.header.term {
+        height: 100px;
+        padding: 0.3rem;
+    }
+
+    .summary-stats {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .term-chips {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .term-chip {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+/* Extra extra small devices (phones, less than 576px) */
+@media (max-width: 575px) {
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .tf-idf-button {
+        font-size: 1rem;
+        padding: 1rem 1.5rem;
+    }
+
+    .text-input {
+        min-height: 100px;
+        font-size: 0.85rem;
+    }
+
+    .results-table {
+        font-size: 0.8rem;
+    }
+
+    .heatmap-cell {
+        min-width: 50px;
+        font-size: 0.7rem;
+    }
+
+    .heatmap-cell.header.term {
+        height: 80px;
+    }
+
+    .stat-card h4 {
+        font-size: 1rem;
+    }
+
+    .stat-card p {
+        font-size: 1.5rem;
+    }
+}
+
+/* Landscape mode adjustments */
+@media (max-height: 600px) and (orientation: landscape) {
+    .simulation-container {
+        padding-top: 0.5rem;
+    }
+
+    .title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .button-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .tf-idf-button {
+        width: auto;
+        min-width: 150px;
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .input-container,
+    .file-upload {
+        margin: 0.5rem auto;
+    }
+
+    .text-input {
+        min-height: 80px;
+    }
+}
+
+/* High DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .tf-idf-button,
+    .tab-button,
+    .term-chip {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+    .tf-idf-button:hover,
+    .tab-button:hover,
+    .term-chip:hover,
+    .stat-card:hover {
+        transform: none;
+    }
+
+    .heatmap-cell:hover:not(.header) {
+        transform: none;
+        box-shadow: none;
+    }
 }

@@ -919,13 +919,9 @@ const GraphVisualizer = () => {
           </div>
         </div>
       )}
-      {showGraph && graphType === "AdjacencyMatrix" && ( // Only if is Adjacency Matrix
-        <div>
-          <button onClick={() => runDijkstra()} className="graph-button">
-            Run Dijkstra
-          </button>
-        </div>
-      )}
+     
+       
+      
     </div>
   );
 };
