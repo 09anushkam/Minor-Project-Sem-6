@@ -3,7 +3,7 @@ const { scrapeData, getTwitterData, getStoredTwitterData } = require("../control
 const router = express.Router();
 
 router.post("/", scrapeData);
-router.get('/twitter', getTwitterData);
+router.post('/twitter', getTwitterData);
 router.get("/twitter-stored", getStoredTwitterData);
 
 module.exports = router;

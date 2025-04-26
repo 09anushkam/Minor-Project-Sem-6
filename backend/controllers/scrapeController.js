@@ -48,8 +48,11 @@ module.exports.scrapeData = async (req, res) => {
 };
 
 module.exports.getTwitterData = async (req, res) => {
-    const { query } = req.query;
-    const bearerToken = process.env.TWITTER_BEARER_TOKEN;
+    const { query, bearerToken } = req.body;
+
+    if (!bearerToken || !query) {
+        return res.status(400).json({ error: "Bearer token and query are required." });
+    }
 
     const url = `https://api.twitter.com/2/tweets/search/recent?query=${query}&tweet.fields=created_at,author_id`;
     const options = {
@@ -60,7 +63,6 @@ module.exports.getTwitterData = async (req, res) => {
     };
 
     try {
-        // Check if the query already exists in the database
         const existingData = await TwitterData.findOne({ query });
 
         if (existingData) {
@@ -74,6 +76,9 @@ module.exports.getTwitterData = async (req, res) => {
         const response = await fetch(url, options);
 
         if (!response.ok) {
+            if (response.status === 401) {
+                return res.status(401).json({ error: "Invalid Bearer Token. Please enter a valid token." });
+            }
             throw new Error(`Error: ${response.status} - ${response.statusText}`);
         }
 
@@ -82,11 +87,10 @@ module.exports.getTwitterData = async (req, res) => {
         const tweets = data.data.map((tweet) => ({
             id: tweet.id,
             text: tweet.text,
-            username: tweet.author_id,  // Twitter API v2 does not return the username directly
+            username: tweet.author_id,
             created_at: tweet.created_at,
         }));
 
-        // Save the new data only if it doesn't already exist
         const newTwitterData = new TwitterData({ query, tweets });
         await newTwitterData.save();
 
@@ -94,7 +98,7 @@ module.exports.getTwitterData = async (req, res) => {
 
     } catch (error) {
         console.error("Error fetching Twitter data:", error);
-        res.status(500).send(error.message);
+        res.status(500).json({ error: "Internal Server Error." });
     }
 };
 
