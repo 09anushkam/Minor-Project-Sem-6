@@ -81,9 +81,11 @@ const TwitterAPI = () => {
             <h2>Twitter API Data Extraction</h2>
 
             <p className="token-warning">
-                Your token is only used locally and is not stored anywhere.
-                Please note: Twitter API allows only <strong>1 request every 15 minutes per user</strong> under free access.
+                <b>Please note:</b> Twitter API allows only <strong>1 request every 15 minutes per user</strong> & <strong>10 requests per month</strong> under free access.
+                <br />
                 A complete guide for creating your token is provided in the <strong>Procedure</strong> section to help you get started easily.
+                <br />
+                Your token is only used locally and is not stored anywhere.
             </p>
 
             <form onSubmit={handleSubmit} className="scrape-form">

@@ -25,6 +25,7 @@ const ExperimentPage = () => {
     const SimulationComponent = lazy(() => import(`../../simulations/Simulation${no}.jsx`));
     const QuizComponent = lazy(() => import(`../../components/Quiz/Quiz${no}.jsx`));
     const ProcedureComponent = lazy(() => import(`../../procedures/Procedure${no}.jsx`));
+    const TheoryComponent = lazy(() => import(`../../theory/Theory${no}.jsx`));
 
     const renderContent = () => {
         switch (selectedSection) {
@@ -32,6 +33,8 @@ const ExperimentPage = () => {
                 return <SimulationComponent />;
             case "Procedure":
                 return <ProcedureComponent />;
+            case "Theory":
+                return <TheoryComponent />;
             case "Quiz":
                 return <QuizComponent />;
             case "Feedback":

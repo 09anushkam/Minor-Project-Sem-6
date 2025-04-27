@@ -7,8 +7,8 @@ export default function Footer() {
                 <div className="footer-section ql">
                     <h2>Quick Links</h2>
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About</a></li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About</a></li>
                         <li><a href="#">Contact</a></li>
                         <li><a href="#">Feedback</a></li>
                     </ul>
@@ -24,10 +24,10 @@ export default function Footer() {
                 </div>
                 <div className="footer-divider"></div>
                 <div className="footer-map">
-                    <iframe 
-                        title="Google Map" 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4481.757223686767!2d72.86761480336813!3d19.045897527635557!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7cf21727f6e19%3A0x473006136ad440dc!2sK.%20J.%20Somaiya%20Institute%20of%20Technology!5e0!3m2!1sen!2sin!4v1739191501256!5m2!1sen!2sin" 
-                        allowFullScreen 
+                    <iframe
+                        title="Google Map"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4481.757223686767!2d72.86761480336813!3d19.045897527635557!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7cf21727f6e19%3A0x473006136ad440dc!2sK.%20J.%20Somaiya%20Institute%20of%20Technology!5e0!3m2!1sen!2sin!4v1739191501256!5m2!1sen!2sin"
+                        allowFullScreen
                         loading="lazy"
                     ></iframe>
                 </div>

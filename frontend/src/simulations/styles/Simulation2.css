@@ -1,3 +1,7 @@
+.center-karo {
+    text-align: center;
+}
+
 .simulation2-container {
     display: flex;
     flex-direction: column;
@@ -99,7 +103,7 @@
 }
 
 .pagination-buttons button:hover {
-    background: #d8302e;
+    background: #801f1f;
 }
 
 .pagination-buttons button:disabled {

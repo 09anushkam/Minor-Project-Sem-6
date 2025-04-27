@@ -112,7 +112,7 @@
 }
 
 .submit-button:hover {
-  background-color: #d8302e;
+  background-color: #801f1f;
   transform: translateY(-1px);
 }
 
@@ -236,7 +236,7 @@
 }
 
 .feedback-button:hover {
-  background-color: #d8302e;
+  background-color: #801f1f;
 }
 
 @media (max-width: 450px) {

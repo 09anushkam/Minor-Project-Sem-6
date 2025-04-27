@@ -84,7 +84,7 @@
 }
 
 .btn:hover {
-    background-color: #0061cf;
+    background-color: #01336d;
 }
 
 .text {
@@ -139,7 +139,7 @@
 }
 
 .textend>a:hover {
-    color: #d8302e;
+    color: #801f1f;
 }
 
 @media (max-width: 900px) {
