@@ -605,17 +605,6 @@
   }
 }
 
-.navbar {
-  background-color: #ffffff;
-  color: black;
-  width: 100%;
-  text-align: center;
-  /* font-size: 24px; */
-  font-weight: bold;
-  /* padding: 15px 0; */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
 .simulation-content {
   margin-top: 20px;
   padding: 20px;
