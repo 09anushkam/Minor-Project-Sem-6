@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+// import axios from 'axios';
 import './styles/Quiz.css';
 
 const QUESTION_TIMER = 20; // 20 seconds per question
 
 const Quiz7 = () => {
-  const navigate = useNavigate();
+  const [hasStarted, setHasStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [showScore, setShowScore] = useState(false);
@@ -14,7 +13,6 @@ const Quiz7 = () => {
   const [timer, setTimer] = useState(QUESTION_TIMER);
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [isAnswered, setIsAnswered] = useState(false);
-  const [quizCompleted, setQuizCompleted] = useState(false);
 
   const questions = [
     {
@@ -74,7 +72,7 @@ const Quiz7 = () => {
   useEffect(() => {
     let interval = null;
 
-    if (!showScore && !isAnswered && timer > 0) {
+    if (hasStarted && !showScore && !isAnswered && timer > 0) {
       interval = setInterval(() => {
         setTimer((prevTimer) => {
           if (prevTimer === 1) {
@@ -89,7 +87,7 @@ const Quiz7 = () => {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [timer, showScore, isAnswered]);
+  }, [timer, showScore, isAnswered, hasStarted]);
 
   const handleTimeUp = () => {
     setIsAnswered(true);
@@ -120,23 +118,22 @@ const Quiz7 = () => {
       setTimer(QUESTION_TIMER);
     } else {
       setShowScore(true);
-      setQuizCompleted(true);
       saveScore();
     }
   };
 
   const saveScore = async () => {
     try {
-      const backendUrl = 'http://localhost:8080';
-      await axios.post(`${backendUrl}/api/quiz-scores`, {
-        experimentNo: 7,
-        score: score,
-        totalQuestions: questions.length,
-        timePerQuestion: QUESTION_TIMER
-      }, {
-        withCredentials: true
-      });
-      console.log('Quiz score saved successfully');
+      // const backendUrl = 'http://localhost:8080';
+      // await axios.post(`${backendUrl}/api/quiz-scores`, {
+      //   experimentNo: 7,
+      //   score: score,
+      //   totalQuestions: questions.length,
+      //   timePerQuestion: QUESTION_TIMER
+      // }, {
+      //   withCredentials: true
+      // });
+      // console.log('Quiz score saved successfully');
     } catch (error) {
       console.error('Error saving score:', error);
       // Show error to user
@@ -145,6 +142,7 @@ const Quiz7 = () => {
   };
 
   const restartQuiz = () => {
+    setHasStarted(false);
     setCurrentQuestion(0);
     setScore(0);
     setShowScore(false);
@@ -154,85 +152,79 @@ const Quiz7 = () => {
     setIsAnswered(false);
   };
 
-  if (showScore) {
-    return (
-      <div className="quiz-container">
-        <div className="score-section">
-          <h2>Quiz Completed!</h2>
-          <p className="score-text">
-            You scored {score} out of {questions.length}
-          </p>
-          <p className="score-feedback">
-            {score === questions.length
-              ? "Perfect score! Excellent understanding of social network analysis!"
-              : score >= questions.length * 0.7
-                ? "Good job! You have a solid understanding of the concepts."
-                : "Keep practicing! Review the experiment to better understand the concepts."}
-          </p>
-          <button className="restart-button" onClick={restartQuiz}>
-            Try Again
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="quiz-container">
-      <div className="question-section">
-        <div className="timer-section">
-          <div className="timer">
-            Time Remaining: {timer}s
+      {!hasStarted ? (
+        <div className="start-section">
+          <h2>Ready to Start the Quiz?</h2>
+          <button className="start-button" onClick={() => setHasStarted(true)}>
+            Start Quiz
+          </button>
+        </div>
+      ) : showScore ? (
+        <div className="score-section">
+          <h2>Quiz Completed!</h2>
+          <p>You scored {score} out of {questions.length}</p>
+          <button className="restart-button" onClick={restartQuiz}>
+            Restart Quiz
+          </button>
+        </div>
+      ) : (
+        <div className="question-section">
+          <div className="timer-section">
+            <div className="timer">
+              Time Remaining: {timer}s
+            </div>
+            <div
+              className="timer-bar"
+              style={{
+                width: `${(timer / QUESTION_TIMER) * 100}%`,
+                backgroundColor: timer <= 5 ? 'red' : '#9B2928'
+              }}
+            ></div>
           </div>
-          <div
-            className="timer-bar"
-            style={{
-              width: `${(timer / QUESTION_TIMER) * 100}%`,
-              backgroundColor: timer <= 5 ? '#ff4444' : '#ff6b6b'
-            }}
-          ></div>
-        </div>
 
-        <div className="question-count">
-          <span>Question {currentQuestion + 1}</span>/{questions.length}
-        </div>
-
-        <div className="question-text">
-          {questions[currentQuestion].questionText}
-        </div>
-
-        <div className="answer-options">
-          {questions[currentQuestion].options.map((option, index) => (
-            <button
-              key={index}
-              className={`answer-button 
-                ${selectedAnswer === index ?
-                  (index === questions[currentQuestion].correctAnswer ? 'correct' : 'incorrect')
-                  : ''
-                }
-                ${showCorrectAnswer && index === questions[currentQuestion].correctAnswer ? 'correct' : ''}
-              `}
-              onClick={() => !isAnswered && handleAnswerClick(index)}
-              disabled={isAnswered}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-
-        {showCorrectAnswer && selectedAnswer !== questions[currentQuestion].correctAnswer && (
-          <div className="correct-answer-message">
-            Correct Answer: {questions[currentQuestion].options[questions[currentQuestion].correctAnswer]}
+          <div className="question-count">
+            <span>Question {currentQuestion + 1}</span>/{questions.length}
           </div>
-        )}
 
-        <div className="progress-bar">
-          <div
-            className="progress"
-            style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
-          ></div>
+          <div className="question-text">
+            {questions[currentQuestion].questionText}
+          </div>
+
+          <div className="answer-options">
+            {questions[currentQuestion].options.map((option, index) => (
+              <button
+                key={index}
+                className={`answer-button 
+                  ${selectedAnswer === index ?
+                    (index === questions[currentQuestion].correctAnswer ? 'correct' : 'incorrect')
+                    : ''
+                  }
+                  ${showCorrectAnswer && index === questions[currentQuestion].correctAnswer ? 'correct' : ''}
+                `}
+                onClick={() => !isAnswered && handleAnswerClick(index)}
+                disabled={isAnswered}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+
+          {showCorrectAnswer && selectedAnswer !== questions[currentQuestion].correctAnswer && (
+            <div className="correct-answer-message">
+              Correct Answer: {questions[currentQuestion].options[questions[currentQuestion].correctAnswer]}
+            </div>
+          )}
+
+          <div className="progress-bar">
+            <div
+              className="progress"
+              style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
+            ></div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
