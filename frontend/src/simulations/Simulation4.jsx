@@ -175,7 +175,40 @@ const Simulation4 = () => {
             <div key={idx} className="topic-block">
               <h4>{topic}</h4>
               <WordCloudVisx words={formatWords(keywords)} />
-              <Bar data={getBarData(keywords)} />
+              <div className="responsive-bar-container">
+                <Bar
+                  data={getBarData(keywords)}
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                      legend: {
+                        labels: {
+                          font: {
+                            size: 12,
+                          },
+                        },
+                      },
+                    },
+                    scales: {
+                      x: {
+                        ticks: {
+                          font: {
+                            size: 12,
+                          },
+                        },
+                      },
+                      y: {
+                        ticks: {
+                          font: {
+                            size: 12,
+                          },
+                        },
+                      },
+                    },
+                  }}
+                />
+              </div>
               <div className="sample-texts">
                 <h5>Sample Documents:</h5>
                 <ul>
@@ -184,24 +217,46 @@ const Simulation4 = () => {
                   ))}
                 </ul>
               </div>
+              <br />
+              <hr />
             </div>
           ))}
 
           <div className="chart-distribution">
             <h3>Topic Distribution Across Documents</h3>
-            <Pie
-              data={{
-                labels: Object.keys(topics),
-                datasets: [{
-                  label: 'Document Count',
-                  data: distribution,
-                  backgroundColor: [
-                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
-                    '#FF9F40', '#C9CBCF', '#66D18F', '#F778A1', '#8A2BE2'
-                  ],
-                }],
-              }}
-            />
+            <div className="responsive-pie-container">
+              <Pie
+                data={{
+                  labels: Object.keys(topics),
+                  datasets: [{
+                    label: 'Document Count',
+                    data: distribution,
+                    backgroundColor: [
+                      '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+                      '#FF9F40', '#C9CBCF', '#66D18F', '#F778A1', '#8A2BE2',
+                      '#00BFFF', '#FFD700', '#ADFF2F', '#FF69B4', '#20B2AA',
+                      '#9370DB', '#40E0D0', '#FF7F50', '#7B68EE', '#8FBC8F',
+                      '#D2691E', '#00CED1', '#DC143C', '#BA55D3', '#48D1CC',
+                      '#B0E0E6', '#CD5C5C', '#6A5ACD', '#32CD32', '#FFA07A'
+                    ],
+                  }],
+                }}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      position: 'bottom',
+                      labels: {
+                        font: {
+                          size: 12,
+                        },
+                      },
+                    },
+                  },
+                }}
+              />
+            </div>
           </div>
         </div>
       )}

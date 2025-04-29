@@ -7,7 +7,7 @@ const WordCloudVisx = ({ words }) => {
     const [dimensions, setDimensions] = useState({ width: 300, height: 200 });
 
     const fontScale = (word) => {
-        const maxFontSize = dimensions.width / 15;
+        const maxFontSize = Math.max(dimensions.width / 18, 12);
         return Math.min(word.value * 8 + 8, maxFontSize);
     };
     const rotate = () => (Math.random() > 0.5 ? 0 : 90);
@@ -16,7 +16,8 @@ const WordCloudVisx = ({ words }) => {
         const observer = new ResizeObserver((entries) => {
             for (let entry of entries) {
                 const { width } = entry.contentRect;
-                setDimensions({ width, height: width * 0.6 });
+                const safeWidth = width > 320 ? width : 320;
+                setDimensions({ width: safeWidth, height: safeWidth * 0.6 });
             }
         });
 
@@ -28,8 +29,16 @@ const WordCloudVisx = ({ words }) => {
     }, []);
 
     return (
-        <div ref={containerRef} style={{ width: '100%', minHeight: '200px' }}>
-            <svg width={dimensions.width} height={dimensions.height}>
+        <div ref={containerRef}
+            style={{
+                width: '100%',
+                minHeight: '200px',
+                overflowX: 'auto',
+                padding: '10px 0',
+                textAlign: 'left',
+            }}
+        >
+            <svg width={dimensions.width} height={dimensions.height} style={{ maxWidth: '100%', height: 'auto' }}>
                 <Wordcloud
                     words={words.slice(0, 100)}
                     width={dimensions.width}
@@ -58,7 +67,7 @@ const WordCloudVisx = ({ words }) => {
                 </Wordcloud>
             </svg>
 
-            <div className="word-legend" style={{ marginTop: '16px' }}>
+            <div className="word-legend">
                 <h5>🔤 All Keywords:</h5>
                 <ul style={{ columns: 2, fontSize: '14px', paddingLeft: '20px' }}>
                     {words.map((word, idx) => (
