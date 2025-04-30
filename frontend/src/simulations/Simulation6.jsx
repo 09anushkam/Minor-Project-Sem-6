@@ -30,10 +30,26 @@ const Simulation6 = () => {
     };
 
     const handleNumVerticesChange = (e) => {
-        setNumVertices(Number(e.target.value));
-        setGraphData({});
+        const value = Number(e.target.value);
+        setNumVertices(value);
         setShowGraph(false);
         setCentralityResults(null);
+
+        // Initialize matrix with 0s when vertices count is set
+        if (value && graphType === "AdjacencyMatrix") {
+            const newGraphData = {};
+            for (let i = 0; i < value; i++) {
+                newGraphData[i] = {};
+                for (let j = 0; j < value; j++) {
+                    if (i !== j) {
+                        newGraphData[i][j] = 0;  // Initialize with 0
+                    }
+                }
+            }
+            setGraphData(newGraphData);
+        } else {
+            setGraphData({});
+        }
     };
 
     const handleGraphInputChange = (e, i, j) => {
@@ -51,7 +67,7 @@ const Simulation6 = () => {
 
             // Set both (i,j) and (j,i) for undirected graph
             newGraph[i][j] = value;
-            newGraph[j][i] = value;  // Make it symmetric
+            newGraph[j][i] = value;
 
             return newGraph;
         });
@@ -64,7 +80,7 @@ const Simulation6 = () => {
         switch (graphType) {
             case "AdjacencyMatrix":
                 return (
-                    <div className="matrix-input">
+                    <div className="matrix-input-container">
                         <p className="matrix-instructions">
                             Fill the matrix with:
                             <br />
@@ -74,23 +90,27 @@ const Simulation6 = () => {
                             <br />
                             Matrix will automatically be made symmetric.
                         </p>
-                        {Array.from({ length: numVertices }).map((_, i) => (
-                            <div key={i} className="matrix-row">
-                                {Array.from({ length: numVertices }).map((_, j) => (
-                                    <input
-                                        key={`matrix-${i}-${j}`}
-                                        type="number"
-                                        min="0"
-                                        max="1"
-                                        value={graphData[i]?.[j] ?? ""}
-                                        placeholder={i === j ? "-" : "0/1"}
-                                        onChange={(e) => handleGraphInputChange(e, i, j)}
-                                        disabled={i === j}  // Disable diagonal elements
-                                        className={`matrix-input-cell ${i === j ? 'diagonal' : ''}`}
-                                    />
+                        <div className="matrix-scroll-container">
+                            <div className="matrix-input">
+                                {Array.from({ length: numVertices }).map((_, i) => (
+                                    <div key={i} className="matrix-row">
+                                        {Array.from({ length: numVertices }).map((_, j) => (
+                                            <input
+                                                key={`matrix-${i}-${j}`}
+                                                type="number"
+                                                min="0"
+                                                max="1"
+                                                value={graphData[i]?.[j] ?? (i === j ? "" : 0)}
+                                                placeholder={i === j ? "-" : "0"}
+                                                onChange={(e) => handleGraphInputChange(e, i, j)}
+                                                disabled={i === j}
+                                                className={`matrix-input-cell ${i === j ? 'diagonal' : ''}`}
+                                            />
+                                        ))}
+                                    </div>
                                 ))}
                             </div>
-                        ))}
+                        </div>
                     </div>
                 );
 
@@ -481,27 +501,93 @@ const Simulation6 = () => {
     };
 
     const handleGenerateGraph = () => {
-        // Check if all matrix values are filled
-        let isComplete = true;
+        // Check if all matrix values are properly set (0 or 1)
+        let isValid = true;
+
+        // First, ensure graphData is properly initialized for all vertices
         for (let i = 0; i < numVertices; i++) {
+            if (!graphData[i]) {
+                isValid = false;
+                break;
+            }
             for (let j = 0; j < numVertices; j++) {
                 if (i !== j) {  // Skip diagonal elements
-                    if (!graphData[i] || graphData[i][j] === undefined || graphData[i][j] === "") {
-                        isComplete = false;
+                    // Check if the value is defined and is either 0 or 1
+                    if (graphData[i][j] === undefined ||
+                        (graphData[i][j] !== 0 && graphData[i][j] !== 1)) {
+                        isValid = false;
                         break;
                     }
                 }
             }
-            if (!isComplete) break;
+            if (!isValid) break;
         }
 
-        if (!isComplete) {
-            alert("Please fill all matrix values with either 0 or 1. Use 1 for connected nodes and 0 for unconnected nodes.");
+        if (!isValid) {
+            alert("Please ensure all matrix values are either 0 or 1. Use 1 for connected nodes and 0 for unconnected nodes.");
             return;
         }
 
         setShowGraph(true);
     };
+
+    const CentralityFormulas = () => (
+        <div className="formulas-container">
+            <h3>Centrality Measure Formulas</h3>
+            <div className="formula-section">
+                <h4>Degree Centrality</h4>
+                <p>For node <i>i</i>:</p>
+                <p className="formula">
+                    C<sub>D</sub>(i) = deg(i) / (n - 1)
+                </p>
+                <p>Where:</p>
+                <ul>
+                    <li>deg(i) = number of edges connected to node i</li>
+                    <li>n = total number of nodes in the network</li>
+                </ul>
+            </div>
+
+            <div className="formula-section">
+                <h4>Closeness Centrality</h4>
+                <p>For node <i>i</i>:</p>
+                <p className="formula">
+                    C<sub>C</sub>(i) = (n - 1) / (∑<sub>j≠i</sub> d(i,j))
+                </p>
+                <p>Where:</p>
+                <ul>
+                    <li>d(i,j) = shortest path distance between nodes i and j</li>
+                    <li>n = total number of nodes in the network</li>
+                </ul>
+            </div>
+
+            <div className="formula-section">
+                <h4>Betweenness Centrality</h4>
+                <p>For node <i>v</i>:</p>
+                <p className="formula">
+                    C<sub>B</sub>(v) = ∑<sub>s≠v≠t</sub> (σ<sub>st</sub>(v) / σ<sub>st</sub>)
+                </p>
+                <p>Where:</p>
+                <ul>
+                    <li>σ<sub>st</sub> = total number of shortest paths from s to t</li>
+                    <li>σ<sub>st</sub>(v) = number of those paths that pass through v</li>
+                </ul>
+            </div>
+
+            <div className="formula-section">
+                <h4>Eigenvector Centrality</h4>
+                <p>For node <i>i</i>:</p>
+                <p className="formula">
+                    x<sub>i</sub> = (1/λ) ∑<sub>j∈N(i)</sub> x<sub>j</sub>
+                </p>
+                <p>Where:</p>
+                <ul>
+                    <li>N(i) = neighbors of node i</li>
+                    <li>λ = largest eigenvalue of the adjacency matrix</li>
+                    <li>x = eigenvector corresponding to λ</li>
+                </ul>
+            </div>
+        </div>
+    );
 
     return (
         <div className="simulation-container">
@@ -527,11 +613,11 @@ const Simulation6 = () => {
                         <input
                             id="vertices"
                             type="number"
-                            placeholder="Enter number"
+                            placeholder="Enter V"
                             onChange={handleNumVerticesChange}
                             className="vertex-input"
                             min="2"
-                            max="50"
+                            max="20"
                             value={numVertices || ''}
                         />
                     </div>
@@ -541,9 +627,12 @@ const Simulation6 = () => {
                     {renderGraphInput()}
                 </div>
 
-                {graphType === "AdjacencyMatrix" && numVertices && (
+                {graphType === "AdjacencyMatrix" && numVertices > 0 && (
                     <div className="generate-section">
-                        <button onClick={handleGenerateGraph} className="graph-button">
+                        <button
+                            onClick={handleGenerateGraph}
+                            className="graph-button full-width-btn"
+                        >
                             Generate Graph
                         </button>
                     </div>
@@ -555,7 +644,13 @@ const Simulation6 = () => {
                     <div className="graph-section">
                         <h3>Network Visualization</h3>
                         <div className="graph-container">
-                            <svg ref={svgRef} width="800" height="600"></svg>
+                            <svg
+                                ref={svgRef}
+                                viewBox="-100 0 800 600"
+                                preserveAspectRatio="xMidYMid meet"
+                            >
+                                <g className="graph-content"></g>
+                            </svg>
                         </div>
                         <div className="analysis-controls">
                             <button onClick={calculateCentrality} className="graph-button">
@@ -614,6 +709,7 @@ const Simulation6 = () => {
                                     </tbody>
                                 </table>
                             </div>
+                            <CentralityFormulas />
                         </div>
                     )}
                 </>

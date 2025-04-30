@@ -157,6 +157,12 @@
   margin-bottom: 1rem;
 }
 
+.file-info-text {
+  text-align: center;
+  color: blue;
+  max-width: 500px;
+}
+
 @media (max-width: 1100px) {
   .simulation4-container {
     padding: 1rem;
@@ -259,6 +265,7 @@
   .simulation4-container {
     overflow-x: auto;
     margin: 0;
+    padding: 0;
   }
 
   .experiment-container {

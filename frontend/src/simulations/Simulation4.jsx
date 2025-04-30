@@ -115,26 +115,31 @@ const Simulation4 = () => {
       </div>
 
       {selectedMode === 'csv' && (
-        <div className="form-container4">
-          <h3>Upload CSV File</h3>
-          <div className="form-group4">
-            <input type="file" accept=".csv" onChange={handleFileChange} />
-          </div>
+        <div>
+          <p className="file-info-text">
+            <strong>Note:</strong> The uploaded CSV must contain a <code>&quot;text&quot;</code> column. Column name is <strong>case-sensitive</strong>.
+          </p>
+          <div className="form-container4">
+            <h3>Upload CSV File</h3>
+            <div className="form-group4">
+              <input type="file" accept=".csv" onChange={handleFileChange} />
+            </div>
 
-          <div className="form-group4">
-            <label htmlFor="numTopics">Number of Topics</label>
-            <input
-              type="number"
-              id="numTopics"
-              min="1"
-              value={numTopics}
-              onChange={(e) => setNumTopics(e.target.value)}
-            />
-          </div>
+            <div className="form-group4">
+              <label htmlFor="numTopics">Number of Topics</label>
+              <input
+                type="number"
+                id="numTopics"
+                min="1"
+                value={numTopics}
+                onChange={(e) => setNumTopics(e.target.value)}
+              />
+            </div>
 
-          <button onClick={handleSubmitCSV} disabled={loading}>
-            {loading ? "Processing..." : "Run Topic Modeling"}
-          </button>
+            <button onClick={handleSubmitCSV} disabled={loading}>
+              {loading ? "Processing..." : "Run Topic Modeling"}
+            </button>
+          </div>
         </div>
       )}
 
