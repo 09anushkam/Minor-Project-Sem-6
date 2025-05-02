@@ -16,10 +16,6 @@ const User = require('./models/user');
 const bcrypt = require('bcrypt');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const { googleCallback } = require('./controllers/auth');
-const FacebookStrategy = require('passport-facebook').Strategy;
-const { facebookCallback } = require('./controllers/auth');
-const TwitterStrategy = require('passport-twitter').Strategy;
-const { twitterCallback } = require('./controllers/auth');
 
 // const homeRouter = require('./routes/home');
 const authRouter = require('./routes/auth');
@@ -115,17 +111,6 @@ passport.use(new GoogleStrategy({
     callbackURL: 'http://localhost:8080/auth/google/callback',
     scope: ["profile", "email"],
 }, googleCallback));
-// passport.use(new FacebookStrategy({
-//     clientID: process.env.FACEBOOK_APP_ID,
-//     clientSecret: process.env.FACEBOOK_APP_SECRET,
-//     callbackURL: '/auth/facebook/callback',
-//     profileFields: ['id', 'emails', 'name'], // Request email and name
-// }, facebookCallback));
-// passport.use(new TwitterStrategy({
-//     consumerKey: process.env.TWITTER_CONSUMER_KEY,
-//     consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-//     callbackURL: '/auth/twitter/callback',
-// }, twitterCallback));
 passport.serializeUser((user, done) => {
     done(null, user.id);
 });

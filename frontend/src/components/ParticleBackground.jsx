@@ -1,9 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 
 const ParticleBackground = () => {
     const [init, setInit] = useState(false);
+    const [clickCount, setClickCount] = useState(0);
+    const MAX_CLICKS = 10; // Maximum allowed clicks
+
     useEffect(() => {
         initParticlesEngine(async (engine) => {
             await loadSlim(engine);
@@ -11,6 +14,14 @@ const ParticleBackground = () => {
             setInit(true);
         });
     }, []);
+
+    const handleClick = useCallback(() => {
+        if (clickCount < MAX_CLICKS) {
+            setClickCount(prev => prev + 1);
+            return true; // Allow particle generation
+        }
+        return false; // Block particle generation
+    }, [clickCount]);
 
     const options = useMemo(
         () => ({
@@ -40,7 +51,7 @@ const ParticleBackground = () => {
                 },
                 modes: {
                     push: {
-                        quantity: 4,
+                        quantity: clickCount < MAX_CLICKS ? 4 : 0,
                     },
                     repulse: {
                         distance: 200,
@@ -72,6 +83,7 @@ const ParticleBackground = () => {
                 number: {
                     density: {
                         enable: true,
+                        area: 800, // Adjust this value as needed
                     },
                     value: 80,
                 },
@@ -87,16 +99,42 @@ const ParticleBackground = () => {
             },
             detectRetina: true,
         }),
-        [],
+        [handleClick, clickCount],
     );
 
     if (!init) return null;
 
     return (
-        <Particles
-            id="tsparticles"
-            options={options}
-        />
+        <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 0,
+            pointerEvents: 'auto' // Ensure clicks are captured
+        }}>
+            <Particles
+                id="tsparticles"
+                options={options}
+                style={{
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                }}
+            />
+            <div style={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                color: 'white',
+                zIndex: 1,
+                fontSize: '14px',
+                pointerEvents: 'none' // Don't block clicks
+            }}>
+                Clicks remaining: {Math.max(0, MAX_CLICKS - clickCount)}
+            </div>
+        </div>
     );
 };
 

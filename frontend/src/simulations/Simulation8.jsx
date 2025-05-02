@@ -39,14 +39,14 @@ const Simulation8 = () => {
   const calculateMetrics = () => {
     setLoading(true);
     setError("");
-    
+
     try {
       // Create nodes and edges
       const nodes = userNames.map((name, index) => ({
         id: index.toString(),
         label: name
       }));
-      
+
       const edges = [];
       followMatrix.forEach((row, fromIndex) => {
         row.forEach((follows, toIndex) => {
@@ -66,7 +66,7 @@ const Simulation8 = () => {
       // Calculate metrics for each user
       const n = nodes.length;
       const newMetrics = {};
-      
+
       nodes.forEach(node => {
         // Initialize metrics object for each user
         newMetrics[node.id] = {
@@ -96,7 +96,7 @@ const Simulation8 = () => {
         };
 
         // Calculate overall influence score using weighted formula
-        const overallInfluence = 
+        const overallInfluence =
           (0.3 * normalizedMetrics.powerScore) +
           (0.3 * normalizedMetrics.authority) +
           (0.2 * normalizedMetrics.infoBroker) +
@@ -121,13 +121,13 @@ const Simulation8 = () => {
   const findAllShortestPaths = (start, end, adjacencyList) => {
     const paths = [];
     const visited = new Set();
-    
+
     const dfs = (current, target, path) => {
       if (current === target) {
         paths.push([...path]);
         return;
       }
-      
+
       visited.add(current);
       adjacencyList[current].forEach(neighbor => {
         if (!visited.has(neighbor)) {
@@ -138,9 +138,9 @@ const Simulation8 = () => {
       });
       visited.delete(current);
     };
-    
+
     dfs(start, end, [start]);
-    
+
     // Filter to keep only shortest paths
     const minLength = Math.min(...paths.map(p => p.length));
     return paths.filter(p => p.length === minLength);
@@ -151,7 +151,7 @@ const Simulation8 = () => {
     // Implementation for betweenness centrality
     const n = nodes.length;
     let betweenness = 0;
-    
+
     // Create undirected adjacency list for shortest paths
     const undirectedAdjList = {};
     nodes.forEach(node => {
@@ -184,10 +184,10 @@ const Simulation8 = () => {
     const distances = {};
     nodes.forEach(n => distances[n.id] = Infinity);
     distances[nodeId] = 0;
-    
+
     const queue = [nodeId];
     const visited = new Set([nodeId]);
-    
+
     // Create directed adjacency list
     const directedAdjList = {};
     nodes.forEach(node => {
@@ -207,7 +207,7 @@ const Simulation8 = () => {
           queue.push(neighbor);
         }
       });
-      
+
       edges.filter(e => e.to === current).forEach(edge => {
         const neighbor = edge.from;
         if (!visited.has(neighbor)) {
@@ -223,7 +223,7 @@ const Simulation8 = () => {
     if (reachableNodes < nodes.length) {
       return 0; // If not all nodes are reachable
     }
-    
+
     const sumDistances = Object.values(distances).reduce((a, b) => a + b, 0);
     return (reachableNodes - 1) / sumDistances;
   };
@@ -251,7 +251,7 @@ const Simulation8 = () => {
     for (let i = 0; i < 50; i++) {
       const newEigenvector = {};
       let sum = 0;
-      
+
       nodes.forEach(node => {
         let value = 0;
         nodes.forEach(n => {
@@ -264,7 +264,7 @@ const Simulation8 = () => {
       // Normalize
       const magnitude = Math.sqrt(sum);
       if (magnitude === 0) return 0;
-      
+
       nodes.forEach(node => {
         eigenvector[node.id] = newEigenvector[node.id] / magnitude;
       });
@@ -278,7 +278,7 @@ const Simulation8 = () => {
     const d = 0.85; // Damping factor
     const adjacencyMatrix = {};
     const outDegrees = {};
-    
+
     // Initialize
     nodes.forEach(node => {
       adjacencyMatrix[node.id] = {};
@@ -327,7 +327,7 @@ const Simulation8 = () => {
       { value: powerScore, role: "Power User (connected to important users)" },
       { value: authority, role: "Authority (trusted by network)" }
     ];
-    
+
     return roles.reduce((max, curr) => curr.value > max.value ? curr : max).role;
   };
 
@@ -350,8 +350,8 @@ const Simulation8 = () => {
             <div key={fromIndex} className="matrix-row">
               <div className="matrix-cell header-cell">{name}</div>
               {userNames.map((_, toIndex) => (
-                <div 
-                  key={toIndex} 
+                <div
+                  key={toIndex}
                   className={`matrix-cell ${fromIndex === toIndex ? 'self-cell' : ''} ${followMatrix[fromIndex][toIndex] ? 'follows' : ''}`}
                   onClick={() => handleFollowToggle(fromIndex, toIndex)}
                 >
@@ -379,7 +379,7 @@ const Simulation8 = () => {
         <div className="influencers-list">
           {sortedUsers.map(([userId, userMetrics]) => {
             if (!userMetrics) return null;
-            
+
             return (
               <div key={userId} className="influencer-card">
                 <h4>{userNames[parseInt(userId)] || `User ${parseInt(userId) + 1}`}</h4>
@@ -458,7 +458,7 @@ const Simulation8 = () => {
         {renderFollowMatrix()}
       </div>
 
-      <button 
+      <button
         className="analyze-button"
         onClick={calculateMetrics}
         disabled={loading}
