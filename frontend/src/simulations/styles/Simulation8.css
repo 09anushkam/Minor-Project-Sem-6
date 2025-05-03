@@ -1,7 +1,4 @@
-/* Simulation8.css - Styles for Social Media Network Analysis */
-
-/* Main container styles */
-/* .simulation-container {
+.simulation8-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,6 +6,8 @@
   text-align: center;
   width: 100%;
   padding: 20px;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .simulation-header {
@@ -18,10 +17,13 @@
   background-color: #f8f9fa;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 1200px;
+  box-sizing: border-box;
 }
 
 .simulation-header h1 {
-  color: #333;
+  color: #000;
   margin-bottom: 10px;
 }
 
@@ -30,15 +32,21 @@
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-} */
+  width: 100%;
+  max-width: 1200px;
+  box-sizing: border-box;
+}
 
 /* Step container styles */
 .step-container {
   padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  box-sizing: border-box;
 }
 
 .step-container h2 {
-  color: #333;
+  color: #000;
   margin-bottom: 20px;
   border-bottom: 1px solid #eee;
   padding-bottom: 10px;
@@ -53,17 +61,20 @@
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 25px;
+  box-sizing: border-box;
 }
 
 .form-group {
   margin-bottom: 25px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 8px;
   font-weight: 600;
-  color: #333;
+  color: #000;
   font-size: 0.95rem;
 }
 
@@ -74,13 +85,11 @@
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   font-size: 16px;
-  transition: all 0.2s ease;
-  margin: 0 auto;
-  display: block;
+  box-sizing: border-box;
 }
 
 .form-group input:focus {
-  border-color: #1976d2;
+  border-color: #01438D;
   box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
   outline: none;
 }
@@ -90,7 +99,7 @@
 }
 
 .user-names-section h2 {
-  color: #333;
+  color: #000;
   font-size: 1.5rem;
   margin-bottom: 20px;
   text-align: center;
@@ -117,7 +126,7 @@
 
 .user-name-input label {
   margin-bottom: 10px;
-  color: #333;
+  color: #000;
   font-size: 0.95rem;
   font-weight: 500;
 }
@@ -133,7 +142,7 @@
 }
 
 .user-name-input input:focus {
-  border-color: #1976d2;
+  border-color: #01438D;
   box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
   outline: none;
 }
@@ -152,7 +161,7 @@
   display: block;
   margin-bottom: 12px;
   font-weight: 600;
-  color: #333;
+  color: #000;
   font-size: 1.1rem;
 }
 
@@ -167,7 +176,7 @@
 }
 
 .num-users-section input:focus {
-  border-color: #1976d2;
+  border-color: #01438D;
   box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
   outline: none;
 }
@@ -188,100 +197,52 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* Matrix Container */
+/* Matrix Styling */
+.follow-matrix {
+  margin: 30px 0;
+  overflow-x: auto;
+  padding: 10px;
+}
+
 .matrix-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 3px solid #1a237e;
-    border-radius: 8px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 0 auto;
-    padding: 10px;
-    width: fit-content;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
+  display: inline-block;
+  border: 3px solid #1a237e;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .matrix-header {
-    display: flex;
-    background-color: #f9f9f9;
-    border-bottom: 2px solid #1a237e;
-    justify-content: center;
-    width: 100%;
+  display: flex;
+  background-color: #f9f9f9;
+  border-bottom: 2px solid #1a237e;
 }
 
 .matrix-row {
-    display: flex;
-    border-bottom: 1px solid #e0e0e0;
-    height: 60px;
-    justify-content: center;
-    width: 100%;
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
+  height: 60px;
+}
+
+.matrix-row:last-child {
+  border-bottom: none;
 }
 
 .matrix-cell {
-    width: 100px;
-    min-width: 100px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-right: 1px solid #e0e0e0;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 16px;
-    padding: 0;
-    box-sizing: border-box;
-    background-color: white;
-    text-align: center;
-}
-
-.header-cell {
-    background-color: #f8f9fa;
-    font-weight: 600;
-    width: 100px;
-    min-width: 100px;
-    height: 60px;
-    padding: 0;
-    color: #333;
-    cursor: default;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    text-align: center;
-}
-
-/* Follow Matrix Section */
-.follow-matrix {
-    margin: 30px auto;
-    padding: 20px;
-    width: 100%;
-    max-width: 800px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-}
-
-.follow-matrix h3 {
-    text-align: center;
-    margin-bottom: 15px;
-    color: #333;
-    font-size: 1.5rem;
-    width: 100%;
-}
-
-.follow-matrix p {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #666;
-    width: 100%;
+  width: 100px;
+  min-width: 100px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #e0e0e0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 16px;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: white;
 }
 
 .matrix-cell:last-child {
@@ -301,6 +262,21 @@
   padding: 0;
 }
 
+.header-cell {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  width: 100px;
+  min-width: 100px;
+  height: 60px;
+  padding: 0;
+  color: #333;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
 .self-cell {
   background-color: #f8f9fa;
   cursor: not-allowed;
@@ -314,21 +290,15 @@
 }
 
 .follows:hover {
-  background-color: #4a90e2;
+  background-color: #01336d;
   color: white;
 }
 
 /* Influencer Analysis Section */
 .influencers-section {
-  margin: 30px auto;
-  padding: 20px;
+  margin: 30px 0;
   width: 100%;
   max-width: 800px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
 }
 
 .influencers-list {
@@ -342,7 +312,7 @@
 
 .influencer-card {
   background: white;
-  border: 2px solid #1a237e;
+  border: 2px solid #01438D;
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -359,16 +329,16 @@
 
 .influencer-card h4 {
   margin: 0 0 10px 0;
-  color: #1a237e;
+  color: #01438D;
   font-size: 1.2rem;
 }
 
 .primary-role {
-  color: black;
+  color: white;
   font-size: 0.9rem;
   margin-bottom: 15px;
   padding: 5px 10px;
-  background: #ff9494;
+  background: #9B2928;
   border-radius: 15px;
   display: inline-block;
 }
@@ -379,7 +349,7 @@
 
 .metrics-breakdown h5 {
   margin: 0 0 10px 0;
-  color: #333;
+  color: #000;
 }
 
 .metrics-breakdown ul {
@@ -405,7 +375,7 @@
 
 .metrics-breakdown span:last-child {
   font-weight: 600;
-  color: #4a90e2;
+  color: #01438D;
 }
 
 .overall-score {
@@ -413,7 +383,7 @@
   padding: 10px;
   background: #e6f2ff;
   border-radius: 8px;
-  color: #4a90e2;
+  color: #01438D;
   font-weight: 600;
 }
 
@@ -458,8 +428,8 @@
 }
 
 .metrics-summary-table th {
-  background-color: #ffb6c1;
-  color: #333;
+  background-color: #9B2928;
+  color: #fff;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -523,7 +493,7 @@
 }
 
 .summary-item p {
-  color: #333;
+  color: #000;
   margin: 0;
   font-size: 1.1rem;
   font-weight: 500;
@@ -534,9 +504,9 @@
 .analyze-button {
   padding: 12px 24px;
   border: none;
-  border-radius: 8px;
-  background-color: #1a237e;
-  color: white;
+  border-radius: 9px;
+  background-color: #ff9494;
+  color: black;
   font-size: 16px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -547,8 +517,8 @@
 }
 
 .analyze-button:hover {
-  background-color: #283593;
-  transform: scale(1.05);
+  background-color: #e76060;
+  transform: scale(1.1);
 }
 
 .analyze-button:disabled {
@@ -680,4 +650,339 @@ input[type="number"]:focus {
 
 .user-input-section {
   margin-top: 0;
+}
+
+/* Media Queries for Responsive Design */
+/* Large devices (desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .simulation-container {
+    padding: 30px;
+  }
+
+  .simulation-header,
+  .simulation-content {
+    max-width: 1200px;
+  }
+
+  .user-input-section,
+  .follow-matrix,
+  .influencers-section {
+    max-width: 800px;
+  }
+}
+
+/* Medium devices (tablets, 992px to 1199px) */
+@media (max-width: 1199px) and (min-width: 992px) {
+  .simulation-container {
+    padding: 25px;
+  }
+
+  .simulation-header,
+  .simulation-content {
+    max-width: 95%;
+  }
+
+  .user-input-section,
+  .follow-matrix,
+  .influencers-section {
+    max-width: 700px;
+  }
+
+  .form-group input {
+    max-width: 180px;
+  }
+}
+
+/* Small devices (tablets, 768px to 991px) */
+@media (max-width: 991px) and (min-width: 768px) {
+  .simulation-container {
+    padding: 20px;
+  }
+
+  .simulation-header,
+  .simulation-content {
+    max-width: 100%;
+  }
+
+  .user-input-section,
+  .follow-matrix,
+  .influencers-section {
+    max-width: 600px;
+  }
+
+  .form-group input {
+    max-width: 160px;
+  }
+
+  .influencers-list {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+/* Extra small devices (phones, 576px to 767px) */
+@media (max-width: 767px) and (min-width: 576px) {
+  .simulation-container {
+    padding: 15px;
+  }
+
+  .simulation-header,
+  .simulation-content {
+    padding: 15px;
+  }
+
+  .user-input-section,
+  .follow-matrix,
+  .influencers-section {
+    max-width: 500px;
+    padding: 20px;
+  }
+
+  .form-group input {
+    max-width: 140px;
+    font-size: 14px;
+  }
+
+  .influencers-list {
+    grid-template-columns: 1fr;
+  }
+
+  .matrix-container {
+    min-width: 250px;
+  }
+}
+
+/* Extra extra small devices (phones, less than 576px) */
+@media (max-width: 575px) {
+  .simulation-container {
+    padding: 10px;
+  }
+
+  .simulation-header,
+  .simulation-content {
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  .user-input-section,
+  .follow-matrix,
+  .influencers-section {
+    max-width: 100%;
+    padding: 15px;
+    margin: 20px auto;
+  }
+
+  .form-group input {
+    max-width: 120px;
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  .matrix-container {
+    min-width: 200px;
+  }
+
+  .influencers-list {
+    gap: 15px;
+  }
+}
+
+/* Landscape mode adjustments */
+@media (max-height: 600px) and (orientation: landscape) {
+  .simulation-container {
+    padding: 10px;
+  }
+
+  .simulation-header,
+  .simulation-content {
+    padding: 15px;
+  }
+
+  .user-input-section,
+  .follow-matrix,
+  .influencers-section {
+    padding: 15px;
+  }
+
+  .matrix-container {
+    min-width: 250px;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+  .matrix-cell:hover:not(.header-cell):not(.self-cell) {
+    background-color: white;
+  }
+
+  .follows:hover {
+    background-color: #e6f2ff;
+    color: #4a90e2;
+  }
+}
+
+/* High DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+  .matrix-container {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Add horizontal scroll for very small screens */
+@media (max-width: 400px) {
+  .simulation-container {
+    padding: 5px;
+  }
+
+  .user-input-section,
+  .follow-matrix,
+  .influencers-section {
+    padding: 10px;
+  }
+
+  .form-group input {
+    max-width: 100px;
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .matrix-container {
+    min-width: 180px;
+  }
+}
+
+/* Media Queries for Matrix Responsiveness */
+@media (max-width: 1199px) and (min-width: 992px) {
+  .follow-matrix {
+    max-width: 700px;
+  }
+
+  .matrix-cell {
+    width: 80px;
+    min-width: 80px;
+    font-size: 14px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 991px) and (min-width: 768px) {
+  .follow-matrix {
+    max-width: 700px;
+  }
+
+  .matrix-cell {
+    width: 70px;
+    min-width: 70px;
+    font-size: 13px;
+    padding: 6px;
+  }
+}
+
+@media (max-width: 767px) and (min-width: 576px) {
+  .follow-matrix {
+    max-width: 500px;
+  }
+
+  .matrix-cell {
+    width: 60px;
+    min-width: 60px;
+    font-size: 12px;
+    padding: 5px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 575px) {
+  .follow-matrix {
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  .matrix-cell {
+    width: 50px;
+    min-width: 50px;
+    font-size: 11px;
+    padding: 4px;
+    height: 45px;
+  }
+}
+
+/* Add horizontal scroll for very small screens */
+@media (max-width: 400px) {
+  .follow-matrix {
+    padding: 5px;
+  }
+
+  .matrix-cell {
+    width: 45px;
+    min-width: 45px;
+    font-size: 10px;
+    padding: 3px;
+    height: 40px;
+  }
+}
+
+/* Landscape mode adjustments */
+@media (max-height: 600px) and (orientation: landscape) {
+  .matrix-cell {
+    height: 40px;
+    padding: 5px;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+  .matrix-cell:hover:not(.header-cell):not(.self-cell) {
+    background-color: white;
+  }
+
+  .follows:hover {
+    background-color: #e6f2ff;
+    color: #01438D;
+  }
+}
+
+.influencers-section {
+  margin-bottom: 0;
+}
+
+@media (min-width: 1000px) {
+  .follow-matrix {
+    max-width: 900px;
+  }
+}
+
+.follow-matrix {
+  padding: 0;
+  box-shadow: none;
+}
+
+@media (max-width: 600px) {
+  .simulation8-container {
+    padding: 0;
+  }
+
+  .user-input-section {
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .follow-matrix {
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .follow-matrix h3 {
+    margin-bottom: 0;
+  }
+
+  .metrics-summary-table-container {
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 450px) {
+  .experiment-container {
+    padding: 10px;
+  }
 }

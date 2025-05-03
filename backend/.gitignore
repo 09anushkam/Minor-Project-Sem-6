@@ -1,4 +1,4 @@
 .env
 node_modules/
 .hintrc
-backend/uploads/
+uploads/

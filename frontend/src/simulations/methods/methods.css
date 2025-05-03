@@ -10,6 +10,7 @@
 .scrape-container h2 {
     text-align: center;
     color: #333;
+    margin-top: 0;
 }
 
 .scrape-form {
@@ -27,14 +28,14 @@
 }
 
 .scrape-form button {
-    background: #007bff;
+    background: #9B2928;
     color: white;
     cursor: pointer;
     transition: 0.3s;
 }
 
 .scrape-form button:hover {
-    background: #0056b3;
+    background: #801f1f;
 }
 
 .scrape-form button:disabled {
@@ -48,15 +49,95 @@
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    word-break: break-word;
+    word-wrap: break-word;
 }
 
 .results pre {
     white-space: pre-wrap;
     word-wrap: break-word;
-    font-family: monospace;
+    /* font-family: monospace; */
 }
 
 .error {
     color: red;
     text-align: center;
+}
+
+.json-note {
+    color: blue;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem;
+    background-color: #ffe6e6;
+    border: 1px solid blue;
+    border-radius: 5px;
+}
+
+.token-warning {
+    color: blue;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem;
+    background-color: #ffe6e6;
+    border: 1px solid blue;
+    border-radius: 5px;
+}
+
+@media (max-width: 600px) {
+    .token-warning {
+        font-size: 0.85rem;
+        padding: 0.4rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .scrape-container {
+        padding: 1rem;
+    }
+
+    .scrape-form {
+        gap: 0.75rem;
+    }
+
+    .scrape-form button {
+        font-size: 0.9rem;
+    }
+
+    .pagination-buttons {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 500px) {
+    .scrape-container {
+        padding: 0;
+        background-color: #fff;
+        box-shadow: none;
+    }
+
+    .scrape-form input {
+        font-size: 0.9rem;
+    }
+
+    .pagination-buttons button {
+        width: 100%;
+    }
+
+    .results li {
+        padding: 0.75rem;
+    }
+
+    .results {
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .results {
+        padding: 0;
+        border: none;
+    }
 }

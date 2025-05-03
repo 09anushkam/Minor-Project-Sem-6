@@ -6,7 +6,8 @@
     background-color: white;
 }
 
-.about-kjsit p, .about-computer p {
+.about-kjsit p,
+.about-computer p {
     font-size: 1.2rem;
     text-align: justify;
 }
@@ -68,6 +69,32 @@
     }
 }
 
+@media (max-width: 900px) {
+
+    .about-kjsit p,
+    .about-computer p {
+        font-size: 1.2rem;
+    }
+
+    .about-kjsit h2,
+    .about-computer h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .about-kjsit p,
+    .about-computer p {
+        font-size: 1rem;
+    }
+
+    .about-kjsit h2,
+    .about-computer h2 {
+        font-size: 1.3rem;
+    }
+}
+
 @media (min-width: 901px) {
     .college-image img {
         width: 50vw;
@@ -75,5 +102,28 @@
 
     .lab-image img {
         width: 50vw;
+    }
+
+    .about-kjsit p,
+    .about-computer p {
+        font-size: 1.2rem;
+    }
+
+    .about-kjsit h2,
+    .about-computer h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 1500px) {
+
+    .about-kjsit p,
+    .about-computer p {
+        font-size: 1.5rem;
+    }
+
+    .about-kjsit h2,
+    .about-computer h2 {
+        font-size: 2.5rem;
     }
 }

@@ -8,10 +8,25 @@ const Requests = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+    const isValidUrl = (string) => {
+        try {
+            new URL(string);
+            return true;
+        } catch (err) {
+            return false;
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError("");
+
+        if (!isValidUrl(url)) {
+            setError("Please enter a valid URL (starting with http/https).");
+            setLoading(false);
+            return;
+        }
 
         try {
             const response = await axios.post("http://localhost:8080/api/scrape", {
@@ -34,7 +49,7 @@ const Requests = () => {
             <form onSubmit={handleSubmit} className="scrape-form">
                 <input
                     type="text"
-                    placeholder="Enter URL or Query"
+                    placeholder="Enter URL"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     required
@@ -49,6 +64,7 @@ const Requests = () => {
             {results && (
                 <div className="results">
                     <h3>Results:</h3>
+                    <p className="json-note"><strong>Note: </strong>The results are currently displayed in JSON format. A more user-friendly format will be introduced in upcoming updates.</p>
                     <pre>{JSON.stringify(results, null, 2)}</pre>
                 </div>
             )}

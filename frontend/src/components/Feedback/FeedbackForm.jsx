@@ -135,7 +135,7 @@ const FeedbackForm = ({ experimentNo }) => {
 
   return (
     <div className="feedback-container">
-      <h2>Experiment {experimentNo} Feedback</h2>
+      <h2>Feedback Form</h2>
       {hasPreviousFeedback ? (
         <div className="previous-feedback-notice">
           <p>You have already submitted feedback for this experiment. You can update your feedback below.</p>
@@ -244,7 +244,10 @@ const FeedbackForm = ({ experimentNo }) => {
 };
 
 FeedbackForm.propTypes = {
-  experimentNo: PropTypes.string.isRequired, // or PropTypes.number if it's a number
+  experimentNo: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
 };
 
 export default FeedbackForm; 

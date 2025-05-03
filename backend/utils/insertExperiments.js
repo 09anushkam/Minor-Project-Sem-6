@@ -28,7 +28,7 @@ const experiments = [
         procedure: "Step 1: Set up the experiment...",
         simulation: "Interactive simulation link here...",
         quiz: "Q1: What is Newton's first law?",
-        references: "1. Physics Book by XYZ...",
+        references: "Coming Soon...",
         feedback: "Your feedback is valuable."
     },
     {
@@ -39,7 +39,7 @@ const experiments = [
         procedure: "Step 1: Connect the resistor...",
         simulation: "Interactive Ohm's Law simulation...",
         quiz: "Q1: What is the formula for Ohm's Law?",
-        references: "1. Electrical Engineering Book...",
+        references: "Coming Soon...",
         feedback: "Your feedback is valuable."
     },
     {
@@ -50,7 +50,7 @@ const experiments = [
         procedure: "Step 1: Submerge the object...",
         simulation: "Buoyancy simulation link...",
         quiz: "Q1: What happens when an object is submerged?",
-        references: "1. Fluid Mechanics by XYZ...",
+        references: "Coming Soon...",
         feedback: "Your feedback is valuable."
     },
     {
@@ -61,7 +61,7 @@ const experiments = [
         procedure: "Step 1: Place a mirror at an angle...",
         simulation: "Light reflection simulation...",
         quiz: "Q1: What is the law of reflection?",
-        references: "1. Optics Book by ABC...",
+        references: "Coming Soon...",
         feedback: "Your feedback is valuable."
     },
     {
@@ -72,7 +72,7 @@ const experiments = [
         procedure: "Step 1: Reduce the volume of a gas...",
         simulation: "Gas law simulation...",
         quiz: "Q1: What is Boyle's Law?",
-        references: "1. Thermodynamics by XYZ...",
+        references: "Coming Soon...",
         feedback: "Your feedback is valuable."
     },
     {
@@ -83,7 +83,7 @@ const experiments = [
         procedure: "Step 1: Move a magnet near a coil...",
         simulation: "Electromagnetic induction simulation...",
         quiz: "Q1: What is Faraday's Law?",
-        references: "1. Electromagnetism by XYZ...",
+        references: "Coming Soon...",
         feedback: "Your feedback is valuable."
     },
     {
@@ -94,7 +94,7 @@ const experiments = [
         procedure: "Step 1: Attach weights to the spring...",
         simulation: "Spring elasticity simulation...",
         quiz: "Q1: What is Hooke's Law?",
-        references: "1. Mechanics by ABC...",
+        references: "Coming Soon...",
         feedback: "Your feedback is valuable."
     },
     {
@@ -105,7 +105,7 @@ const experiments = [
         procedure: "Step 1: Observe fluid flow in a pipe...",
         simulation: "Bernoulli simulation...",
         quiz: "Q1: What does Bernoulli's Principle state?",
-        references: "1. Fluid Dynamics by XYZ...",
+        references: "Coming Soon...",
         feedback: "Your feedback is valuable."
     }
 ];

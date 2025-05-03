@@ -28,7 +28,7 @@ const Simulation2 = () => {
             case "IEEEXplore":
                 return <IEEEXplore />;
             default:
-                return <p>Please select a method for data extraction.</p>;
+                return <p className="center-karo">Please select a method for data extraction.</p>;
         }
     };
 

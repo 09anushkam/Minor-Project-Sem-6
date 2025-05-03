@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import './styles/Quiz.css';
 
 const QUESTION_TIMER = 20; // 20 seconds per question
 
 const Quiz2 = () => {
+  const [hasStarted, setHasStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [showScore, setShowScore] = useState(false);
@@ -66,11 +67,10 @@ const Quiz2 = () => {
     }
   ];
 
-
   useEffect(() => {
     let interval = null;
 
-    if (!showScore && !isAnswered && timer > 0) {
+    if (hasStarted && !showScore && !isAnswered && timer > 0) {
       interval = setInterval(() => {
         setTimer((prevTimer) => {
           if (prevTimer === 1) {
@@ -85,7 +85,7 @@ const Quiz2 = () => {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [timer, showScore, isAnswered]);
+  }, [timer, showScore, isAnswered, hasStarted]);
 
   const handleTimeUp = () => {
     setIsAnswered(true);
@@ -128,15 +128,15 @@ const Quiz2 = () => {
         return;
       }
 
-      const backendUrl = 'http://localhost:8080';
-      await axios.post(`${backendUrl}/api/quiz-scores`, {
-        experimentNo: 7,
-        score: score,
-        totalQuestions: questions.length,
-        timePerQuestion: QUESTION_TIMER
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      // const backendUrl = 'http://localhost:8080';
+      // await axios.post(`${backendUrl}/api/quiz-scores`, {
+      //   experimentNo: 7,
+      //   score: score,
+      //   totalQuestions: questions.length,
+      //   timePerQuestion: QUESTION_TIMER
+      // }, {
+      //   headers: { Authorization: `Bearer ${token}` }
+      // });
     } catch (error) {
       console.error('Error saving score:', error.message);
       // Continue showing the score even if saving fails
@@ -144,6 +144,7 @@ const Quiz2 = () => {
   };
 
   const restartQuiz = () => {
+    setHasStarted(false);
     setCurrentQuestion(0);
     setScore(0);
     setShowScore(false);
@@ -155,7 +156,14 @@ const Quiz2 = () => {
 
   return (
     <div className="quiz-container">
-      {showScore ? (
+      {!hasStarted ? (
+        <div className="start-section">
+          <h2>Ready to Start the Quiz?</h2>
+          <button className="start-button" onClick={() => setHasStarted(true)}>
+            Start Quiz
+          </button>
+        </div>
+      ) : showScore ? (
         <div className="score-section">
           <h2>Quiz Completed!</h2>
           <p>You scored {score} out of {questions.length}</p>
@@ -173,7 +181,7 @@ const Quiz2 = () => {
               className="timer-bar"
               style={{
                 width: `${(timer / QUESTION_TIMER) * 100}%`,
-                backgroundColor: timer <= 5 ? '#ff4444' : '#ff6b6b'
+                backgroundColor: timer <= 5 ? 'red' : '#9B2928'
               }}
             ></div>
           </div>
@@ -223,4 +231,4 @@ const Quiz2 = () => {
   );
 };
 
-export default Quiz2; 
+export default Quiz2;

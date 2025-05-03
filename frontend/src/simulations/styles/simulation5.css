@@ -6,6 +6,8 @@
     text-align: center;
     width: 100%;
     padding: 20px;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .graph-visualizer {
@@ -17,6 +19,8 @@
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .simulation-content {
@@ -308,26 +312,231 @@ input[type="number"] {
     text-align: center;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .simulation-content {
-        padding: 10px;
+/* Input Section */
+.input-section {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.input-box {
+    width: 100%;
+    max-width: 200px;
+    margin: 10px auto;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.graph-input-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+/* Button Container */
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    box-sizing: border-box;
+}
+
+/* Media Queries for Responsive Design */
+/* Large devices (desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .graph-visualizer {
+        max-width: 1200px;
+        padding: 2rem;
     }
 
-    #graph-container {
-        height: 400px;
+    .input-section,
+    .graph-input-container {
+        max-width: 800px;
+        margin: 20px auto;
     }
 
-    .matrix-cell,
-    .header-cell {
-        width: 80px;
-        min-width: 80px;
-        height: 50px;
+    .button-container {
+        max-width: 800px;
+    }
+}
+
+/* Medium devices (tablets, 992px to 1199px) */
+@media (max-width: 1199px) and (min-width: 992px) {
+    .graph-visualizer {
+        max-width: 95%;
+        padding: 1.5rem;
+    }
+
+    .input-section,
+    .graph-input-container {
+        max-width: 700px;
+        margin: 15px auto;
+        padding: 15px;
+    }
+
+    .button-container {
+        max-width: 700px;
+    }
+}
+
+/* Small devices (tablets, 768px to 991px) */
+@media (max-width: 991px) and (min-width: 768px) {
+    .graph-visualizer {
+        max-width: 100%;
+        padding: 1.2rem;
+    }
+
+    .input-section,
+    .graph-input-container {
+        max-width: 600px;
+        margin: 15px auto;
+        padding: 15px;
+    }
+
+    .button-container {
+        max-width: 600px;
+    }
+
+    .input-box {
+        max-width: 180px;
+    }
+}
+
+/* Extra small devices (phones, 576px to 767px) */
+@media (max-width: 767px) and (min-width: 576px) {
+    .graph-visualizer {
+        padding: 1rem;
+    }
+
+    .input-section,
+    .graph-input-container {
+        max-width: 500px;
+        margin: 10px auto;
+        padding: 15px;
+    }
+
+    .button-container {
+        max-width: 500px;
+        flex-direction: column;
+        align-items: center;
     }
 
     .graph-button {
-        padding: 20px 30px;
-        font-size: 16px;
+        width: 100%;
+        max-width: 300px;
+        margin: 5px auto;
+    }
+
+    .input-box {
+        max-width: 150px;
+    }
+}
+
+/* Extra extra small devices (phones, less than 576px) */
+@media (max-width: 575px) {
+    .graph-visualizer {
+        padding: 0.8rem;
+    }
+
+    .input-section,
+    .graph-input-container {
+        max-width: 100%;
+        margin: 10px auto;
+        padding: 10px;
+    }
+
+    .button-container {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+
+    .graph-button {
+        width: 100%;
+        max-width: 250px;
+        padding: 12px 20px;
+        font-size: 13px;
+    }
+
+    .input-box {
+        max-width: 120px;
+        font-size: 14px;
+    }
+}
+
+/* Landscape mode adjustments */
+@media (max-height: 600px) and (orientation: landscape) {
+    .graph-visualizer {
+        padding-top: 0.5rem;
+    }
+
+    .input-section,
+    .graph-input-container {
+        padding: 10px;
+        margin: 10px auto;
+    }
+
+    .button-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .graph-button {
+        width: auto;
+        min-width: 150px;
+        padding: 10px 15px;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+    .graph-button:hover {
+        transform: none;
+        background-color: #ff9494;
+    }
+}
+
+/* High DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .graph-button {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Add horizontal scroll for very small screens */
+@media (max-width: 400px) {
+    .input-section,
+    .graph-input-container {
+        padding: 8px;
+    }
+
+    .input-box {
+        max-width: 100px;
+        font-size: 12px;
+    }
+
+    .graph-button {
+        padding: 10px 15px;
+        font-size: 12px;
     }
 }
 
@@ -356,17 +565,5 @@ input[type="number"] {
     font-size: 1rem;
     white-space: pre-wrap;
     word-wrap: break-word;
-    text-align: center;
-}
-
-/* Input Section */
-.input-section {
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 800px;
     text-align: center;
 }

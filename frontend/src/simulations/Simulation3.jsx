@@ -21,13 +21,38 @@ const Simulation3 = () => {
     const [availableDatasets, setAvailableDatasets] = useState([]);
     const [selectedDataset, setSelectedDataset] = useState('');
 
+    const isInputValid = () => {
+        if (inputType === 'file') return !!file;
+        if (inputType === 'text') return textInput.trim().length > 0;
+        if (inputType === 'dataset') return !!selectedDataset;
+        return false;
+    };
+
     useEffect(() => {
         axios.get('http://localhost:8080/api/experiments/default-datasets')
             .then(res => setAvailableDatasets(res.data.datasets))
             .catch(err => console.error("Failed to fetch datasets:", err));
     }, []);
 
-    const handleFileChange = (e) => setFile(e.target.files[0]);
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+
+        if (selectedFile) {
+            const maxSize = 2 * 1024 * 1024;
+
+            if (!selectedFile.name.endsWith('.csv')) {
+                alert('Only CSV files are supported.');
+                return;
+            }
+
+            if (selectedFile.size > maxSize) {
+                alert('File size should be less than 2 MB.');
+                return;
+            }
+
+            setFile(selectedFile);
+        }
+    };
     const handleTextChange = (e) => setTextInput(e.target.value);
 
     const handleAnalyze = async () => {
@@ -65,8 +90,9 @@ const Simulation3 = () => {
 
             } catch (error) {
                 console.error('Error during file analysis:', error);
+                const errorMessage = error.response?.data?.error || error.response?.data?.details || error.message || 'Something went wrong.';
+                alert(`File Analysis Failed: ${errorMessage}`);
             }
-
         } else if (inputType === 'dataset') {
             if (!selectedDataset) {
                 alert('Please select a dataset.');
@@ -236,7 +262,12 @@ const Simulation3 = () => {
             )}
 
             {inputType === 'file' && (
-                <input type="file" accept=".csv" onChange={handleFileChange} className="file-input" />
+                <div className="file-upload-section">
+                    <p className="file-info-text">
+                        <strong>Note:</strong> The uploaded CSV must contain a <code>&quot;text&quot;</code> column. A <code>&quot;label&quot;</code> column is optional. Column names are <strong>case-sensitive</strong>.
+                    </p>
+                    <input type="file" accept=".csv" onChange={handleFileChange} className="file-input" />
+                </div>
             )}
 
             {inputType === 'text' && (
@@ -250,7 +281,7 @@ const Simulation3 = () => {
                 />
             )}
 
-            <button onClick={handleAnalyze} disabled={loading} className="analyze-button">
+            <button onClick={handleAnalyze} disabled={loading || !isInputValid()} className="analyze-button">
                 {loading ? 'Analyzing...' : 'Analyze'}
             </button>
 
@@ -271,28 +302,30 @@ const Simulation3 = () => {
                     {output.metrics?.confusion_matrix && (
                         <div className="confusion-matrix-section">
                             <h3 className="subheading">📊 Confusion Matrix</h3>
-                            <table className="confusion-matrix-table">
-                                <thead>
-                                    <tr>
-                                        <th>Actual \ Predicted</th>
-                                        <th>Positive</th>
-                                        <th>Neutral</th>
-                                        <th>Negative</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {['positive', 'neutral', 'negative'].map((actual, rowIdx) => (
-                                        <tr key={rowIdx}>
-                                            <td><strong>{actual}</strong></td>
-                                            {['positive', 'neutral', 'negative'].map((predicted, colIdx) => (
-                                                <td key={colIdx}>
-                                                    {output.metrics.confusion_matrix[actual]?.[predicted] ?? 0}
-                                                </td>
-                                            ))}
+                            <div className="table-wrapper">
+                                <table className="confusion-matrix-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Actual \ Predicted</th>
+                                            <th>Positive</th>
+                                            <th>Neutral</th>
+                                            <th>Negative</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {['positive', 'neutral', 'negative'].map((actual, rowIdx) => (
+                                            <tr key={rowIdx}>
+                                                <td><strong>{actual}</strong></td>
+                                                {['positive', 'neutral', 'negative'].map((predicted, colIdx) => (
+                                                    <td key={colIdx}>
+                                                        {output.metrics.confusion_matrix[actual]?.[predicted] ?? 0}
+                                                    </td>
+                                                ))}
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     )}
 
@@ -309,28 +342,30 @@ const Simulation3 = () => {
                     {(inputType === 'text' || csvTextEntries.length > 0) && (
                         <div className="text-sentiments">
                             <h3 className="subheading">📋 Prediction Table</h3>
-                            <table className="sentiment-table">
-                                <thead>
-                                    <tr>
-                                        <th>Text</th>
-                                        <th>Predicted Sentiment</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {(inputType === 'text'
-                                        ? textInput.split('\n').filter(Boolean).map((line, idx) => ({
-                                            text: line.split('|')[0].trim(),
-                                            sentiment: output.sentiments[idx]
-                                        }))
-                                        : csvTextEntries
-                                    ).map((entry, idx) => (
-                                        <tr key={idx}>
-                                            <td>{entry.text}</td>
-                                            <td className={`sentiment-${entry.sentiment}`}>{entry.sentiment}</td>
+                            <div className="table-wrapper">
+                                <table className="sentiment-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Text</th>
+                                            <th>Predicted Sentiment</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {(inputType === 'text'
+                                            ? textInput.split('\n').filter(Boolean).map((line, idx) => ({
+                                                text: line.split('|')[0].trim(),
+                                                sentiment: output.sentiments[idx]
+                                            }))
+                                            : csvTextEntries
+                                        ).map((entry, idx) => (
+                                            <tr key={idx}>
+                                                <td>{entry.text}</td>
+                                                <td className={`sentiment-${entry.sentiment}`}>{entry.sentiment}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     )}
 

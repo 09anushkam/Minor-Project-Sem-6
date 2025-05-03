@@ -3,6 +3,8 @@
     color: white;
     padding: 20px 0;
     text-align: center;
+    position: relative;
+    z-index: 10;
 }
 
 .footer-container {
@@ -13,6 +15,7 @@
     max-width: 1100px;
     margin: 0 auto;
     padding: 20px;
+    padding-bottom: 0;
 }
 
 .footer-section {
@@ -71,7 +74,8 @@
 }
 
 .footer-title {
-    margin-top: 20px;
+    /* margin-top: 20px; */
+    padding: 0 10px;
     font-size: 16px;
     color: white;
 }
@@ -95,5 +99,33 @@
 
     .footer-title {
         text-align: center;
+    }
+}
+
+@media (max-width: 425px) {
+    .footer-title h3 {
+        font-size: 1rem;
+    }
+
+    .footer-container h2 {
+        font-size: 1.1rem;
+    }
+
+    .footer-container ul {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 365px) {
+    .footer-title h3 {
+        font-size: 0.9rem;
+    }
+
+    .footer-container h2 {
+        font-size: 1rem;
+    }
+
+    .footer-container ul {
+        font-size: 0.9rem;
     }
 }

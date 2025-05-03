@@ -27,6 +27,7 @@
     "d3-scale": "^4.0.2",
     "framer-motion": "^12.4.3",
     "graph-data-structure": "^4.5.0",
+    "hamburger-react": "^2.5.2",
     "motion": "^12.4.2",
     "papaparse": "^5.5.2",
     "prop-types": "^15.8.1",

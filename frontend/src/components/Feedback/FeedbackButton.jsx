@@ -25,7 +25,10 @@ const FeedbackButton = ({ experimentNo }) => {
 };
 
 FeedbackButton.propTypes = {
-  experimentNo: PropTypes.string.isRequired, // or PropTypes.number if it's a number
+  experimentNo: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
 };
 
 export default FeedbackButton; 

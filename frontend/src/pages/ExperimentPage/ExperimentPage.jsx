@@ -10,6 +10,7 @@ const ExperimentPage = () => {
     const { no } = useParams();
     const [experiment, setExperiment] = useState(null);
     const [selectedSection, setSelectedSection] = useState("Aim");
+    const [menuOpen, setMenuOpen] = useState(false); // NEW
 
     useEffect(() => {
         axios.get(`http://localhost:8080/api/experiments/${no}`)
@@ -24,6 +25,7 @@ const ExperimentPage = () => {
     const SimulationComponent = lazy(() => import(`../../simulations/Simulation${no}.jsx`));
     const QuizComponent = lazy(() => import(`../../components/Quiz/Quiz${no}.jsx`));
     const ProcedureComponent = lazy(() => import(`../../procedures/Procedure${no}.jsx`));
+    const TheoryComponent = lazy(() => import(`../../theory/Theory${no}.jsx`));
 
     const renderContent = () => {
         switch (selectedSection) {
@@ -31,6 +33,8 @@ const ExperimentPage = () => {
                 return <SimulationComponent />;
             case "Procedure":
                 return <ProcedureComponent />;
+            case "Theory":
+                return <TheoryComponent />;
             case "Quiz":
                 return <QuizComponent />;
             case "Feedback":
@@ -50,17 +54,26 @@ const ExperimentPage = () => {
         <>
             <Navbar />
             <div className="experiment-container">
-                <nav className="exp-navbar">
-                    {["Aim", "Theory", "Procedure", "Simulation", "Quiz", "References", "Feedback"].map((section) => (
-                        <button
-                            key={section}
-                            className={selectedSection === section ? "active" : ""}
-                            onClick={() => setSelectedSection(section)}
-                        >
-                            {section}
-                        </button>
-                    ))}
-                </nav>
+                <div className="exp-navbar-wrapper">
+                    <div className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
+                        {menuOpen ? '▲' : '▼'}
+                    </div>
+                    <nav className={`exp-navbar ${menuOpen ? "open" : ""}`}>
+                        {["Aim", "Theory", "Procedure", "Simulation", "Quiz", "References", "Feedback"].map((section, index) => (
+                            <button
+                                key={section}
+                                className={selectedSection === section ? "active" : ""}
+                                style={{ animationDelay: `${index * 0.1}s` }}
+                                onClick={() => {
+                                    setSelectedSection(section);
+                                    setMenuOpen(false);
+                                }}
+                            >
+                                {section}
+                            </button>
+                        ))}
+                    </nav>
+                </div>
 
                 <h2 className="exp-title">{experiment.title}</h2>
 

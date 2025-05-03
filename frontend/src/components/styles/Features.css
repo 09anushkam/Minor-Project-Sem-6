@@ -2,6 +2,8 @@
     text-align: center;
     padding: 20px 20px 40px 20px;
     background: linear-gradient(to bottom, #FFFCE5, #fff);
+    position: relative;
+    z-index: 10;
 }
 
 .features-title {

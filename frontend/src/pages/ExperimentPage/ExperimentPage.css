@@ -7,7 +7,6 @@
 }
 
 .experiment-container {
-    /* max-width: 800px; */
     height: auto;
     margin: auto;
     margin-top: 6rem;
@@ -52,13 +51,16 @@
 }
 
 .exp-content {
-    min-height: 200px;
+    min-height: 150px;
     background: white;
     padding: 15px;
     border-radius: 5px;
     line-height: 1.6;
     font-size: 16px;
     margin: 0 1rem;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
 }
 
 .exp-content h3 {
@@ -73,4 +75,185 @@
 
 .exp-content p {
     margin-bottom: 1rem;
+}
+
+@media (max-width: 800px) {
+    .exp-navbar {
+        flex-direction: column;
+        gap: 12px;
+        padding: 1rem;
+    }
+
+    .exp-navbar button {
+        font-size: 0.9rem;
+        padding: 6px 10px;
+    }
+
+    .exp-title {
+        font-size: 1.5rem;
+    }
+
+    .exp-content {
+        margin: 0 0.5rem;
+        padding: 10px;
+    }
+
+    .exp-content h3 {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 500px) {
+    .exp-navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .exp-navbar button {
+        font-size: 0.85rem;
+        padding: 6px 8px;
+        width: 100%;
+    }
+
+    .exp-title {
+        font-size: 1.25rem;
+        margin: 1rem 0;
+    }
+
+    .exp-content {
+        margin: 0 0.3rem;
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .exp-content h3 {
+        font-size: 16px;
+    }
+
+    .exp-content ul {
+        padding-left: 15px;
+    }
+}
+
+@media (max-width: 400px) {
+    .exp-navbar {
+        flex-direction: column;
+        gap: 8px;
+        padding: 1rem;
+    }
+
+    .exp-navbar button {
+        font-size: 0.8rem;
+        padding: 5px 8px;
+        width: 100%;
+    }
+
+    .exp-title {
+        font-size: 1.1rem;
+        margin: 1rem 0;
+    }
+
+    .exp-content {
+        margin: 0;
+        padding: 6px;
+        font-size: 12px;
+    }
+
+    .exp-content h3 {
+        font-size: 14px;
+    }
+
+    .exp-content ul {
+        padding-left: 10px;
+    }
+}
+
+.exp-navbar-wrapper {
+    position: sticky;
+    top: 6rem;
+    background-color: #FFD5D4;
+    z-index: 10;
+}
+
+.menu-icon {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 10px;
+    user-select: none;
+    color: #9B2928;
+}
+
+.exp-navbar {
+    position: sticky;
+    top: 6rem;
+    background-color: #FFD5D4;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    border-bottom: 1px solid #ccc;
+    padding: 1rem 10px;
+    box-shadow: inset 0px 4px 6px -4px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s ease-in-out;
+}
+
+.exp-navbar.open button {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 800px) {
+    .menu-icon {
+        display: block;
+        margin-left: 10px;
+    }
+
+    .exp-navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        overflow: hidden;
+        max-height: 0;
+        padding: 0;
+        background-color: #FFD5D4;
+        box-shadow: none;
+    }
+
+    .exp-navbar button {
+        width: 100%;
+        text-align: left;
+        padding: 12px 16px;
+        border: none;
+        font-size: 1rem;
+        background-color: white;
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: all 0.5s ease;
+    }
+
+    .exp-navbar.open {
+        max-height: 500px;
+        padding: 1rem 10px;
+        transition: all 0.5s ease;
+    }
+}
+
+.exp-navbar button.active {
+    background-color: #9B2928;
+    color: white;
+    font-weight: bold;
+}
+
+@media (max-width: 500px) {
+    .exp-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .exp-title {
+        font-size: 1.2rem;
+    }
 }
