@@ -18,8 +18,15 @@ const GraphVisualizer = () => {
   const [graph, setGraph] = useState(null);
   const [dijkstraTraversal, setDijkstraTraversal] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const animationRef = useRef(null);
   const [dijkstraResult, setDijkstraResult] = useState("");
+  const [showQueues, setShowQueues] = useState(false);
+  const [currentAlgorithm, setCurrentAlgorithm] = useState(null);
+  const [edgeList, setEdgeList] = useState([{ from: "", to: "", weight: "" }]);
+  const [numEdgeFields, setNumEdgeFields] = useState(4); // Default number of edge input fields
+
+  const MAX_NODES = 15;
 
   useEffect(() => {
     if (showGraph) {
@@ -111,6 +118,8 @@ const GraphVisualizer = () => {
     setDfsTraversal([]);
     setBfsTraversal([]);
     setDijkstraResult("");
+    setCurrentAlgorithm(null);
+    setShowQueues(false);
     resetGraph();
     if (type === "RandomGraph") {
       setRandomGraphVertices(null);
@@ -123,8 +132,21 @@ const GraphVisualizer = () => {
     inputs.forEach(input => input.value = '');
   };
 
+  const validateNodeCount = (count) => {
+    if (count > MAX_NODES) {
+      setErrorMessage(`Please enter a number less than or equal to ${MAX_NODES}`);
+      return false;
+    }
+    setErrorMessage("");
+    return true;
+  };
+
   const handleNumVerticesChange = (e) => {
     const newNumVertices = Number(e.target.value);
+    if (!validateNodeCount(newNumVertices)) {
+      setNumVertices(null);
+      return;
+    }
     setNumVertices(newNumVertices);
     setGraphData({});
     setShowGraph(false);
@@ -150,12 +172,104 @@ const GraphVisualizer = () => {
 
   const handleEdgeListChange = (e, index, type) => {
     const value = e.target.value;
-    setGraphData((prev) => {
-      const newEdges = { ...prev };
-      if (!newEdges[index]) newEdges[index] = { from: "", to: "", weight: "" };
-      newEdges[index][type] = value;
-      return newEdges;
+    const numValue = Number(value);
+    
+    // Validate node range for 'from' and 'to' fields
+    if ((type === 'from' || type === 'to') && value !== '') {
+        if (numValue < 0 || numValue >= numVertices) {
+            setErrorMessage(`Please enter a node number between 0 and ${numVertices - 1}`);
+            e.target.value = '';
+            return;
+        }
+    }
+    
+    // Validate weight value
+    if (type === 'weight' && value !== '') {
+        if (numValue > 100) {
+            setErrorMessage("Weight value cannot be greater than 100");
+            e.target.value = '';
+            return;
+        }
+    }
+    
+    setErrorMessage("");
+    setEdgeList(prev => {
+        const newEdges = [...prev];
+        if (!newEdges[index]) {
+            newEdges[index] = { from: "", to: "", weight: "" };
+        }
+        newEdges[index][type] = value;
+        return newEdges;
     });
+  };
+
+  const addMoreEdges = () => {
+    setNumEdgeFields(prev => prev + 1);
+    setEdgeList(prev => [...prev, { from: "", to: "", weight: "" }]);
+  };
+
+  const deleteEdge = (index) => {
+    if (index >= 4) {
+        setNumEdgeFields(prev => prev - 1);
+        setEdgeList(prev => {
+            const newEdges = [...prev];
+            newEdges.splice(index, 1);
+            return newEdges;
+        });
+    }
+  };
+
+  const renderEdgeListInput = () => {
+    return (
+        <div className="edge-list-container">
+            <div className="edge-list-header">
+                <h4>Edge List Input</h4>
+                <p>Enter edges in the format: From Node (0-{numVertices - 1}) → To Node (0-{numVertices - 1}) (Weight)</p>
+            </div>
+            <div className="edge-list-fields">
+                {Array.from({ length: numEdgeFields }).map((_, index) => (
+                    <div key={index} className="edge-input-row">
+                        <input
+                            type="number"
+                            placeholder={`From Node (0-${numVertices - 1})`}
+                            onChange={(e) => handleEdgeListChange(e, index, "from")}
+                            className="edge-input"
+                            min="0"
+                            max={numVertices - 1}
+                        />
+                        <span className="edge-arrow">→</span>
+                        <input
+                            type="number"
+                            placeholder={`To Node (0-${numVertices - 1})`}
+                            onChange={(e) => handleEdgeListChange(e, index, "to")}
+                            className="edge-input"
+                            min="0"
+                            max={numVertices - 1}
+                        />
+                        <input
+                            type="number"
+                            placeholder="Weight"
+                            onChange={(e) => handleEdgeListChange(e, index, "weight")}
+                            className="edge-input weight-input"
+                            min="1"
+                        />
+                        {index >= 4 && (
+                            <button 
+                                onClick={() => deleteEdge(index)} 
+                                className="delete-edge-button"
+                                title="Delete Edge"
+                            >
+                                ×
+                            </button>
+                        )}
+                    </div>
+                ))}
+            </div>
+            <button onClick={addMoreEdges} className="add-more-button">
+                Add More Edges
+            </button>
+        </div>
+    );
   };
 
   const renderGraphInput = () => {
@@ -174,8 +288,17 @@ const GraphVisualizer = () => {
                     key={`matrix-${i}-${j}`}
                     type="number"
                     min="0"
+                    max="100"
                     placeholder={`{${i}, ${j}}`}
-                    onChange={(e) => handleGraphInputChange(e, i, j)}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value !== "" && Number(value) > 100) {
+                        alert("Weight value cannot be greater than 100");
+                        e.target.value = "";
+                        return;
+                      }
+                      handleGraphInputChange(e, i, j);
+                    }}
                   />
                 ))}
               </div>
@@ -184,65 +307,87 @@ const GraphVisualizer = () => {
         );
 
       case "EdgeList":
-        return (
-          <div>
-            {Array.from({ length: numVertices }).map((_, i) => (
-              <div key={i}>
-                <input
-                  type="number"
-                  placeholder="From"
-                  onChange={(e) => handleEdgeListChange(e, i, "from")}
-                />
-                <input
-                  type="number"
-                  placeholder="To"
-                  onChange={(e) => handleEdgeListChange(e, i, "to")}
-                />
-                <input
-                  type="number"
-                  placeholder="Weight"
-                  onChange={(e) => handleEdgeListChange(e, i, "weight")}
-                />
-              </div>
-            ))}
-          </div>
-        );
+        return renderEdgeListInput();
 
       case "AdjacencyList":
         return (
           <div>
             {Array.from({ length: numVertices }).map((_, i) => (
-              <div key={i}>
-                <input
-                  type="text"
-                  placeholder={`Neighbors of ${i} (comma-separated)`}
-                  onChange={(e) => {
-                    const neighbors = e.target.value.split(",").map(v => v.trim()).filter(Boolean);
-                    setGraphData(prev => ({
-                      ...prev,
-                      [i]: neighbors.map(neighbor => ({
-                        node: Number(neighbor),
-                        weight: 1
-                      }))
-                    }));
-                  }}
-                />
-                <input
-                  type="text"
-                  placeholder={`Weights for neighbors of ${i} (comma-separated)`}
-                  onChange={(e) => {
-                    const weights = e.target.value.split(",").map(v => v.trim()).filter(Boolean);
-                    setGraphData(prev => ({
-                      ...prev,
-                      [i]: prev[i]?.map((neighbor, idx) => ({
-                        ...neighbor,
-                        weight: weights[idx] ? Number(weights[idx]) : 1
-                      })) || []
-                    }));
-                  }}
-                />
+              <div key={i} className="adjacency-list-row">
+                <div className="adjacency-list-input-container">
+                  <input
+                    type="text"
+                    placeholder={`Neighbors of ${i} (comma-separated)`}
+                    onChange={(e) => {
+                      const input = e.target.value;
+                      const neighbors = input.split(",").map(v => v.trim()).filter(Boolean);
+                      
+                      // Filter out invalid nodes
+                      const validNeighbors = neighbors.filter(node => {
+                        const num = Number(node);
+                        return !isNaN(num) && num >= 0 && num < numVertices;
+                      });
+
+                      // If there are invalid nodes, update the input value
+                      if (validNeighbors.length !== neighbors.length) {
+                        e.target.value = validNeighbors.join(", ");
+                        setErrorMessage(`Node ${i}: Invalid node numbers were removed. Please use numbers between 0 and ${numVertices - 1}`);
+                      } else {
+                        setErrorMessage("");
+                      }
+                      
+                      setGraphData(prev => ({
+                        ...prev,
+                        [i]: validNeighbors.map(neighbor => ({
+                          node: Number(neighbor),
+                          weight: 1
+                        }))
+                      }));
+                    }}
+                    className="adjacency-list-input"
+                  />
+                </div>
+                <div className="adjacency-list-input-container">
+                  <input
+                    type="text"
+                    placeholder={`Weights for neighbors of ${i} (comma-separated)`}
+                    onChange={(e) => {
+                      const weights = e.target.value.split(",").map(v => v.trim()).filter(Boolean);
+                      
+                      // Validate weights
+                      const invalidWeights = weights.filter(weight => {
+                        const num = Number(weight);
+                        return isNaN(num) || num <= 0 || num > 100;
+                      });
+
+                      if (invalidWeights.length > 0) {
+                        setErrorMessage("Weight values must be between 1 and 100");
+                        e.target.value = weights.filter(weight => {
+                          const num = Number(weight);
+                          return !isNaN(num) && num > 0 && num <= 100;
+                        }).join(", ");
+                        return;
+                      }
+
+                      setErrorMessage("");
+                      setGraphData(prev => ({
+                        ...prev,
+                        [i]: prev[i]?.map((neighbor, idx) => ({
+                          ...neighbor,
+                          weight: weights[idx] ? Number(weights[idx]) : 1
+                        })) || []
+                      }));
+                    }}
+                    className="adjacency-list-input"
+                  />
+                </div>
               </div>
             ))}
+            {errorMessage && (
+                <div className="error-message">
+                    {errorMessage}
+                </div>
+            )}
           </div>
         );
 
@@ -264,10 +409,10 @@ const GraphVisualizer = () => {
         highlight: { background: "#ffd700", border: "#ffd700" },
         hover: { background: "#e6f2ff", border: "#4a90e2" }
       },
-      size: 30,
+      size: 40,
       font: {
         color: "#333333",
-        size: 20,
+        size: 24,
         face: "Arial",
         strokeWidth: 2,
         strokeColor: "#ffffff"
@@ -279,8 +424,31 @@ const GraphVisualizer = () => {
 
     let edges = [];
 
-    // Place the code block here:
-    if (graphType === "AdjacencyMatrix") {
+    if (graphType === "EdgeList") {
+      edges = edgeList
+        .filter(edge => edge.from !== "" && edge.to !== "" && edge.weight !== "")
+        .map(edge => ({
+          from: Number(edge.from),
+          to: Number(edge.to),
+          label: edge.weight.toString(),
+          width: 2,
+          color: {
+            color: "#000000",
+            highlight: "#ffd700",
+            hover: "#000000"
+          },
+          font: {
+            size: 16,
+            align: "middle",
+            strokeWidth: 2,
+            strokeColor: "#ffffff"
+          },
+          smooth: {
+            type: "continuous",
+            roundness: 0.5
+          }
+        }));
+    } else if (graphType === "AdjacencyMatrix") {
       edges = Object.keys(graphData).flatMap((i) =>
         Object.keys(graphData[i])
           .filter((j) => graphData[i][j] !== "0" && graphData[i][j] !== "")
@@ -306,60 +474,12 @@ const GraphVisualizer = () => {
             }
           }))
       );
-    } else if (graphType === "EdgeList") {
-      edges = Object.values(graphData)
-        .filter(({ from, to }) => from !== "" && to !== "")
-        .map(({ from, to, weight }) => ({
-          from: Number(from),
-          to: Number(to),
-          label: weight.toString(),
-          width: 2,
-          color: {
-            color: "#4a90e2",
-            highlight: "#ffd700",
-            hover: "#4a90e2"
-          },
-          font: {
-            size: 16,
-            align: "middle",
-            strokeWidth: 2,
-            strokeColor: "#ffffff"
-          },
-          smooth: {
-            type: "continuous",
-            roundness: 0.5
-          }
-        }));
     } else if (graphType === "AdjacencyList") {
       edges = Object.keys(graphData).flatMap((i) =>
         graphData[i].map((j) => ({
           from: Number(i),
           to: Number(j.node),
           label: j.weight.toString(),
-          width: 2,
-          color: {
-            color: "#4a90e2",
-            highlight: "#ffd700",
-            hover: "#4a90e2"
-          },
-          font: {
-            size: 16,
-            align: "middle",
-            strokeWidth: 2,
-            strokeColor: "#ffffff"
-          },
-          smooth: {
-            type: "continuous",
-            roundness: 0.5
-          }
-        }))
-      );
-    } else if (graphType === "RandomGraph") {
-      edges = Object.keys(graphData).flatMap((from) =>
-        Object.keys(graphData[from]).map((to) => ({
-          from: Number(from),
-          to: Number(to),
-          label: graphData[from][to].toString(),
           width: 2,
           color: {
             color: "#4a90e2",
@@ -409,7 +529,7 @@ const GraphVisualizer = () => {
       edges: {
         arrows: "to",
         font: {
-          size: 16,
+          size: 20,
           align: "middle",
           strokeWidth: 2,
           strokeColor: "#ffffff"
@@ -419,19 +539,21 @@ const GraphVisualizer = () => {
           roundness: 0.5
         },
         color: {
-          color: "#4a90e2",
+          color: "#000000",
           highlight: "#ffd700",
-          hover: "#4a90e2"
-        }
+          hover: "#000000"
+        },
+        width: 2
       },
       nodes: {
         shape: "circle",
         font: {
-          size: 20,
+          size: 24,
           face: "Arial",
           strokeWidth: 2,
           strokeColor: "#ffffff"
-        }
+        },
+        size: 40
       },
       physics: {
         stabilization: {
@@ -454,7 +576,10 @@ const GraphVisualizer = () => {
         hover: true,
         keyboard: {
           enabled: false
-        }
+        },
+        zoomSpeed: 1,
+        minZoom: 1,
+        maxZoom: 1
       },
       layout: {
         improvedLayout: true
@@ -547,6 +672,9 @@ const GraphVisualizer = () => {
 
   const handleRandomGraphGeneration = () => {
     if (randomGraphVertices) {
+      if (!validateNodeCount(randomGraphVertices)) {
+        return;
+      }
       generateRandomGraph(randomGraphVertices);
     }
   };
@@ -589,7 +717,10 @@ const GraphVisualizer = () => {
   const runDFS = async () => {
     if (isProcessing) return;
     setIsProcessing(true);
+    setCurrentAlgorithm('dfs');
+    setShowQueues(true);
     resetGraph();
+    setToVisitQueue([]);
 
     let visited = new Array(numVertices).fill(false);
     let traversal = [];
@@ -598,46 +729,82 @@ const GraphVisualizer = () => {
     let delay = 0;
 
     const dfs = async (node) => {
-      let stack = [node];
-      while (stack.length > 0) {
-        let current = stack.pop();
-        if (!visited[current]) {
-          visited[current] = true;
-          traversal.push(current);
-          tempVisitedQueue.push(current);
-          setVisitedQueue([...tempVisitedQueue]);
+        let stack = [node];
+        while (stack.length > 0) {
+            let current = stack.pop();
+            if (!visited[current]) {
+                visited[current] = true;
+                traversal.push(current);
+                tempVisitedQueue.push(current);
 
-          animateNode(current, "#4CAF50", 30, delay);
-          delay += 1000;
+                // Update queues and highlight node simultaneously
+                await new Promise(resolve => {
+                    setTimeout(() => {
+                        setVisitedQueue([...tempVisitedQueue]);
+                        setToVisitQueue(Array.from(tempToVisitQueue));
+                        if (graph && graph.body.nodes[current]) {
+                            graph.body.nodes[current].setOptions({
+                                color: {
+                                    background: "#4CAF50",
+                                    border: "#000000"
+                                },
+                                size: 30,
+                                font: {
+                                    color: "#ffffff",
+                                    size: 20
+                                }
+                            });
+                            graph.redraw();
+                        }
+                        resolve();
+                    }, delay);
+                });
 
-          let neighbors = getNeighbors(current);
-          neighbors.reverse().forEach((neighbor) => {
-            animateEdge(current, neighbor, "#FFD700", 3, delay);
-            stack.push(neighbor);
-            tempToVisitQueue.add(neighbor);
-          });
+                let neighbors = getNeighbors(current);
+                neighbors.reverse().forEach((neighbor) => {
+                    setTimeout(() => {
+                        if (graph) {
+                            const edge = graph.body.edges[`${current}-${neighbor}`] || graph.body.edges[`${neighbor}-${current}`];
+                            if (edge) {
+                                edge.setOptions({
+                                    color: { color: "#FFD700", highlight: "#FFD700" },
+                                    width: 3,
+                                    dashes: [5, 5],
+                                    shadow: true
+                                });
+                                graph.redraw();
+                            }
+                        }
+                    }, delay);
+                    stack.push(neighbor);
+                    tempToVisitQueue.add(neighbor);
+                });
 
-          setToVisitQueue(Array.from(tempToVisitQueue));
-          await new Promise(resolve => setTimeout(resolve, 1000));
+                delay += 1000;
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
         }
-      }
     };
 
     await dfs(startNode);
     for (let i = 0; i < numVertices; i++) {
-      if (!visited[i]) {
-        await dfs(i);
-      }
+        if (!visited[i]) {
+            await dfs(i);
+        }
     }
 
     setDfsTraversal([...traversal]);
+    setToVisitQueue([]);
     setIsProcessing(false);
-  };
+};
 
   const runBFS = async () => {
     if (isProcessing) return;
     setIsProcessing(true);
+    setCurrentAlgorithm('bfs');
+    setShowQueues(true);
     resetGraph();
+    setToVisitQueue([]);
 
     let visited = new Array(numVertices).fill(false);
     let traversal = [];
@@ -645,78 +812,83 @@ const GraphVisualizer = () => {
     let tempToVisitQueue = new Set();
     let delay = 0;
 
-    const animateNodeVisit = (node, delay) => {
-      setTimeout(() => {
-        if (graph && graph.body.nodes[node]) {
-          graph.body.nodes[node].setOptions({
-            color: { background: "#2196F3" },
-            size: 30,
-            font: { color: "#ffffff" },
-          });
-          graph.redraw();
-          setTimeout(() => {
-            graph.body.nodes[node].setOptions({ size: 20, color: { background: "#2196F3" } });
-            graph.redraw();
-          }, 1500);
-        }
-      }, delay);
-    };
-
-    const highlightEdge = (from, to, delay) => {
-      setTimeout(() => {
-        if (graph) {
-          graph.body.data.edges.update({ id: `${from}-${to}`, color: "orange", width: 3 });
-          graph.redraw();
-          setTimeout(() => {
-            graph.body.data.edges.update({ id: `${from}-${to}`, color: "black", width: 1 });
-            graph.redraw();
-          }, 1500);
-        }
-      }, delay);
-    };
-
     const bfs = async (start) => {
-      let queue = [start];
-      visited[start] = true;
+        let queue = [start];
+        visited[start] = true;
 
-      while (queue.length > 0) {
-        let current = queue.shift();
-        traversal.push(current);
-        tempVisitedQueue.push(current);
-        setVisitedQueue([...tempVisitedQueue]);
+        while (queue.length > 0) {
+            let current = queue.shift();
+            traversal.push(current);
+            tempVisitedQueue.push(current);
 
-        animateNode(current, "#2196F3", 30, delay);
-        delay += 1000;
+            // Update queues and highlight node simultaneously
+            await new Promise(resolve => {
+                setTimeout(() => {
+                    setVisitedQueue([...tempVisitedQueue]);
+                    setToVisitQueue(Array.from(tempToVisitQueue));
+                    if (graph && graph.body.nodes[current]) {
+                        graph.body.nodes[current].setOptions({
+                            color: {
+                                background: "#2196F3",
+                                border: "#000000"
+                            },
+                            size: 30,
+                            font: {
+                                color: "#ffffff",
+                                size: 20
+                            }
+                        });
+                        graph.redraw();
+                    }
+                    resolve();
+                }, delay);
+            });
 
-        let neighbors = getNeighbors(current);
-        neighbors.forEach((neighbor) => {
-          animateEdge(current, neighbor, "#FFA500", 3, delay);
-          if (!visited[neighbor]) {
-            visited[neighbor] = true;
-            queue.push(neighbor);
-            tempToVisitQueue.add(neighbor);
-          }
-        });
+            let neighbors = getNeighbors(current);
+            neighbors.forEach((neighbor) => {
+                setTimeout(() => {
+                    if (graph) {
+                        const edge = graph.body.edges[`${current}-${neighbor}`] || graph.body.edges[`${neighbor}-${current}`];
+                        if (edge) {
+                            edge.setOptions({
+                                color: { color: "#FFA500", highlight: "#FFA500" },
+                                width: 3,
+                                dashes: [5, 5],
+                                shadow: true
+                            });
+                            graph.redraw();
+                        }
+                    }
+                }, delay);
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    queue.push(neighbor);
+                    tempToVisitQueue.add(neighbor);
+                }
+            });
 
-        setToVisitQueue(Array.from(tempToVisitQueue));
-        await new Promise(resolve => setTimeout(resolve, 1000));
-      }
+            delay += 1000;
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
     };
 
     await bfs(startNode);
     for (let i = 0; i < numVertices; i++) {
-      if (!visited[i]) {
-        await bfs(i);
-      }
+        if (!visited[i]) {
+            await bfs(i);
+        }
     }
 
     setBfsTraversal([...traversal]);
+    setToVisitQueue([]);
     setIsProcessing(false);
-  };
+};
 
   const runDijkstra = async () => {
     if (isProcessing) return;
     setIsProcessing(true);
+    setCurrentAlgorithm('dijkstra');
+    setShowQueues(false);
     resetGraph();
 
     const numNodes = numVertices;
@@ -727,77 +899,220 @@ const GraphVisualizer = () => {
 
     // Initialize start node
     distances[startNode] = 0;
-    animateNode(startNode, "#4CAF50", 30, delay); // Green for start node
-    delay += 1000;
+    await new Promise(resolve => {
+        setTimeout(() => {
+            if (graph && graph.body.nodes[startNode]) {
+                graph.body.nodes[startNode].setOptions({
+                    color: {
+                        background: "#4CAF50", // Green for start node
+                        border: "#000000"
+                    },
+                    size: 30,
+                    font: {
+                        color: "#ffffff",
+                        size: 20
+                    }
+                });
+                graph.redraw();
+            }
+            resolve();
+        }, delay);
+    });
 
-    for (let i = 0; i < numNodes - 1; i++) {
-      // Find the node with minimum distance
-      let minDistance = Infinity;
-      let minIndex = -1;
+    // Create a priority queue using distances
+    const priorityQueue = [];
+    priorityQueue.push({ node: startNode, distance: 0 });
 
-      for (let v = 0; v < numNodes; v++) {
-        if (!visited[v] && distances[v] <= minDistance) {
-          minDistance = distances[v];
-          minIndex = v;
+    while (priorityQueue.length > 0) {
+        // Sort the queue to get the node with minimum distance
+        priorityQueue.sort((a, b) => a.distance - b.distance);
+        const { node: current, distance: currentDistance } = priorityQueue.shift();
+        
+        if (visited[current]) continue;
+        visited[current] = true;
+
+        // Highlight current node being processed
+        await new Promise(resolve => {
+            setTimeout(() => {
+                if (graph && graph.body.nodes[current]) {
+                    graph.body.nodes[current].setOptions({
+                        color: {
+                            background: "#FFA500", // Orange for processing
+                            border: "#000000"
+                        },
+                        size: 30,
+                        font: {
+                            color: "#ffffff",
+                            size: 20
+                        }
+                    });
+                    graph.redraw();
+                }
+                resolve();
+            }, delay);
+        });
+
+        const neighbors = getNeighbors(current);
+        for (const neighbor of neighbors) {
+            if (visited[neighbor]) continue;
+
+            const weight = getEdgeWeight(current, neighbor);
+            const newDistance = currentDistance + weight;
+
+            // Highlight the edge being considered with a more visible style
+            setTimeout(() => {
+                if (graph) {
+                    const edge = graph.body.edges[`${current}-${neighbor}`] || graph.body.edges[`${neighbor}-${current}`];
+                    if (edge) {
+                        edge.setOptions({
+                            color: { 
+                                color: "#FF0000", // Bright red for better visibility
+                                highlight: "#FF0000",
+                                opacity: 1.0
+                            },
+                            width: 4, // Thicker line
+                            dashes: false, // Solid line
+                            shadow: {
+                                enabled: true,
+                                color: 'rgba(255,0,0,0.5)',
+                                size: 10,
+                                x: 0,
+                                y: 0
+                            }
+                        });
+                        graph.redraw();
+                    }
+                }
+            }, delay);
+
+            if (newDistance < distances[neighbor]) {
+                distances[neighbor] = newDistance;
+                previous[neighbor] = current;
+                priorityQueue.push({ node: neighbor, distance: newDistance });
+
+                // Update the neighbor node with new distance
+                setTimeout(() => {
+                    if (graph && graph.body.nodes[neighbor]) {
+                        graph.body.nodes[neighbor].setOptions({
+                            color: {
+                                background: "#2196F3", // Blue for updated distance
+                                border: "#000000"
+                            },
+                            size: 30,
+                            font: {
+                                color: "#ffffff",
+                                size: 20
+                            }
+                        });
+                        graph.redraw();
+                    }
+                }, delay + 500);
+            }
         }
-      }
 
-      if (minIndex === -1) break;
+        // Reset the edge style after processing
+        setTimeout(() => {
+            if (graph) {
+                const edges = graph.body.edges;
+                Object.values(edges).forEach(edge => {
+                    edge.setOptions({
+                        color: { 
+                            color: "#000000", // Changed back to black to match DFS/BFS
+                            highlight: "#000000",
+                            opacity: 1.0
+                        },
+                        width: 2,
+                        dashes: false,
+                        shadow: false
+                    });
+                });
+                graph.redraw();
+            }
+        }, delay + 500);
 
-      // Mark the current node as visited
-      visited[minIndex] = true;
-      animateNode(minIndex, "#FFA500", 30, delay); // Orange for processing node
-      delay += 1000;
-
-      // Update distances to neighbors
-      const neighbors = getNeighbors(minIndex);
-      for (const neighbor of neighbors) {
-        const weight = getEdgeWeight(minIndex, neighbor);
-        if (!visited[neighbor] && distances[minIndex] + weight < distances[neighbor]) {
-          // Update distance and previous node
-          distances[neighbor] = distances[minIndex] + weight;
-          previous[neighbor] = minIndex;
-
-          // Animate the edge being considered
-          animateEdge(minIndex, neighbor, "#FFA500", 3, delay);
-          delay += 500;
-
-          // Animate the node being updated
-          animateNode(neighbor, "#2196F3", 30, delay); // Blue for updated node
-          delay += 1000;
-        }
-      }
+        delay += 1000;
+        await new Promise(resolve => setTimeout(resolve, 1000));
     }
 
-    // Color unreachable nodes
-    for (let i = 0; i < numNodes; i++) {
-      if (!visited[i] && i !== startNode) {
-        animateNode(i, "#FF0000", 30, delay); // Red for unreachable nodes
-        delay += 500;
-      }
-    }
-
-    // Build result string
+    // Build result display with clear formatting
     let resultDisplay = `Dijkstra's Shortest Paths from Node ${startNode}:\n\n`;
     for (let i = 0; i < numNodes; i++) {
-      resultDisplay += `Node ${i}: Distance = ${distances[i]}`;
+        if (i === startNode) {
+            resultDisplay += `Node ${i}: Start Node (Distance = 0)\n`;
+            continue;
+        }
 
-      if (previous[i] !== null) {
+        if (distances[i] === Infinity) {
+            resultDisplay += `Node ${i}: Unreachable\n`;
+            continue;
+        }
+
         let path = [i];
         let current = previous[i];
         while (current !== null) {
-          path.unshift(current);
-          current = previous[current];
+            path.unshift(current);
+            current = previous[current];
         }
-        resultDisplay += ` Path: ${path.join(" → ")}`;
-      } else if (i !== startNode) {
-        resultDisplay += " (Unreachable)";
-      }
-      resultDisplay += "\n";
+
+        resultDisplay += `Node ${i}:\n`;
+        resultDisplay += `  Distance: ${distances[i]}\n`;
+        resultDisplay += `  Path: ${path.join(" → ")}\n\n`;
     }
 
     setDijkstraResult(resultDisplay);
     setIsProcessing(false);
+};
+
+  const validateAdjacencyList = () => {
+    let isValid = true;
+    let errorMessage = "";
+
+    for (let i = 0; i < numVertices; i++) {
+        const neighborsInput = document.querySelector(`input[placeholder="Neighbors of ${i} (comma-separated)"]`);
+        const weightsInput = document.querySelector(`input[placeholder="Weights for neighbors of ${i} (comma-separated)"]`);
+        
+        if (!neighborsInput || !weightsInput) continue;
+
+        const neighbors = neighborsInput.value.split(",").map(v => v.trim()).filter(Boolean);
+        const weights = weightsInput.value.split(",").map(v => v.trim()).filter(Boolean);
+
+        // Only validate if there's actual input
+        if (neighbors.length > 0 || weights.length > 0) {
+            // Check weights count
+            if (weights.length > 0 && weights.length !== neighbors.length) {
+                isValid = false;
+                errorMessage = `Node ${i}: Number of weights (${weights.length}) doesn't match number of neighbors (${neighbors.length})`;
+                break;
+            }
+
+            // Check weights are positive numbers
+            const invalidWeights = weights.filter(weight => {
+                const num = Number(weight);
+                return isNaN(num) || num <= 0;
+            });
+
+            if (invalidWeights.length > 0) {
+                isValid = false;
+                errorMessage = `Node ${i}: Please enter valid positive numbers for weights`;
+                break;
+            }
+        }
+    }
+
+    if (!isValid) {
+        setErrorMessage(errorMessage);
+        return false;
+    }
+
+    setErrorMessage("");
+    return true;
+  };
+
+  const handleGenerateGraph = () => {
+    if (graphType === "AdjacencyList" && !validateAdjacencyList()) {
+        return;
+    }
+    setShowGraph(true);
   };
 
   return (
@@ -827,9 +1142,11 @@ const GraphVisualizer = () => {
                 placeholder="Number of vertices"
                 onChange={(e) => setRandomGraphVertices(Number(e.target.value))}
                 className="input-box"
+                max={MAX_NODES}
               />
+              {errorMessage && <div className="error-message">{errorMessage}</div>}
               <button
-                onClick={() => generateRandomGraph(randomGraphVertices)}
+                onClick={handleRandomGraphGeneration}
                 className="graph-button"
               >
                 Generate Random Graph
@@ -842,86 +1159,117 @@ const GraphVisualizer = () => {
                 placeholder="Number of vertices"
                 onChange={handleNumVerticesChange}
                 className="input-box"
+                max={MAX_NODES}
               />
+              {errorMessage && <div className="error-message">{errorMessage}</div>}
               <div className="graph-input-container">
                 {renderGraphInput()}
               </div>
-              {numVertices && (
-                <button onClick={() => setShowGraph(true)} className="graph-button">
-                  Generate Graph
-                </button>
-              )}
+              <button onClick={handleGenerateGraph} className="graph-button">
+                Generate Graph
+              </button>
             </>
           )}
         </div>
       )}
 
       {showGraph && (
-        <div id="graph-container" className="graph-container"></div>
-      )}
+        <>
+          <div className="graph-and-queues">
+            <div id="graph-container" className="graph-container"></div>
+            {currentAlgorithm === 'dijkstra' && (
+                <div className="dijkstra-info">
+                    <div className="info-container">
+                        <h4>Dijkstra's Visualization</h4>
+                        <div className="status-content">
+                            <div className="status-item">
+                                <div className="status-color" style={{ backgroundColor: "#4CAF50" }}></div>
+                                <span>Start Node (0)</span>
+                            </div>
+                            <div className="status-item">
+                                <div className="status-color" style={{ backgroundColor: "#FFA500" }}></div>
+                                <span>Processing Node</span>
+                            </div>
+                            <div className="status-item">
+                                <div className="status-color" style={{ backgroundColor: "#2196F3" }}></div>
+                                <span>Updated Distance</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {currentAlgorithm !== 'dijkstra' && showQueues && (
+                <div className="queue-display">
+                    <div className="queue-container">
+                        <h4>To Visit Queue</h4>
+                        <div className="queue-content">{toVisitQueue.join(", ")}</div>
+                    </div>
+                    <div className="queue-container">
+                        <h4>Visited Queue</h4>
+                        <div className="queue-content">{visitedQueue.join(", ")}</div>
+                    </div>
+                </div>
+            )}
+          </div>
 
-      {showGraph && (
-        <div className="traversal-container">
-          <div className="queue-display">
-            <h4>To Visit Queue: {toVisitQueue.join(", ")}</h4>
-            <h4>Visited Queue: {visitedQueue.join(", ")}</h4>
-          </div>
-          <input
-            type="number"
-            placeholder="Start Node"
-            min="0"
-            max={numVertices - 1}
-            onChange={(e) => setStartNode(Number(e.target.value))}
-            className="input-box"
-          />
-          <div className="algorithm-buttons">
-            <button
-              onClick={runDFS}
-              className="graph-button"
-              disabled={isProcessing}
-            >
-              Run DFS
-            </button>
-            <button
-              onClick={runBFS}
-              className="graph-button"
-              disabled={isProcessing}
-            >
-              Run BFS
-            </button>
-            <button
-              onClick={runDijkstra}
-              className="graph-button"
-              disabled={isProcessing}
-            >
-              Run Dijkstra
-            </button>
-          </div>
-          <div className="traversal-results">
-            {dfsTraversal.length > 0 && (
-              <div className="traversal-result">
-                <h4>DFS Traversal:</h4>
-                <p>{dfsTraversal.join(" → ")}</p>
+          <div className="traversal-container">
+            <div className="algorithm-controls">
+              <input
+                type="number"
+                placeholder="Start Node (Default: 0)"
+                min="0"
+                max={numVertices - 1}
+                onChange={(e) => setStartNode(Number(e.target.value))}
+                className="input-box"
+              />
+              <div className="algorithm-buttons">
+                <button
+                  onClick={runDFS}
+                  className="graph-button"
+                  disabled={isProcessing}
+                >
+                  Run DFS
+                </button>
+                <button
+                  onClick={runBFS}
+                  className="graph-button"
+                  disabled={isProcessing}
+                >
+                  Run BFS
+                </button>
+                <button
+                  onClick={runDijkstra}
+                  className="graph-button"
+                  disabled={isProcessing}
+                >
+                  Run Dijkstra
+                </button>
               </div>
-            )}
-            {bfsTraversal.length > 0 && (
-              <div className="traversal-result">
-                <h4>BFS Traversal:</h4>
-                <p>{bfsTraversal.join(" → ")}</p>
-              </div>
-            )}
-            {dijkstraResult && (
-              <div className="traversal-result">
-                <h4>Dijkstra&apos;s Results:</h4>
-                <pre>{dijkstraResult}</pre>
-              </div>
-            )}
+            </div>
+
+            <div className="traversal-results">
+              {dfsTraversal.length > 0 && (
+                <div className="traversal-result">
+                  <h4>DFS Traversal:</h4>
+                  <p>{dfsTraversal.join(" → ")}</p>
+                </div>
+              )}
+              {bfsTraversal.length > 0 && (
+                <div className="traversal-result">
+                  <h4>BFS Traversal:</h4>
+                  <p>{bfsTraversal.join(" → ")}</p>
+                </div>
+              )}
+              {dijkstraResult && (
+                <div className="traversal-result">
+                  <h4>Dijkstra's Results:</h4>
+                  <pre>{dijkstraResult}</pre>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        </>
       )}
-     
-       
-      
     </div>
   );
 };
