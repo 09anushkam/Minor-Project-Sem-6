@@ -6,6 +6,7 @@ import Intro from "../../components/Intro";
 import Footer from "../../components/Footer";
 import Features from "../../components/Features";
 import Team from "../../components/Team";
+import Mentors from "../../components/Mentors";
 
 const Home = ({ user }) => {
     return (
@@ -27,6 +28,7 @@ const Home = ({ user }) => {
             </div>
             <Features />
             <Team />
+            <Mentors />
             <Footer />
         </>
     );

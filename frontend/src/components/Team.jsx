@@ -2,8 +2,14 @@ import "./styles/Team.css";
 
 const teamMembers = [
     {
-        name: "Prof. Pradnya Patil",
-        role: "Project Guide",
+        name: "Kinjal Patel",
+        role: "Project Member",
+        description: "description",
+        image: "/profile.jpg",
+    },
+    {
+        name: "Vivek Masuna",
+        role: "Project Member",
         description: "description",
         image: "/profile.jpg",
     },
@@ -14,19 +20,7 @@ const teamMembers = [
         image: "/profile.jpg",
     },
     {
-        name: "Kinjal Patel",
-        role: "Project Member",
-        description: "description",
-        image: "/profile.jpg",
-    },
-    {
         name: "Anushka Murade",
-        role: "Project Member",
-        description: "description",
-        image: "/profile.jpg",
-    },
-    {
-        name: "Vivek Masuna",
         role: "Project Member",
         description: "description",
         image: "/profile.jpg",
