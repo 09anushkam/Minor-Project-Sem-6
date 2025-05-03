@@ -26,13 +26,70 @@ const Simulation7 = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [visualizationTab, setVisualizationTab] = useState("table");
   const [processedData, setProcessedData] = useState(null);
+  const [selectedDataset, setSelectedDataset] = useState("");
 
   const preloadedPosts = [
     { text: "The match was thrilling! What a performance by the team!" },
     { text: "Government announces new healthcare reforms." },
     { text: "10 tips for glowing skin this summer." },
     { text: "Latest movie review: A must-watch!" },
+    { text: "New research shows benefits of daily exercise on mental health." },
+    { text: "Tech company unveils revolutionary AI-powered assistant." },
+    { text: "Local community celebrates annual cultural festival." },
+    { text: "Scientists discover new species in Amazon rainforest." }
   ];
+
+  const defaultDatasets = [
+    { name: "Sample Dataset 1", path: "/datasets/sample1.csv", viewPath: "/datasets/sample1.csv" },
+    { name: "Sample Dataset 2", path: "/datasets/sample2.csv", viewPath: "/datasets/sample2.csv" },
+    { name: "Upload Custom CSV", path: "upload" }
+  ];
+
+  const handleDatasetSelect = async (e) => {
+    const selectedPath = e.target.value;
+    setSelectedDataset(selectedPath);
+
+    if (selectedPath === "upload") {
+      // Show file input for custom upload
+      return;
+    }
+
+    try {
+      const response = await fetch(selectedPath);
+      const text = await response.text();
+      Papa.parse(text, {
+        complete: function (results) {
+          const headers = results.data[0]?.map(header => header.toLowerCase());
+          if (!headers || !headers.includes('documents')) {
+            alert('Error: The CSV file must contain a column named "documents" (case-insensitive).');
+            return;
+          }
+
+          const documentsIndex = headers.indexOf('documents');
+          const labelIndex = headers.includes('label') ? headers.indexOf('label') : -1;
+
+          const parsed = results.data
+            .slice(1)
+            .filter((row) => row[documentsIndex])
+            .map((row) => {
+              const doc = { text: row[documentsIndex] };
+              if (labelIndex !== -1 && row[labelIndex]) {
+                doc.label = row[labelIndex];
+              }
+              return doc;
+            });
+
+          setUploadedText(parsed);
+          setActiveTab("uploaded");
+          setShowProceed(true);
+          setTfidfOutput([]);
+        },
+      });
+    } catch (error) {
+      console.error("Error loading dataset:", error);
+      alert("Error loading the selected dataset. Please try again.");
+    }
+  };
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -40,9 +97,26 @@ const Simulation7 = () => {
 
     Papa.parse(file, {
       complete: function (results) {
+        const headers = results.data[0]?.map(header => header.toLowerCase());
+        if (!headers || !headers.includes('documents')) {
+          alert('Error: The CSV file must contain a column named "documents" (case-insensitive).');
+          return;
+        }
+
+        const documentsIndex = headers.indexOf('documents');
+        const labelIndex = headers.includes('label') ? headers.indexOf('label') : -1;
+
         const parsed = results.data
-          .filter((row) => row[0])
-          .map((row) => ({ text: row[0] }));
+          .slice(1)
+          .filter((row) => row[documentsIndex])
+          .map((row) => {
+            const doc = { text: row[documentsIndex] };
+            if (labelIndex !== -1 && row[labelIndex]) {
+              doc.label = row[labelIndex];
+            }
+            return doc;
+          });
+
         setUploadedText(parsed);
         setActiveTab("uploaded");
         setShowProceed(true);
@@ -74,6 +148,10 @@ const Simulation7 = () => {
     setShowManual(false);
     setShowProceed(false);
     setTfidfOutput([]);
+  };
+
+  const handleViewSample = (path) => {
+    window.open(path, '_blank');
   };
 
   const tokenize = (text) => {
@@ -108,7 +186,11 @@ const Simulation7 = () => {
       Object.entries(freqMap).forEach(([term, freq]) => {
         const tf = freq / totalTerms;
         const idf = Math.log(totalDocs / termDocFreq[term]);
-        tfidfRow[term] = parseFloat((tf * idf).toFixed(4));
+        tfidfRow[term] = {
+          tf: parseFloat(tf.toFixed(4)),
+          idf: parseFloat(idf.toFixed(4)),
+          tfidf: parseFloat((tf * idf).toFixed(4))
+        };
       });
 
       tfidfMatrix.push({ document: `Doc ${idx + 1}`, tfidf: tfidfRow });
@@ -123,20 +205,24 @@ const Simulation7 = () => {
 
     // Initialize term statistics
     tfidfMatrix.forEach((doc) => {
-      Object.entries(doc.tfidf).forEach(([term, score]) => {
-        if (!termStats[term]) {
-          termStats[term] = {
-            totalScore: 0,
-            maxScore: 0,
-            frequency: 0,
-            documents: new Set()
-          };
-        }
-        termStats[term].totalScore += score;
-        termStats[term].maxScore = Math.max(termStats[term].maxScore, score);
-        termStats[term].frequency++;
-        termStats[term].documents.add(doc.document);
-      });
+      if (doc && doc.tfidf) {
+        Object.entries(doc.tfidf).forEach(([term, scores]) => {
+          if (!termStats[term]) {
+            termStats[term] = {
+              totalScore: 0,
+              maxScore: 0,
+              frequency: 0,
+              documents: new Set()
+            };
+          }
+          if (scores && typeof scores.tfidf === 'number') {
+            termStats[term].totalScore += scores.tfidf;
+            termStats[term].maxScore = Math.max(termStats[term].maxScore, scores.tfidf);
+            termStats[term].frequency++;
+            termStats[term].documents.add(doc.document);
+          }
+        });
+      }
     });
 
     // Convert to array and sort by frequency first, then by total TF-IDF score
@@ -162,7 +248,7 @@ const Simulation7 = () => {
         document: `Doc ${idx + 1}`,
       };
       terms.forEach((term) => {
-        rowData[term] = doc.tfidf[term] || 0;
+        rowData[term] = doc.tfidf && doc.tfidf[term] ? doc.tfidf[term].tfidf : 0;
       });
       return rowData;
     });
@@ -223,12 +309,14 @@ const Simulation7 = () => {
                 <tr>
                   <th>Document</th>
                   <th>Term</th>
+                  <th>TF Score</th>
+                  <th>IDF Score</th>
                   <th>TF-IDF Score</th>
                 </tr>
               </thead>
               <tbody>
                 {tfidfOutput.map((row, docIdx) =>
-                  Object.entries(row.tfidf).map(([term, score], termIdx) => (
+                  Object.entries(row.tfidf).map(([term, scores], termIdx) => (
                     <motion.tr
                       key={`${docIdx}-${term}`}
                       initial={{ opacity: 0, x: -20 }}
@@ -238,7 +326,9 @@ const Simulation7 = () => {
                     >
                       <td>{row.document}</td>
                       <td>{term}</td>
-                      <td>{score}</td>
+                      <td>{scores.tf}</td>
+                      <td>{scores.idf}</td>
+                      <td>{scores.tfidf}</td>
                     </motion.tr>
                   ))
                 )}
@@ -314,7 +404,7 @@ const Simulation7 = () => {
             <div className="heatmap-wrapper">
               <div className="heatmap-grid">
                 <div className="heatmap-header">
-                  <div className="heatmap-cell header">Terms →</div>
+                  <div className="heatmap-cell header">Document</div>
                   {processedData.terms.map((term, i) => (
                     <div key={i} className="heatmap-cell header term">
                       {term}
@@ -470,12 +560,39 @@ const Simulation7 = () => {
               exit={{ opacity: 0, y: -20 }}
               className="file-upload"
             >
-              <input
-                type="file"
-                accept=".csv"
-                onChange={handleFileUpload}
-                className="file-input"
-              />
+              <p className="file-info-text">
+                <strong>Note:</strong> The uploaded CSV must contain a column named "documents" (case-insensitive).
+              </p>
+              <div className="dataset-selector">
+                <select
+                  value={selectedDataset}
+                  onChange={handleDatasetSelect}
+                  className="dataset-dropdown"
+                >
+                  <option value="">-- Select a dataset --</option>
+                  {defaultDatasets.map((dataset, index) => (
+                    <option key={index} value={dataset.path}>
+                      {dataset.name}
+                    </option>
+                  ))}
+                </select>
+                {selectedDataset && selectedDataset !== "upload" && (
+                  <button
+                    onClick={() => handleViewSample(selectedDataset)}
+                    className="view-sample-button"
+                  >
+                    View Sample
+                  </button>
+                )}
+              </div>
+              {selectedDataset === "upload" && (
+                <input
+                  type="file"
+                  accept=".csv"
+                  onChange={handleFileUpload}
+                  className="file-input"
+                />
+              )}
             </motion.div>
           )}
 
@@ -502,21 +619,24 @@ const Simulation7 = () => {
         </AnimatePresence>
 
         {showProceed && (
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleProceed}
-            className="tf-idf-button"
-            disabled={isProcessing}
-          >
-            {isProcessing ? (
-              <div className="loading"></div>
-            ) : (
-              "Proceed to Analysis"
-            )}
-          </motion.button>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              whileHover={!isProcessing ? { scaleX: 1.05 } : {}}
+              whileTap={!isProcessing ? { scaleX: 0.95 } : {}}
+              onClick={handleProceed}
+              className="tf-idf-button"
+              style={{ width: '200px', height: '40px' }}
+              disabled={isProcessing}
+            >
+              {isProcessing ? (
+                <div className="loading"></div>
+              ) : (
+                "Analyze"
+              )}
+            </motion.button>
+          </div>
         )}
 
         <AnimatePresence>

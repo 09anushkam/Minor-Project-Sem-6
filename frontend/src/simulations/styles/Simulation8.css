@@ -199,48 +199,54 @@
 
 /* Matrix Styling */
 .follow-matrix {
-  margin: 30px 0;
+  margin: 30px auto;
+  padding: 20px;
+  width: 100%;
+  max-width: 800px;
+  box-sizing: border-box;
   overflow-x: auto;
-  padding: 10px;
+  display: block;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .matrix-container {
-  display: inline-block;
-  border: 3px solid #1a237e;
+  display: table;
+  border: 3px solid #01438D;
   border-radius: 8px;
   overflow: hidden;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  min-width: 300px;
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 
 .matrix-header {
-  display: flex;
+  display: table-row;
   background-color: #f9f9f9;
-  border-bottom: 2px solid #1a237e;
+  border-bottom: 2px solid #01438D;
 }
 
 .matrix-row {
-  display: flex;
+  display: table-row;
   border-bottom: 1px solid #e0e0e0;
   height: 60px;
 }
 
-.matrix-row:last-child {
-  border-bottom: none;
-}
-
 .matrix-cell {
+  display: table-cell;
   width: 100px;
   min-width: 100px;
   height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 10px;
+  text-align: center;
+  vertical-align: middle;
   border-right: 1px solid #e0e0e0;
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 16px;
-  padding: 0;
   box-sizing: border-box;
   background-color: white;
 }
@@ -265,16 +271,8 @@
 .header-cell {
   background-color: #f8f9fa;
   font-weight: 600;
-  width: 100px;
-  min-width: 100px;
-  height: 60px;
-  padding: 0;
   color: #333;
   cursor: default;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
 }
 
 .self-cell {
@@ -296,9 +294,10 @@
 
 /* Influencer Analysis Section */
 .influencers-section {
-  margin: 30px 0;
+  margin: 30px auto;
   width: 100%;
   max-width: 800px;
+  box-sizing: border-box;
 }
 
 .influencers-list {
@@ -505,8 +504,8 @@
   padding: 12px 24px;
   border: none;
   border-radius: 9px;
-  background-color: #ff9494;
-  color: black;
+  background-color: #9B2928;
+  color: white;
   font-size: 16px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -517,7 +516,7 @@
 }
 
 .analyze-button:hover {
-  background-color: #e76060;
+  background-color: #801f1f;
   transform: scale(1.1);
 }
 
