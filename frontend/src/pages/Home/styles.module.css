@@ -1,7 +1,8 @@
 .container {
+    position: relative;
     padding: 20px;
     color: black;
-    z-index: 1;
+    z-index: 10;
     background: linear-gradient(to bottom, #ffd5d4, #FFFCE5);
 }
 
