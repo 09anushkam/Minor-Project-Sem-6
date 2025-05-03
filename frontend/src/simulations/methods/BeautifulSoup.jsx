@@ -8,10 +8,25 @@ const BeautifulSoup = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+    const isValidUrl = (string) => {
+        try {
+            new URL(string);
+            return true;
+        } catch (err) {
+            return false;
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError("");
+
+        if (!isValidUrl(url)) {
+            setError("Please enter a valid URL (starting with http/https).");
+            setLoading(false);
+            return;
+        }
 
         try {
             const response = await axios.post("http://localhost:8080/api/scrape", {

@@ -41,6 +41,18 @@ const TwitterAPI = () => {
         setLoading(true);
         setError("");
 
+        if (!query.trim()) {
+            setError("Please enter a valid search query.");
+            setLoading(false);
+            return;
+        }
+
+        if (token.length < 20) {
+            setError("Invalid token. Please enter a valid Twitter Bearer Token.");
+            setLoading(false);
+            return;
+        }
+
         try {
             const response = await axios.post(`http://localhost:8080/api/scrape/twitter`, {
                 query,

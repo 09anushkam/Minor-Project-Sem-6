@@ -5,7 +5,7 @@ import { loadSlim } from "@tsparticles/slim";
 const ParticleBackground = () => {
     const [init, setInit] = useState(false);
     const [clickCount, setClickCount] = useState(0);
-    const MAX_CLICKS = 15;
+    const MAX_CLICKS = 10;
 
     useEffect(() => {
         initParticlesEngine(async (engine) => {

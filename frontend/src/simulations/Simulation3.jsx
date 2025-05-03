@@ -21,13 +21,38 @@ const Simulation3 = () => {
     const [availableDatasets, setAvailableDatasets] = useState([]);
     const [selectedDataset, setSelectedDataset] = useState('');
 
+    const isInputValid = () => {
+        if (inputType === 'file') return !!file;
+        if (inputType === 'text') return textInput.trim().length > 0;
+        if (inputType === 'dataset') return !!selectedDataset;
+        return false;
+    };
+
     useEffect(() => {
         axios.get('http://localhost:8080/api/experiments/default-datasets')
             .then(res => setAvailableDatasets(res.data.datasets))
             .catch(err => console.error("Failed to fetch datasets:", err));
     }, []);
 
-    const handleFileChange = (e) => setFile(e.target.files[0]);
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+
+        if (selectedFile) {
+            const maxSize = 2 * 1024 * 1024;
+
+            if (!selectedFile.name.endsWith('.csv')) {
+                alert('Only CSV files are supported.');
+                return;
+            }
+
+            if (selectedFile.size > maxSize) {
+                alert('File size should be less than 2 MB.');
+                return;
+            }
+
+            setFile(selectedFile);
+        }
+    };
     const handleTextChange = (e) => setTextInput(e.target.value);
 
     const handleAnalyze = async () => {
@@ -65,8 +90,9 @@ const Simulation3 = () => {
 
             } catch (error) {
                 console.error('Error during file analysis:', error);
+                const errorMessage = error.response?.data?.error || error.response?.data?.details || error.message || 'Something went wrong.';
+                alert(`File Analysis Failed: ${errorMessage}`);
             }
-
         } else if (inputType === 'dataset') {
             if (!selectedDataset) {
                 alert('Please select a dataset.');
@@ -255,7 +281,7 @@ const Simulation3 = () => {
                 />
             )}
 
-            <button onClick={handleAnalyze} disabled={loading} className="analyze-button">
+            <button onClick={handleAnalyze} disabled={loading || !isInputValid()} className="analyze-button">
                 {loading ? 'Analyzing...' : 'Analyze'}
             </button>
 

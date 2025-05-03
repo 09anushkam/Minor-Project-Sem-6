@@ -15,23 +15,50 @@ const Simulation4 = () => {
 
   const [availableDatasets, setAvailableDatasets] = useState([]);
   const [selectedDataset, setSelectedDataset] = useState('');
-
   const [selectedMode, setSelectedMode] = useState(null); // 'csv' or 'default'
 
   useEffect(() => {
     axios.get('http://localhost:8080/api/experiments/default-datasets-topic')
       .then(res => setAvailableDatasets(res.data.datasets))
-      .catch(err => console.error("Failed to fetch datasets:", err));
+      .catch(err => {
+        console.error("Failed to fetch datasets:", err);
+        alert("Failed to fetch default datasets.");
+      });
   }, []);
 
+  const resetState = () => {
+    setTopics({});
+    setDistribution([]);
+    setSamples({});
+    setFile(null);
+    setSelectedDataset('');
+  };
+
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+
+    if (!selectedFile) return;
+
+    const maxSize = 2 * 1024 * 1024; // 2MB
+    if (!selectedFile.name.endsWith('.csv')) {
+      alert("Only CSV files are allowed.");
+      return;
+    }
+
+    if (selectedFile.size > maxSize) {
+      alert("File size should be less than 2 MB.");
+      return;
+    }
+
+    setFile(selectedFile);
   };
 
   const handleSubmitCSV = async () => {
-    if (!file) return alert("Please upload a dataset");
+    if (!file) return alert("Please upload a valid CSV file.");
+    if (numTopics < 1 || numTopics > 15) return alert("Number of topics must be between 1 and 15.");
 
     setLoading(true);
+
     const formData = new FormData();
     formData.append('file', file);
     formData.append('numTopics', numTopics);
@@ -40,20 +67,22 @@ const Simulation4 = () => {
       const res = await axios.post('http://localhost:8080/api/experiments/run-topic-modeling', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
+
       const data = res.data.output;
       setTopics(data.topics);
       setDistribution(data.distribution);
       setSamples(data.samples);
     } catch (err) {
       console.error('[CLIENT] Error:', err);
-      alert("Error: " + (err.response?.data?.error || err.message));
+      alert("CSV Processing Failed: " + (err.response?.data?.error || err.message));
     } finally {
       setLoading(false);
     }
   };
 
   const handleSubmitDefault = async () => {
-    if (!selectedDataset) return alert("Please select a default dataset");
+    if (!selectedDataset) return alert("Please select a default dataset.");
+    if (numTopics < 1 || numTopics > 15) return alert("Number of topics must be between 1 and 15.");
 
     setLoading(true);
 
@@ -69,7 +98,7 @@ const Simulation4 = () => {
       setSamples(data.samples);
     } catch (err) {
       console.error('[CLIENT] Error:', err);
-      alert("Error: " + (err.response?.data?.error || err.message));
+      alert("Default Dataset Processing Failed: " + (err.response?.data?.error || err.message));
     } finally {
       setLoading(false);
     }
@@ -95,20 +124,14 @@ const Simulation4 = () => {
       <div className="mode-select-buttons">
         <button onClick={() => {
           setSelectedMode('csv');
-          setTopics({});
-          setDistribution([]);
-          setSamples({});
-          setFile(null);
+          resetState();
         }}>
           Upload Custom CSV
         </button>
 
         <button onClick={() => {
           setSelectedMode('default');
-          setTopics({});
-          setDistribution([]);
-          setSamples({});
-          setFile(null);
+          resetState();
         }}>
           Select Default Datasets
         </button>
@@ -123,6 +146,7 @@ const Simulation4 = () => {
             <h3>Upload CSV File</h3>
             <div className="form-group4">
               <input type="file" accept=".csv" onChange={handleFileChange} />
+              {file && <p>Selected File: {file.name} ({(file.size / 1024).toFixed(2)} KB)</p>}
             </div>
 
             <div className="form-group4">
@@ -133,7 +157,7 @@ const Simulation4 = () => {
                 min="1"
                 max="15"
                 value={numTopics}
-                onChange={(e) => setNumTopics(e.target.value)}
+                onChange={(e) => setNumTopics(Number(e.target.value))}
               />
             </div>
 
@@ -164,7 +188,7 @@ const Simulation4 = () => {
               min="1"
               max="15"
               value={numTopics}
-              onChange={(e) => setNumTopics(e.target.value)}
+              onChange={(e) => setNumTopics(Number(e.target.value))}
             />
           </div>
 
@@ -177,7 +201,6 @@ const Simulation4 = () => {
       {Object.keys(topics).length > 0 && (
         <div className="results4">
           <h3>Identified Topics:</h3>
-
           {Object.entries(topics).map(([topic, keywords], idx) => (
             <div key={idx} className="topic-block">
               <h4>{topic}</h4>
@@ -190,28 +213,12 @@ const Simulation4 = () => {
                     maintainAspectRatio: false,
                     plugins: {
                       legend: {
-                        labels: {
-                          font: {
-                            size: 12,
-                          },
-                        },
+                        labels: { font: { size: 12 } },
                       },
                     },
                     scales: {
-                      x: {
-                        ticks: {
-                          font: {
-                            size: 12,
-                          },
-                        },
-                      },
-                      y: {
-                        ticks: {
-                          font: {
-                            size: 12,
-                          },
-                        },
-                      },
+                      x: { ticks: { font: { size: 12 } } },
+                      y: { ticks: { font: { size: 12 } } },
                     },
                   }}
                 />
@@ -254,11 +261,7 @@ const Simulation4 = () => {
                   plugins: {
                     legend: {
                       position: 'bottom',
-                      labels: {
-                        font: {
-                          size: 12,
-                        },
-                      },
+                      labels: { font: { size: 12 } },
                     },
                   },
                 }}
