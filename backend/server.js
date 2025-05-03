@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 const cron = require("node-cron");
-const cleanupOldFiles = require("./utils/cleanupOldFiles");
+const cleanupOldFiles = require("./utils/cleanup.js");
 cron.schedule("0 * * * *", cleanupOldFiles);
 
 const express = require("express");

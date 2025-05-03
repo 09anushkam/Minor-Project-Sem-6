@@ -2,247 +2,161 @@
     "topics": {
         "Topic 1": [
             {
-                "word": "awe",
-                "weight": 7.2034
+                "word": "ve",
+                "weight": 0.2
             },
             {
-                "word": "world",
-                "weight": 7.6831
+                "word": "experience",
+                "weight": 0.2
             },
             {
-                "word": "exploring",
-                "weight": 8.1095
+                "word": "absolutely",
+                "weight": 0.2
             },
             {
-                "word": "friend",
-                "weight": 8.1496
+                "word": "service",
+                "weight": 1.1941
             },
             {
-                "word": "friends",
-                "weight": 8.7173
+                "word": "time",
+                "weight": 2.1996
             },
             {
-                "word": "garden",
-                "weight": 8.9667
-            },
-            {
-                "word": "night",
-                "weight": 9.8292
-            },
-            {
-                "word": "day",
-                "weight": 11.7501
-            },
-            {
-                "word": "surprise",
-                "weight": 13.1992
-            },
-            {
-                "word": "new",
-                "weight": 14.7478
+                "word": "delivery",
+                "weight": 2.1998
             }
         ],
         "Topic 2": [
             {
-                "word": "book",
-                "weight": 6.9259
+                "word": "delivery",
+                "weight": 0.2001
             },
             {
-                "word": "tomorrow",
-                "weight": 7.1729
+                "word": "ve",
+                "weight": 0.2001
             },
             {
-                "word": "optimism",
-                "weight": 7.1984
+                "word": "experience",
+                "weight": 0.2001
             },
             {
-                "word": "emotions",
-                "weight": 7.2046
+                "word": "time",
+                "weight": 0.2002
             },
             {
-                "word": "creativity",
-                "weight": 8.2089
+                "word": "absolutely",
+                "weight": 0.2003
             },
             {
-                "word": "dreams",
-                "weight": 8.2534
-            },
-            {
-                "word": "shattered",
-                "weight": 8.8563
-            },
-            {
-                "word": "like",
-                "weight": 9.5559
-            },
-            {
-                "word": "hopeful",
-                "weight": 12.1771
-            },
-            {
-                "word": "art",
-                "weight": 13.0427
+                "word": "service",
+                "weight": 0.2004
             }
         ],
         "Topic 3": [
             {
-                "word": "air",
-                "weight": 9.2012
+                "word": "ve",
+                "weight": 0.2
             },
             {
-                "word": "new",
-                "weight": 9.304
+                "word": "experience",
+                "weight": 0.2
             },
             {
-                "word": "day",
-                "weight": 9.6756
+                "word": "delivery",
+                "weight": 0.2
             },
             {
-                "word": "dreams",
-                "weight": 10.656
+                "word": "time",
+                "weight": 0.2
             },
             {
-                "word": "family",
-                "weight": 11.2015
+                "word": "absolutely",
+                "weight": 2.1996
             },
             {
-                "word": "embracing",
-                "weight": 12.1761
-            },
-            {
-                "word": "laughter",
-                "weight": 15.7742
-            },
-            {
-                "word": "echoes",
-                "weight": 16.1967
-            },
-            {
-                "word": "joy",
-                "weight": 16.2206
-            },
-            {
-                "word": "life",
-                "weight": 19.8441
+                "word": "service",
+                "weight": 2.2053
             }
         ],
         "Topic 4": [
             {
-                "word": "sense",
-                "weight": 7.207
+                "word": "delivery",
+                "weight": 0.2
             },
             {
-                "word": "warmth",
-                "weight": 8.139
+                "word": "ve",
+                "weight": 0.2
             },
             {
-                "word": "challenging",
-                "weight": 8.2122
+                "word": "time",
+                "weight": 0.2001
             },
             {
-                "word": "night",
-                "weight": 8.2394
+                "word": "absolutely",
+                "weight": 0.2001
             },
             {
-                "word": "moments",
-                "weight": 9.1095
+                "word": "service",
+                "weight": 0.2001
             },
             {
-                "word": "project",
-                "weight": 9.202
-            },
-            {
-                "word": "new",
-                "weight": 9.3934
-            },
-            {
-                "word": "thoughts",
-                "weight": 10.5708
-            },
-            {
-                "word": "feeling",
-                "weight": 12.055
-            },
-            {
-                "word": "heart",
-                "weight": 12.5677
+                "word": "experience",
+                "weight": 2.1998
             }
         ],
         "Topic 5": [
             {
-                "word": "excitement",
-                "weight": 8.2094
+                "word": "delivery",
+                "weight": 0.2
             },
             {
-                "word": "life",
-                "weight": 8.4086
+                "word": "experience",
+                "weight": 0.2
             },
             {
-                "word": "nature",
-                "weight": 9.0475
+                "word": "time",
+                "weight": 0.2001
             },
             {
-                "word": "adventure",
-                "weight": 9.868
+                "word": "absolutely",
+                "weight": 0.2001
             },
             {
-                "word": "music",
-                "weight": 10.1482
+                "word": "service",
+                "weight": 0.2001
             },
             {
-                "word": "upcoming",
-                "weight": 10.1992
-            },
-            {
-                "word": "new",
-                "weight": 10.3529
-            },
-            {
-                "word": "beauty",
-                "weight": 10.8272
-            },
-            {
-                "word": "concert",
-                "weight": 16.1991
-            },
-            {
-                "word": "dance",
-                "weight": 18.1957
+                "word": "ve",
+                "weight": 2.1998
             }
         ]
     },
     "distribution": [
-        154,
-        106,
-        158,
-        158,
-        156
+        12,
+        0,
+        4,
+        2,
+        2
     ],
     "samples": {
         "Topic 1": [
-            " traffic was terrible this morning.                 ",
-            " just finished an amazing workout! \ud83d\udcaa               ",
-            " just published a new blog post. check it out!      "
+            "i love this product!",
+            "great customer service and fast delivery.",
+            "everything was perfect, thank you!"
         ],
-        "Topic 2": [
-            " enjoying a beautiful day at the park!              ",
-            " political discussions heating up on the timeline.  ",
-            " missing summer vibes and beach days.               "
-        ],
+        "Topic 2": [],
         "Topic 3": [
-            " trying out a new recipe for dinner tonight.        ",
-            " feeling grateful for the little things in life.    ",
-            " productive day ticking off my to-do list.          "
+            "the food was absolutely amazing.",
+            "very disappointed with the service.",
+            "absolutely thrilled with the outcome!"
         ],
         "Topic 4": [
-            " rainy days call for cozy blankets and hot cocoa.   ",
-            " feeling a bit under the weather today.             ",
-            " exploring the city's hidden gems.                  "
+            "i\u2019m so happy with my experience.",
+            "terrible experience, never again."
         ],
         "Topic 5": [
-            " excited about the upcoming weekend getaway!        ",
-            " the new movie release is a must-watch!             ",
-            " technology is changing the way we live.            "
+            "it's fine, but i\u2019ve seen better.",
+            "worst purchase i\u2019ve ever made."
         ]
     }
 }

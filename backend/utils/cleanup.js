@@ -3,7 +3,6 @@ const path = require("path");
 
 const UPLOADS_DIR = path.join(__dirname, "../uploads");
 const SIX_HOURS = 6 * 60 * 60 * 1000;
-console.log("Dir is: ", UPLOADS_DIR);
 
 function cleanupOldFiles() {
     const now = Date.now();
