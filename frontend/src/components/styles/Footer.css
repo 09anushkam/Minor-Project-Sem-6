@@ -101,3 +101,31 @@
         text-align: center;
     }
 }
+
+@media (max-width: 425px) {
+    .footer-title h3 {
+        font-size: 1rem;
+    }
+
+    .footer-container h2 {
+        font-size: 1.1rem;
+    }
+
+    .footer-container ul {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 365px) {
+    .footer-title h3 {
+        font-size: 0.9rem;
+    }
+
+    .footer-container h2 {
+        font-size: 1rem;
+    }
+
+    .footer-container ul {
+        font-size: 0.9rem;
+    }
+}

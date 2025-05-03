@@ -131,6 +131,7 @@ const Simulation4 = () => {
                 type="number"
                 id="numTopics"
                 min="1"
+                max="15"
                 value={numTopics}
                 onChange={(e) => setNumTopics(e.target.value)}
               />

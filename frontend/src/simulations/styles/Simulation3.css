@@ -434,7 +434,7 @@
 @media (max-width: 800px) {
     .input-toggle {
         flex-direction: column;
-        align-items: center;
+        /* align-items: center; */
     }
 
     .file-input,
@@ -504,4 +504,12 @@
     .list-disc {
         font-size: 0.9rem;
     }
+}
+
+.dataset-dropdown {
+    margin-top: 1rem;
+}
+
+.text-input {
+    margin-top: 1rem;
 }

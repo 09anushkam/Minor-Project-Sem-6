@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Sling as Hamburger } from "hamburger-react";
 import "./styles/Navbar.css";
 
 const Navbar = () => {
@@ -28,16 +29,18 @@ const Navbar = () => {
                 <a href="/" className="logo">
                     <img src="/kjsieit-logo.svg" alt="logo" />
                 </a>
-                <div className="hamburger" onClick={() => setIsOpen(!isOpen)}>☰</div>
+
+                <div className="hamburger-container">
+                    <Hamburger size={24} toggled={isOpen} toggle={setIsOpen} direction="left" />
+                </div>
+
                 <nav className={isOpen ? "nav-menu open" : "nav-menu"}>
-                    <div className="close-btn" onClick={() => setIsOpen(false)}>✖</div>
-                    <ul>
-                        <li><a href="/" onClick={() => setIsOpen(false)}>Home</a></li>
-                        <li><a href="/about" onClick={() => setIsOpen(false)}>About</a></li>
-                        {user && <li><a href="/exp" onClick={() => setIsOpen(false)}>Experiments</a></li>}
-                        {/* {user && <li><a href="/quiz-history" onClick={() => setIsOpen(false)}>Quiz History</a></li>} */}
+                    <ul onClick={() => setIsOpen(false)}>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        {user && <li><a href="/exp">Experiments</a></li>}
                         {!user ? (
-                            <li><a href="/login" className="btns" onClick={() => setIsOpen(false)}>Login</a></li>
+                            <li><a href="/login" className="btns">Login</a></li>
                         ) : (
                             <li><a href="/" className="btns" onClick={handleLogout}>Logout</a></li>
                         )}
