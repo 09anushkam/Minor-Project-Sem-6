@@ -33,7 +33,8 @@ export default function Footer() {
                 </div>
             </div>
             <div className="footer-title">
-                <h3>Department of Computer Engineering - 2025</h3>
+                <h3 style={{ marginTop: "25px" }}>&copy; 2025 SMA Virtual Lab.</h3>
+                <h3>Department of Computer Engineering - KJSIT</h3>
             </div>
         </footer>
     );
