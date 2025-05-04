@@ -32,6 +32,11 @@
     width: 100%;
 }
 
+.graph-visualizer .title {
+    margin-top: 0;
+    font-weight: 700;
+}
+
 .button-container {
     display: flex;
     justify-content: center;
@@ -828,7 +833,9 @@
 }
 
 /* High DPI screens */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+
     .graph-button,
     .input-box,
     .adjacency-list-input,
@@ -859,6 +866,71 @@
     }
 }
 
+.dijkstra-info {
+    margin-top: 0;
+}
 
+@media (max-width: 800px) {
+    .dijkstra-info {
+        padding: 0;
+    }
 
+    .traversal-container {
+        padding: 0;
+        box-shadow: none;
+    }
+}
 
+@media (max-width: 500px) {
+    .experiment-container {
+        padding: 10px;
+    }
+
+    .graph-and-queues #graph-container {
+        max-width: 350px;
+    }
+
+    .dijkstra-info {
+        max-width: 200px;
+    }
+
+    .info-container h4 {
+        font-size: 1.1rem;
+        margin-top: 0;
+    }
+
+    .traversal-result pre {
+        padding: 0;
+        background-color: var(--primary-bg);
+    }
+
+    .traversal-result {
+        padding: 0;
+    }
+
+    .adjacency-list-input-container {
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 400px) {
+    .graph-and-queues #graph-container {
+        max-width: 300px;
+    }
+
+    .dijkstra-info {
+        max-width: 100px;
+    }
+
+    .info-container h4 {
+        font-size: 1rem;
+        margin-top: 0;
+    }
+}
+
+@media (min-width: 300px) {
+    .adjacency-list-input {
+        width: 100%;
+        max-width: none;
+    }
+}

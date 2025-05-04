@@ -131,6 +131,10 @@
 }
 
 @media (max-width: 500px) {
+    .experiment-container {
+        padding: 10px;
+    }
+
     .simulation2-container {
         padding: 0;
     }

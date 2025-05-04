@@ -488,7 +488,7 @@ const Simulation7 = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="simulation-container"
+      className="simulation7-container"
     >
       <div className="tf-idf-visualizer">
         <motion.h2
@@ -619,7 +619,7 @@ const Simulation7 = () => {
         </AnimatePresence>
 
         {showProceed && (
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
             <motion.button
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
