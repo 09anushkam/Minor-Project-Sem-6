@@ -3,13 +3,13 @@ const path = require('path');
 
 // Authentication middleware
 const isAuthenticated = (req, res, next) => {
-    console.log('Checking authentication...');
-    console.log('Session:', req.session);
-    console.log('Is authenticated:', req.isAuthenticated());
-    console.log('User:', req.user);
-    console.log('Cookies:', req.cookies);
-    console.log('Headers:', req.headers);
-    
+    // console.log('Checking authentication...');
+    // console.log('Session:', req.session);
+    // console.log('Is authenticated:', req.isAuthenticated());
+    // console.log('User:', req.user);
+    // console.log('Cookies:', req.cookies);
+    // console.log('Headers:', req.headers);
+
     if (req.isAuthenticated()) {
         console.log('User is authenticated, proceeding...');
         return next();

@@ -140,11 +140,11 @@ app.use('/api/feedback', feedbackRoutes);
 
 // Register quiz score routes with debug middleware
 app.use('/api/quiz-scores', (req, res, next) => {
-    console.log('Quiz Score Route Hit:');
-    console.log('Method:', req.method);
-    console.log('Path:', req.path);
-    console.log('User:', req.user);
-    console.log('Session:', req.session);
+    // console.log('Quiz Score Route Hit:');
+    // console.log('Method:', req.method);
+    // console.log('Path:', req.path);
+    // console.log('User:', req.user);
+    // console.log('Session:', req.session);
     next();
 }, quizScoreRoutes);
 
@@ -169,4 +169,3 @@ app.use('/api/quiz-scores', (req, res, next) => {
 app.listen(port, () => {
     console.log(`app is listening on port ${port}`);
 });
-console.log("MONGO_URL:", process.env.ATLAS_DB);

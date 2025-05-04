@@ -42,7 +42,7 @@ module.exports.submitFeedback = async (req, res) => {
             suggestions
         });
 
-        console.log('Created feedback object:', feedback);
+        // console.log('Created feedback object:', feedback);
         await feedback.save();
         console.log('Feedback saved successfully');
         res.status(201).json({ message: 'Feedback submitted successfully' });

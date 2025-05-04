@@ -66,7 +66,7 @@ module.exports.getTwitterData = async (req, res) => {
         const existingData = await TwitterData.findOne({ query });
 
         if (existingData) {
-            console.log(`Data for "${query}" already exists. Skipping storage.`);
+            // console.log(`Data for "${query}" already exists. Skipping storage.`);
             return res.json({
                 message: `Data for "${query}" already exists.`,
                 data: existingData.tweets
