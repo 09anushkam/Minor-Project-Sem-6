@@ -3,12 +3,6 @@ import "./FlipCard.css";
 
 const experiments = [
     {
-        title: "Social Media Analysis",
-        img: "/1.jpg",
-        aim: "Explore social media tools like Google Analytics, Lexatics, Similarweb, etc.",
-        link: "/exp/1",
-    },
-    {
         title: "Social Media Data Extraction",
         img: "/2.png",
         aim: "Acquire social media data through Web Scrapping, & APIs.",
@@ -49,6 +43,12 @@ const experiments = [
         img: "/8.webp",
         aim: "Analyze the structure of social media data using graph theory, identify influential users, & explore network interactions",
         link: "/exp/8",
+    },
+    {
+        title: "Social Media Analysis",
+        img: "/1.jpg",
+        aim: "Explore social media tools like Google Analytics, Lexatics, Similarweb, etc.",
+        link: "/exp/1",
     },
 ];
 
