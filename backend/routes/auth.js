@@ -10,10 +10,10 @@ router.post('/login', loginUser);
 router.get('/logout', logoutUser);
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-router.get('/google/callback', 
-    passport.authenticate('google', { 
+router.get('/google/callback',
+    passport.authenticate('google', {
         failureRedirect: '/login/failed',
-        successRedirect: 'http://localhost:5173/',
+        successRedirect: `${process.env.FRONTEND_URL}/`,
         session: true
     })
 );

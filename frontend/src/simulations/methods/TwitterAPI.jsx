@@ -17,7 +17,7 @@ const TwitterAPI = () => {
     useEffect(() => {
         const fetchStoredData = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/api/scrape/twitter-stored");
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/scrape/twitter-stored`);
                 const flattenedTweets = response.data.flatMap((batch) =>
                     batch.tweets.map((tweet) => ({
                         id: tweet.id,
@@ -54,7 +54,7 @@ const TwitterAPI = () => {
         }
 
         try {
-            const response = await axios.post(`http://localhost:8080/api/scrape/twitter`, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/scrape/twitter`, {
                 query,
                 bearerToken: token,
             });

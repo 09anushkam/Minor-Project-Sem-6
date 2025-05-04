@@ -65,7 +65,7 @@ module.exports.loginUser = (req, res, next) => {
 module.exports.logoutUser = (req, res) => {
     req.logout((err) => {
         if (err) return res.status(500).json({ message: 'Error logging out' });
-        res.redirect('http://localhost:5173');
+        res.redirect(`${process.env.FRONTEND_URL}`);
     });
 };
 

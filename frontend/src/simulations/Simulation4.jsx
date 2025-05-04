@@ -20,7 +20,7 @@ const Simulation4 = () => {
   const [selectedMode, setSelectedMode] = useState(null); // 'csv' or 'default'
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/experiments/default-datasets-topic')
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/experiments/default-datasets-topic`)
       .then(res => setAvailableDatasets(res.data.datasets))
       .catch(err => console.error("Failed to fetch datasets:", err));
   }, []);
@@ -38,7 +38,7 @@ const Simulation4 = () => {
     formData.append('numTopics', numTopics);
 
     try {
-      const res = await axios.post('http://localhost:8080/api/experiments/run-topic-modeling', formData, {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/experiments/run-topic-modeling`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       const data = res.data.output;
@@ -59,7 +59,7 @@ const Simulation4 = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post('http://localhost:8080/api/experiments/topic-modeling-default', {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/experiments/topic-modeling-default`, {
         datasetName: selectedDataset,
         numTopics,
       });

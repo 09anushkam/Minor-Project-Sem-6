@@ -46,7 +46,7 @@ function Signup() {
 		if (nameError || emailError || passwordError || !name || !email || !password) return;
 
 		try {
-			const response = await axios.post('http://localhost:8080/auth/signup', { name, email, password });
+			const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/signup`, { name, email, password });
 			alert(response.data.message);
 			navigate('/login');
 		} catch (err) {
@@ -55,7 +55,7 @@ function Signup() {
 	};
 
 	const googleAuth = () => {
-		window.open(`http://localhost:8080/auth/google/callback`, "_self");
+		window.open(`${import.meta.env.VITE_BACKEND_URL}/auth/google/callback`, "_self");
 	};
 
 	const handleClickShowPassword = () => setShowPassword((show) => !show);

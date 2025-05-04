@@ -20,7 +20,7 @@ function App() {
     useEffect(() => {
         const getUser = async () => {
             try {
-                const url = `http://localhost:8080/auth/login/success`;
+                const url = `${import.meta.env.VITE_BACKEND_URL}/auth/login/success`;
                 const { data } = await axios.get(url, { withCredentials: true });
                 if (data && data.user) {
                     await login(data.user);
@@ -39,7 +39,7 @@ function App() {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const url = `http://localhost:8080/auth/login/success`;
+                const url = `${import.meta.env.VITE_BACKEND_URL}/auth/login/success`;
                 await axios.get(url, { withCredentials: true });
             } catch (err) {
                 console.error('Auth check failed:', err.message || err);

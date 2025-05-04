@@ -29,7 +29,7 @@ const BeautifulSoup = () => {
         }
 
         try {
-            const response = await axios.post("http://localhost:8080/api/scrape", {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/scrape`, {
                 method: "BeautifulSoup",
                 url,
             });

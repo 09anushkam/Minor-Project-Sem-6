@@ -24,7 +24,7 @@ const QuizHistory = () => {
     const fetchQuizScores = async () => {
       try {
         setLoading(true);
-        const backendUrl = 'http://localhost:8080';
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
         const response = await axios.get(`${backendUrl}/api/quiz-scores`, {
           withCredentials: true,
           headers: {

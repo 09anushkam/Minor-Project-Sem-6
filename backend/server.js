@@ -42,7 +42,7 @@ async function main() {
 
 // Middleware
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: `${process.env.FRONTEND_URL}`,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
@@ -112,7 +112,7 @@ passport.use(new LocalStrategy(
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: 'http://localhost:8080/auth/google/callback',
+    callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
     scope: ["profile", "email"],
 }, googleCallback));
 passport.serializeUser((user, done) => {

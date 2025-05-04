@@ -29,7 +29,7 @@ const Simulation3 = () => {
     };
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/experiments/default-datasets')
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/experiments/default-datasets`)
             .then(res => setAvailableDatasets(res.data.datasets))
             .catch(err => console.error("Failed to fetch datasets:", err));
     }, []);
@@ -71,7 +71,7 @@ const Simulation3 = () => {
             formData.append('file', file);
 
             try {
-                const res = await axios.post('http://localhost:8080/api/experiments/sentiment-analysis', formData);
+                const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/experiments/sentiment-analysis`, formData);
                 const parsedOutput = typeof res.data.output === 'string'
                     ? JSON.parse(res.data.output.replace(/'/g, '"'))
                     : res.data.output;
@@ -101,7 +101,7 @@ const Simulation3 = () => {
             }
 
             try {
-                const res = await axios.post('http://localhost:8080/api/experiments/sentiment-analysis', {
+                const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/experiments/sentiment-analysis`, {
                     datasetName: selectedDataset
                 });
 
@@ -148,7 +148,7 @@ const Simulation3 = () => {
 
             try {
                 console.log('Sending payload:', payload); // Debug log
-                const res = await axios.post('http://localhost:8080/api/experiments/sentiment-analysis/text-multi', { data: payload });
+                const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/experiments/sentiment-analysis/text-multi`, { data: payload });
                 setOutput(res.data.output);
                 const allText = payload.map(p => p.text);
                 const sentiments = res.data.output.sentiments || [];
@@ -441,7 +441,7 @@ const Simulation3 = () => {
                     {output.output_csv && (
                         <div className="csv-section">
                             <h3 className="subheading">📁 Output CSV:</h3>
-                            <a href={`http://localhost:8080/${output.output_csv}`} download className="csv-download">
+                            <a href={`${import.meta.env.VITE_BACKEND_URL}/${output.output_csv}`} download className="csv-download">
                                 Download Result CSV
                             </a>
                         </div>

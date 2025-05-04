@@ -35,7 +35,7 @@ function Login() {
         e.preventDefault();
         if (emailError || !email || !password) return;
         try {
-            const response = await axios.post('http://localhost:8080/auth/login', { email, password }, { withCredentials: true });
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/login`, { email, password }, { withCredentials: true });
             const userData = response.data.user;
             await login(userData);
             alert(response.data.message);
@@ -47,7 +47,7 @@ function Login() {
     };
 
     const googleAuth = () => {
-        window.open(`http://localhost:8080/auth/google/callback`, "_self");
+        window.open(`${import.meta.env.VITE_BACKEND_URL}/auth/google/callback`, "_self");
     };
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);

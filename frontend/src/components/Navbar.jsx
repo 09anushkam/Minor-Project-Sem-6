@@ -16,7 +16,7 @@ const Navbar = () => {
     }, []);
 
     const handleLogout = () => {
-        window.open(`http://localhost:8080/auth/logout`, "_self");
+        window.open(`${import.meta.env.VITE_BACKEND_URL}/auth/logout`, "_self");
         localStorage.removeItem("user");
         setUser(null);
         navigate("/login");

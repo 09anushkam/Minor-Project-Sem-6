@@ -13,7 +13,7 @@ const ExperimentPage = () => {
     const [menuOpen, setMenuOpen] = useState(false); // NEW
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/api/experiments/${no}`)
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/experiments/${no}`)
             .then(response => setExperiment(response.data))
             .catch(error => console.error("Error fetching experiment:", error));
     }, [no]);
