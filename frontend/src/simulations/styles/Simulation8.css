@@ -295,8 +295,8 @@
 /* Influencer Analysis Section */
 .influencers-section {
   margin: 30px auto;
-  width: 100%;
-  max-width: 800px;
+  /* width: 100%; */
+  /* max-width: 800px; */
   box-sizing: border-box;
 }
 
@@ -316,7 +316,7 @@
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  width: 100%;
+  width: 80%;
   max-width: 400px;
   margin: 0 auto;
 }
@@ -666,7 +666,7 @@ input[type="number"]:focus {
   .user-input-section,
   .follow-matrix,
   .influencers-section {
-    max-width: 800px;
+    max-width: 1000px;
   }
 }
 
@@ -684,7 +684,7 @@ input[type="number"]:focus {
   .user-input-section,
   .follow-matrix,
   .influencers-section {
-    max-width: 700px;
+    max-width: 900px;
   }
 
   .form-group input {
@@ -984,4 +984,26 @@ input[type="number"]:focus {
   .experiment-container {
     padding: 10px;
   }
+}
+
+@media (min-width: 800px) {
+  .influencers-section {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .metrics-summary {
+    padding: 0;
+  }
+
+  .influencers-section {
+    padding: 0;
+  }
+}
+
+.metrics-summary {
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }

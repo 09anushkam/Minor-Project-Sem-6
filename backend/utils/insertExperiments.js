@@ -99,7 +99,7 @@ const experiments = [
     },
     {
         no: 8,
-        title: "Graph Theory in Social Media Structure Analysis",
+        title: "Social Network Analysis using Graph Theory",
         aim: "<b>Aim:</b> To analyze the structure of social media networks using graph theory concepts, identify influential users and popular content, and explore user interactions within the network.",
         theory: "Bernoulli's Principle explains fluid motion...",
         procedure: "Step 1: Observe fluid flow in a pipe...",
