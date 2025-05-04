@@ -2,28 +2,40 @@ import "./styles/Team.css";
 
 const teamMembers = [
     {
-        name: "Kinjal Patel",
-        role: "Project Member",
-        description: "description",
-        image: "/profile.jpg",
-    },
-    {
-        name: "Vivek Masuna",
-        role: "Project Member",
-        description: "description",
-        image: "/profile.jpg",
-    },
-    {
         name: "Saniya Patil",
         role: "Project Member",
         description: "description",
         image: "/profile.jpg",
+        email: "mailto:",
+        github: "",
+        linkedin: "",
+    },
+    {
+        name: "Kinjal Patel",
+        role: "Project Member",
+        description: "description",
+        image: "/profile.jpg",
+        email: "mailto:",
+        github: "",
+        linkedin: "",
+    },
+    {
+        name: "Vivek Masuna",
+        role: "Project Member",
+        description: "Full-stack web developer with a passion for chess, cricket, and solving real-world problems.",
+        image: "/profile.jpg",
+        email: "mailto:vivekmasuna999@gmail.com",
+        github: "https://github.com/VivekMasuna/",
+        linkedin: "https://www.linkedin.com/in/vivekmasuna999/",
     },
     {
         name: "Anushka Murade",
         role: "Project Member",
         description: "description",
         image: "/profile.jpg",
+        email: "mailto:",
+        github: "",
+        linkedin: "",
     }
 ];
 
@@ -39,9 +51,9 @@ const Team = () => {
                         <p className="team-role">{member.role}</p>
                         <p className="team-description">{member.description}</p>
                         <div className="team-icons">
-                            <a href=""><i className="fas fa-envelope"></i></a>
-                            <a href=""><i className="fab fa-github"></i></a>
-                            <a href=""><i className="fab fa-linkedin"></i></a>
+                            <a href={member.email} target="_blank" rel="noopener noreferrer"><i className="fas fa-envelope"></i></a>
+                            <a href={member.github} target="_blank" rel="noopener noreferrer"><i className="fab fa-github"></i></a>
+                            <a href={member.linkedin} target="_blank" rel="noopener noreferrer"><i className="fab fa-linkedin"></i></a>
                         </div>
                     </div>
                 ))}

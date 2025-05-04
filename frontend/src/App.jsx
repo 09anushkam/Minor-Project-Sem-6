@@ -11,7 +11,8 @@ import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import Experiments from './pages/Experiments/Experiments';
 import AboutPage from './pages/AboutPage/AboutPage';
-import QuizHistory from './components/Quiz/QuizHistory';
+// import QuizHistory from './components/Quiz/QuizHistory';
+import NotFound from './components/NotFound';
 import ExperimentPage from './pages/ExperimentPage/ExperimentPage';
 
 function App() {
@@ -66,7 +67,8 @@ function App() {
                     <Route path="/exp" element={user ? <Experiments user={user} /> : <Navigate to="/login" />} />
                     <Route path="/about" element={<AboutPage />} />
                     <Route path="/exp/:no" element={user ? <ExperimentPage /> : <Navigate to="/login" />} />
-                    <Route path="/quiz-history" element={user ? <QuizHistory /> : <Navigate to="/login" />} />
+                    {/* <Route path="/quiz-history" element={user ? <QuizHistory /> : <Navigate to="/login" />} /> */}
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>
         </div>

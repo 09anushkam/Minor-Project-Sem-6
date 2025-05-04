@@ -4,14 +4,20 @@ const mentors = [
     {
         name: "Dr. Sarita Ambadekar",
         role: "Head of Department",
-        description: "description",
-        image: "/profile.jpg",
+        description: "",
+        image: "/sarita.png",
+        email: "mailto:",
+        github: "",
+        linkedin: "",
     },
     {
         name: "Prof. Pradnya Patil",
         role: "Project Coordinator",
-        description: "description",
-        image: "/profile.jpg",
+        description: "",
+        image: "/pradnya.png",
+        email: "mailto:",
+        github: "",
+        linkedin: "",
     }
 ];
 
@@ -27,9 +33,9 @@ const Mentors = () => {
                         <p className="mentor-role">{mentor.role}</p>
                         <p className="mentor-description">{mentor.description}</p>
                         <div className="mentor-icons">
-                            <a href=""><i className="fas fa-envelope"></i></a>
-                            <a href=""><i className="fab fa-github"></i></a>
-                            <a href=""><i className="fab fa-linkedin"></i></a>
+                            <a href={mentor.email} target="_blank" rel="noopener noreferrer"><i className="fas fa-envelope"></i></a>
+                            <a href={mentor.github} target="_blank" rel="noopener noreferrer"><i className="fab fa-github"></i></a>
+                            <a href={mentor.linkedin} target="_blank" rel="noopener noreferrer"><i className="fab fa-linkedin"></i></a>
                         </div>
                     </div>
                 ))}

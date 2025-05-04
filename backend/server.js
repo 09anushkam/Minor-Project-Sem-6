@@ -160,11 +160,9 @@ app.use('/api/quiz-scores', (req, res, next) => {
 //     res.status(500).json({ message: 'Something broke!', error: err.message });
 // });
 
-// 404 handler
-// app.use((req, res) => {
-//     console.log('404 Not Found:', req.method, req.path);
-//     res.status(404).json({ message: 'Route not found' });
-// });
+app.use((req, res) => {
+    res.status(404).json({ message: 'Route not found' });
+});
 
 app.listen(port, () => {
     console.log(`app is listening on port ${port}`);
