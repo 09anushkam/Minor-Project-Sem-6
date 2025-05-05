@@ -17,7 +17,7 @@ const Intro = ({ user }) => {
             <div className='welcome'>
                 <p className='w'>Welcome <span className='user'>{user?.name ? formatName(user.name) : ''}</span> to</p>
                 <p className='vl'>Virtual Lab</p>
-                <p className='of'>of</p>
+                <p className='of'>for</p>
                 <p className='sma'>Social Media Analytics</p>
             </div>
         </div>
