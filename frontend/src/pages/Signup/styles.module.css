@@ -5,7 +5,7 @@
     align-items: center;
     padding: 20px;
     margin: 6rem 0 0 0;
-    background-color: #FFD5D4;
+    background-color: #f5f5f5;
 }
 
 .form_container {
@@ -14,7 +14,7 @@
     width: 800px;
     height: 65vh;
     background-color: white;
-    box-shadow: 3px 4px 36px -6px #FFFCE5;
+    box-shadow: 3px 4px 36px -6px #adadad;
     border-radius: 20px;
 }
 
@@ -50,7 +50,7 @@
 .from_heading {
     font-size: 32px;
     font-weight: 600;
-    color: #01438D;
+    color: #162443;
     margin: 0 0 1rem 0;
 }
 
@@ -75,16 +75,16 @@
     outline: none;
     border: none;
     cursor: pointer;
-    background-color: #01438D;
+    background-color: #162443;
     color: white !important;
-    border-radius: 10px;
+    border-radius: 5px;
     transition: background-color 0.3s ease;
     margin: 0 0 0.5rem 0;
     letter-spacing: 2px;
 }
 
 .btn:hover {
-    background-color: #01336d;
+    background-color: #9B2928;
 }
 
 .text {
@@ -139,7 +139,7 @@
 }
 
 .textend>a:hover {
-    color: #801f1f;
+    color: #162443;
 }
 
 @media (max-width: 900px) {

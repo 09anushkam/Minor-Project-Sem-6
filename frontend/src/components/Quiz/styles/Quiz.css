@@ -29,14 +29,14 @@
   font-size: 18px;
   padding: 12px 30px;
   border: none;
-  border-radius: 12px;
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
 }
 
 .start-button:hover {
-  background-color: #801f1f;
-  transform: scale(1.05);
+  background-color: #162443;
+  transform: scale(1.);
 }
 
 @media (max-width: 500px) {
@@ -78,7 +78,7 @@
 .answer-button {
   padding: 15px 20px;
   border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  border-radius: 5px;
   background-color: white;
   color: #333;
   font-size: 1rem;
@@ -144,15 +144,15 @@
   background-color: #9B2928;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .restart-button:hover {
-  background-color: #801f1f;
-  transform: translateY(-2px);
+  background-color: #162443;
+  /* transform: translateY(-2px); */
 }
 
 .progress-bar {

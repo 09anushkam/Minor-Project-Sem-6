@@ -89,7 +89,7 @@
 }
 
 .form-group input:focus {
-  border-color: #01438D;
+  border-color: #9B2928;
   box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
   outline: none;
 }
@@ -142,7 +142,7 @@
 }
 
 .user-name-input input:focus {
-  border-color: #01438D;
+  border-color: #9B2928;
   box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
   outline: none;
 }
@@ -176,7 +176,7 @@
 }
 
 .num-users-section input:focus {
-  border-color: #01438D;
+  border-color: #9B2928;
   box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
   outline: none;
 }
@@ -213,7 +213,7 @@
 
 .matrix-container {
   display: table;
-  border: 3px solid #01438D;
+  border: 3px solid #162443;
   border-radius: 8px;
   overflow: hidden;
   background-color: #ffffff;
@@ -226,7 +226,7 @@
 .matrix-header {
   display: table-row;
   background-color: #f9f9f9;
-  border-bottom: 2px solid #01438D;
+  border-bottom: 2px solid #162443;
 }
 
 .matrix-row {
@@ -288,7 +288,7 @@
 }
 
 .follows:hover {
-  background-color: #01336d;
+  background-color: #9B2928;
   color: white;
 }
 
@@ -311,7 +311,7 @@
 
 .influencer-card {
   background: white;
-  border: 2px solid #01438D;
+  border: 2px solid #162443;
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -328,7 +328,7 @@
 
 .influencer-card h4 {
   margin: 0 0 10px 0;
-  color: #01438D;
+  color: #162443;
   font-size: 1.2rem;
 }
 
@@ -374,7 +374,7 @@
 
 .metrics-breakdown span:last-child {
   font-weight: 600;
-  color: #01438D;
+  color: #162443;
 }
 
 .overall-score {
@@ -382,7 +382,7 @@
   padding: 10px;
   background: #e6f2ff;
   border-radius: 8px;
-  color: #01438D;
+  color: #162443;
   font-weight: 600;
 }
 
@@ -503,12 +503,12 @@
 .analyze-button {
   padding: 12px 24px;
   border: none;
-  border-radius: 9px;
+  border-radius: 5px;
   background-color: #9B2928;
   color: white;
   font-size: 16px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  /* transition: all 0.2s ease; */
   display: block;
   margin: 20px auto;
   width: fit-content;
@@ -516,8 +516,8 @@
 }
 
 .analyze-button:hover {
-  background-color: #801f1f;
-  transform: scale(1.1);
+  background-color: #162443;
+  /* transform: scale(1.1); */
 }
 
 .analyze-button:disabled {
@@ -538,7 +538,7 @@ input[type="number"] {
 
 input[type="text"]:focus,
 input[type="number"]:focus {
-  border-color: #1976d2;
+  border-color: #162443;
   outline: none;
   box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
 }
@@ -937,7 +937,7 @@ input[type="number"]:focus {
 
   .follows:hover {
     background-color: #e6f2ff;
-    color: #01438D;
+    color: #162443;
   }
 }
 

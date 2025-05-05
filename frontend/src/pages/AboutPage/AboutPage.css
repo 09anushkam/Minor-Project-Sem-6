@@ -8,7 +8,7 @@
 
 .about-kjsit p,
 .about-computer p {
-    font-size: 1.2rem;
+    font-size: 1rem;
     text-align: justify;
 }
 
@@ -38,7 +38,7 @@
 
 .about-kjsit h2,
 .about-computer h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #9B2928;
 }
 
@@ -73,12 +73,12 @@
 
     .about-kjsit p,
     .about-computer p {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 
     .about-kjsit h2,
     .about-computer h2 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
 }
 
@@ -86,12 +86,12 @@
 
     .about-kjsit p,
     .about-computer p {
-        font-size: 1rem;
+        font-size: 0.8rem;
     }
 
     .about-kjsit h2,
     .about-computer h2 {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
     }
 }
 
@@ -106,12 +106,12 @@
 
     .about-kjsit p,
     .about-computer p {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 
     .about-kjsit h2,
     .about-computer h2 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
 }
 
@@ -119,11 +119,11 @@
 
     .about-kjsit p,
     .about-computer p {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
 
     .about-kjsit h2,
     .about-computer h2 {
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
 }

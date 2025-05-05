@@ -3,7 +3,7 @@
     padding: 20px;
     color: black;
     z-index: 10;
-    background: linear-gradient(to bottom, #ffd5d4, #FFFCE5);
+    background: linear-gradient(to bottom, #ffd5d4, #fff);
 }
 
 h1 {

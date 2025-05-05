@@ -2,7 +2,7 @@
     --primary-bg: #f8f9fa;
     --white: #ffffff;
     --pink-light: #9B2928;
-    --pink-dark: #801f1f;
+    --pink-dark: #162443;
     --shadow-light: rgba(0, 0, 0, 0.05);
     --shadow-strong: rgba(0, 0, 0, 0.1);
 }
@@ -52,7 +52,7 @@
     background-color: var(--pink-light);
     color: #fff;
     border: none;
-    border-radius: 6px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: clamp(0.9rem, 1.1vw, 1.1rem);
     font-weight: 500;
@@ -70,7 +70,7 @@
 
 .graph-button:hover:not(:disabled) {
     background-color: var(--pink-dark);
-    transform: translateY(-2px);
+    /* transform: translateY(-2px); */
     box-shadow: 0 4px 8px rgba(255, 182, 193, 0.4);
 }
 
@@ -242,7 +242,7 @@
 }
 
 .queue-container:hover {
-    transform: translateY(-2px);
+    /* transform: translateY(-2px); */
     box-shadow: 0 4px 8px var(--shadow-strong);
 }
 
@@ -360,7 +360,7 @@
 }
 
 .status-item:hover {
-    transform: translateX(5px);
+    /* transform: translateX(5px); */
     box-shadow: 0 6px 12px var(--shadow-strong);
 }
 
@@ -410,7 +410,7 @@
 }
 
 .progress-item:hover {
-    transform: translateY(-2px);
+    /* transform: translateY(-2px); */
     box-shadow: 0 6px 12px var(--shadow-strong);
 }
 
@@ -548,7 +548,7 @@
 
 .add-more-button:hover {
     background-color: var(--pink-dark);
-    transform: translateY(-2px);
+    /* transform: translateY(-2px); */
     box-shadow: 0 4px 8px rgba(155, 41, 40, 0.3);
 }
 
@@ -571,7 +571,7 @@
 
 .delete-edge-button:hover {
     background-color: #cc0000;
-    transform: scale(1.1);
+    /* transform: scale(1.1); */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 

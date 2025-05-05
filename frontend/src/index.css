@@ -7,25 +7,25 @@ html {
     font-family: "Lora", serif;
     display: flex;
     flex-direction: column;
-    /* background-color: #FFD5D4; */
+    /* background-color: #fff; */
 }
 
 ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #680a09;
+    background: #fff;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #ffafade7;
+    background: #adadad;
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #ff9c9bdf;
+    background: #878787;
 }
 
 html {

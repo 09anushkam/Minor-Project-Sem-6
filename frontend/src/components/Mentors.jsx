@@ -18,6 +18,15 @@ const mentors = [
         email: "mailto:",
         github: "",
         linkedin: "",
+    },
+    {
+        name: "Prof. Kavita Bathe",
+        role: "Project Coordinator",
+        description: "",
+        image: "/profile.jpg",
+        email: "mailto:",
+        github: "",
+        linkedin: "",
     }
 ];
 

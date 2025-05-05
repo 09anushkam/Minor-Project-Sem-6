@@ -2,7 +2,7 @@
   --primary-bg: #f8f9fa;
   --white: #ffffff;
   --pink-light: #9B2928;
-  --pink-dark: #801f1f;
+  --pink-dark: #162443;
   --shadow-light: rgba(0, 0, 0, 0.05);
   --shadow-strong: rgba(0, 0, 0, 0.1);
 }
@@ -44,11 +44,11 @@
   color: var(--white);
   border: none;
   padding: 12px 24px;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
   font-weight: 500;
-  transition: all 0.3s ease;
+  /* transition: all 0.3s ease; */
   position: relative;
   overflow: visible;
   height: 40px;
@@ -62,7 +62,7 @@
 
 .tf-idf-button:hover:not(:disabled) {
   background-color: var(--pink-dark);
-  transform: translateY(-2px);
+  /* transform: translateY(-2px); */
   box-shadow: 0 4px 8px rgba(255, 182, 193, 0.4);
 }
 
@@ -148,7 +148,7 @@
 
 .file-input:hover {
   background: linear-gradient(135deg, #ff5252, #ff7676);
-  transform: translateY(-2px);
+  /* transform: translateY(-2px); */
   box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
 }
 
@@ -219,7 +219,7 @@
 
 .tab-button:hover {
   background-color: var(--pink-dark);
-  transform: translateY(-2px);
+  /* transform: translateY(-2px); */
   box-shadow: 0 4px 8px rgba(255, 182, 193, 0.4);
 }
 
@@ -375,7 +375,7 @@
 }
 
 .heatmap-cell:hover:not(.header) {
-  transform: scale(1.05);
+  /* transform: scale(1.05); */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   z-index: 2;
   cursor: pointer;
@@ -489,7 +489,7 @@
 }
 
 .term-chip:hover {
-  transform: translateY(-5px);
+  /* transform: translateY(-5px); */
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   filter: brightness(1.1);
 }
@@ -1088,7 +1088,7 @@
 
 .view-sample-button:hover {
   background: linear-gradient(135deg, #ff5252, #ff7676);
-  transform: translateY(-2px);
+  /* transform: translateY(-2px); */
   box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
 }
 

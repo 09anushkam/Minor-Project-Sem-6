@@ -18,7 +18,7 @@
 .exp-navbar {
     position: sticky;
     top: 6rem;
-    background-color: #FFD5D4;
+    background-color: #f5f5f5;
     z-index: 10;
     display: flex;
     align-items: center;
@@ -172,7 +172,7 @@
 .exp-navbar-wrapper {
     position: sticky;
     top: 6rem;
-    background-color: #FFD5D4;
+    background-color: #f5f5f5;
     z-index: 10;
 }
 
@@ -188,7 +188,7 @@
 .exp-navbar {
     position: sticky;
     top: 6rem;
-    background-color: #FFD5D4;
+    background-color: #f5f5f5;
     z-index: 10;
     display: flex;
     align-items: center;
@@ -198,6 +198,10 @@
     padding: 1rem 10px;
     box-shadow: inset 0px 4px 6px -4px rgba(0, 0, 0, 0.1);
     transition: all 0.5s ease-in-out;
+}
+
+.exp-navbar button {
+    color: #162443;
 }
 
 .exp-navbar.open button {
@@ -217,7 +221,7 @@
         overflow: hidden;
         max-height: 0;
         padding: 0;
-        background-color: #FFD5D4;
+        background-color: #f5f5f5;
         box-shadow: none;
     }
 

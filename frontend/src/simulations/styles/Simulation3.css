@@ -92,7 +92,7 @@
 }
 
 .text-input:focus {
-    border-color: #801f1f;
+    border-color: #162443;
     outline: none;
 }
 
@@ -116,7 +116,7 @@
 }
 
 .simulation3-container button:hover:not(:disabled) {
-    background-color: #801f1f;
+    background-color: #162443;
 }
 
 .result-section {
@@ -151,7 +151,7 @@
     display: inline-block;
     margin-top: 1rem;
     padding: 0.5rem 1rem;
-    background-color: #28a745;
+    background-color: #9B2928;
     color: #fff;
     text-decoration: none;
     border-radius: 4px;
@@ -159,7 +159,7 @@
 }
 
 .result-section a:hover {
-    background-color: #1e7e34;
+    background-color: #162443;
 }
 
 .text-sentiments {
@@ -300,14 +300,14 @@
     padding: 0.6rem 1.2rem;
     font-weight: 500;
     border-radius: 5px;
-    background-color: #6366f1;
+    background-color: #9B2928;
     color: #fff;
     text-decoration: none;
     transition: background-color 0.3s ease;
 }
 
 .csv-download:hover {
-    background-color: #4f46e5;
+    background-color: #162443;
 }
 
 /* Tooltip Customization (optional override) */

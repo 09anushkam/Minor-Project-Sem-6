@@ -19,7 +19,7 @@ export default function Footer() {
                     <ul>
                         <li><b>Email: </b><a href="mailto:vivek.masuna@somaiya.edu">vivek.masuna@somaiya.edu</a></li>
                         <li><b>Phone: </b><a href="tel:+919172816249">+91 9172816249</a></li>
-                        <li><b>Address: </b>Somaiya Ayurvihar Complex, Eastern Express Highway, Near Everard Nagar, Sion East, Mumbai, Maharashtra - 400022</li>
+                        <li className="foo-p"><b style={{ color: "#fff" }}>Address: </b>Somaiya Ayurvihar Complex, Eastern Express Highway, Near Everard Nagar, Sion East, Mumbai, Maharashtra - 400022</li>
                     </ul>
                 </div>
                 <div className="footer-divider"></div>

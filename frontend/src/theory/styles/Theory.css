@@ -38,7 +38,7 @@
     margin-bottom: 20px;
     padding: 16px;
     background: #fff;
-    border-left: 4px solid #01438D;
+    border-left: 4px solid #162443;
     border-radius: 4px;
     animation: fadeIn 0.5s ease-out;
 }
@@ -54,15 +54,15 @@
 }
 
 .section:nth-child(even) h2 {
-    color: #01438D;
+    color: #162443;
 }
 
 .section h2:hover {
-    color: #801f1f;
+    color: #162443;
 }
 
 .section:nth-child(even) h2:hover {
-    color: #01336d;
+    color: #9B2928;
 }
 
 .section p,
@@ -118,7 +118,7 @@ dl dd {
 }
 
 .section:nth-child(even) .theory-table thead {
-    background-color: #01438D;
+    background-color: #162443;
 }
 
 .theory-table th,
