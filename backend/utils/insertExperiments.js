@@ -39,7 +39,10 @@ const experiments = [
         procedure: "Step 1: Connect the resistor...",
         simulation: "Interactive Ohm's Law simulation...",
         quiz: "Q1: What is the formula for Ohm's Law?",
-        references: "Coming Soon...",
+        references: `<br/>
+            1. <a href="https://ieeexplore.ieee.org/abstract/document/10617017" target="_blank">IEEE - Web Scraping Using Beautiful Soup</a><br/>
+            2. <a href="https://www.emerald.com/insight/content/doi/10.1108/ijwis-03-2021-0037/full/html" target="_blank">Emerald Insight - Web scraping and API methods for Twitter credibility analysis</a>
+            <br/>`,
         feedback: "Your feedback is valuable."
     },
     {
@@ -50,7 +53,10 @@ const experiments = [
         procedure: "Step 1: Submerge the object...",
         simulation: "Buoyancy simulation link...",
         quiz: "Q1: What happens when an object is submerged?",
-        references: "Coming Soon...",
+        references: `<br/>
+            1. <a href="https://ieeexplore.ieee.org/abstract/document/9151169" target="_blank">IEEE - Negative Sentiment Analysis on Social Media in China via BERT Model</a><br/>
+            2. <a href="https://ieeexplore.ieee.org/abstract/document/8399738" target="_blank">IEEE - Sentiment Analysis of Big Data</a>
+            <br/>`,
         feedback: "Your feedback is valuable."
     },
     {
@@ -61,7 +67,10 @@ const experiments = [
         procedure: "Step 1: Place a mirror at an angle...",
         simulation: "Light reflection simulation...",
         quiz: "Q1: What is the law of reflection?",
-        references: "Coming Soon...",
+        references: `<br/>
+            1. <a href="https://ieeexplore.ieee.org/abstract/document/6697807" target="_blank">IEEE - Topic Modeling for Short Text</a><br/>
+            2. <a href="https://ieeexplore.ieee.org/abstract/document/10666498" target="_blank">IEEE - Social Media Event Detection using Topic Modeling</a>
+        <br/>`,
         feedback: "Your feedback is valuable."
     },
     {
@@ -72,7 +81,10 @@ const experiments = [
         procedure: "Step 1: Reduce the volume of a gas...",
         simulation: "Gas law simulation...",
         quiz: "Q1: What is Boyle's Law?",
-        references: "Coming Soon...",
+        references: `<br/>
+            1. <a href="https://ieeexplore.ieee.org/abstract/document/9055369" target="_blank">IEEE - Graph Algorithms in Social Networks</a><br/>
+            2. <a href="https://ieeexplore.ieee.org/abstract/document/9170508" target="_blank">IEEE - Network Traversal for Influence Detection</a>
+        <br/>`,
         feedback: "Your feedback is valuable."
     },
     {
@@ -83,7 +95,10 @@ const experiments = [
         procedure: "Step 1: Move a magnet near a coil...",
         simulation: "Electromagnetic induction simulation...",
         quiz: "Q1: What is Faraday's Law?",
-        references: "Coming Soon...",
+        references: `<br/>
+            1. <a href="https://ieeexplore.ieee.org/abstract/document/9318162" target="_blank">IEEE - Social Network Analysis Using NetworkX</a><br/>
+            2. <a href="https://www.mdpi.com/1999-5903/14/5/147" target="_blank">MDPI - Graph-Based Analysis in Social Media</a>
+        <br/>`,
         feedback: "Your feedback is valuable."
     },
     {
@@ -94,7 +109,10 @@ const experiments = [
         procedure: "Step 1: Attach weights to the spring...",
         simulation: "Spring elasticity simulation...",
         quiz: "Q1: What is Hooke's Law?",
-        references: "Coming Soon...",
+        references: `<br/>
+            1. <a href="https://assets-eu.researchsquare.com/files/rs-4790818/v1_covered_fe6ffb58-23c3-4ab8-a7c4-ff5e053a1cdc.pdf?c=1724178471" target="_blank">ResearchSquare - TF-IDF for Social Media Insights</a><br/>
+            2. <a href="https://ieeexplore.ieee.org/abstract/document/9139510" target="_blank">IEEE - Text Mining and TF-IDF</a>
+        <br/>`,
         feedback: "Your feedback is valuable."
     },
     {
@@ -105,7 +123,10 @@ const experiments = [
         procedure: "Step 1: Observe fluid flow in a pipe...",
         simulation: "Bernoulli simulation...",
         quiz: "Q1: What does Bernoulli's Principle state?",
-        references: "Coming Soon...",
+        references: `<br/>
+            1. <a href="https://www.nature.com/articles/s41598-022-19419-7" target="_blank">Nature - Graph Theory in Online Social Networks</a><br/>
+            2. <a href="https://ieeexplore.ieee.org/abstract/document/10530557" target="_blank">IEEE - Social Network Graph Analysis</a>
+        <br/>`,
         feedback: "Your feedback is valuable."
     }
 ];

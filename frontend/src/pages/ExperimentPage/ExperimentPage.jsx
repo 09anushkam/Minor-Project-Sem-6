@@ -78,7 +78,7 @@ const ExperimentPage = () => {
                 <h2 className="exp-title">{experiment.title}</h2>
 
                 <div className="exp-content">
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<div className="loading">Loading...</div>}>
                         {renderContent()}
                     </Suspense>
                 </div>

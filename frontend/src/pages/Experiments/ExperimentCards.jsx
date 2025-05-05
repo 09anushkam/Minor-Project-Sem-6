@@ -47,7 +47,7 @@ const experiments = [
     {
         title: "Social Media Analysis",
         img: "/1.jpg",
-        aim: "Explore social media tools like Google Analytics, Lexatics, Similarweb, etc.",
+        aim: "Explore social media tools like Google Analytics, Lexatics, Similarweb, etc. <br/><br/> Coming Soon...",
         link: "/exp/1",
     },
 ];
@@ -62,7 +62,7 @@ const FlipCard = ({ title, img, aim, link }) => {
                 </div>
 
                 <div className="flip-card-back">
-                    <p className="aim">{aim}</p>
+                    <p className="aim" dangerouslySetInnerHTML={{ __html: aim }} />
                     <a href={link} className="flip-card-link">
                         🚀 Dive In
                     </a>

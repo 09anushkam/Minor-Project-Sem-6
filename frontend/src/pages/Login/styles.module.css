@@ -70,7 +70,7 @@
     cursor: pointer;
     background-color: #9B2928;
     color: white !important;
-    border-radius: 10px;
+    border-radius: 5px;
     transition: background-color 0.3s ease;
     margin: 0 0 0.5rem 0;
     letter-spacing: 2px;

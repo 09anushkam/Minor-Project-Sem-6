@@ -1,5 +1,5 @@
 const Simulation1 = () => {
-    return <div>Simulation for Experiment 1</div>;
+    return <div>Coming Soon...</div>;
 };
 
 export default Simulation1;
