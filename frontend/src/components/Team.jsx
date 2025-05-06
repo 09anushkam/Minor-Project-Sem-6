@@ -4,7 +4,7 @@ const teamMembers = [
     {
         name: "Saniya Patil",
         role: "Project Member",
-        description: "An ethical hacker with a passion for painting and a heart for social service.",
+        description: "A budding ethical hacker with a passion for painting and a curious mind always eager to explore new ideas.",
         image: "/saniya.jpg",
         email: "mailto:saniya.patil@somaiya.edu",
         github: "https://github.com/SaniyaPatil13",
