@@ -9,7 +9,7 @@ export default function Footer() {
                     <ul>
                         <li><a href="/">Home</a></li>
                         <li><a href="/about">About</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="mailto:vivek.masuna@somaiya.edu">Contact</a></li>
                         <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSePgV8z6HDW1u9LhOGLEaU-yn2ZIS1btg9d6CxsizzQWEoe4A/viewform?usp=sharing" target="_blank" rel="noopener noreferrer">Feedback</a></li>
                     </ul>
                 </div>

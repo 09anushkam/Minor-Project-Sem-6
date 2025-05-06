@@ -3,7 +3,7 @@ body {
 }
 
 .vision-mission-container {
-    max-width: 1300px;
+    /* max-width: 1300px; */
     margin: auto;
     text-align: center;
     padding: 40px 30px;
@@ -11,6 +11,13 @@ body {
     background: linear-gradient(to bottom, #ffd5d4, #fff);
     margin-bottom: 0;
     padding-bottom: 60px;
+}
+
+@media (min-width: 1000px) {
+    .vision {
+        padding-left: 100px;
+        padding-right: 100px;
+    }
 }
 
 .vision h2 {
